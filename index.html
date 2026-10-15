@@ -362,8 +362,9 @@ function renderPf(){
   const ch=document.createElement("span"); ch.className=diff>=0?"up":"down";
   ch.textContent=(diff>=0?"+":"−")+eur(Math.abs(diff),2)+" ("+(diff>=0?"+":"−")+Math.abs(pct).toFixed(1)+"%)";
   sub.append(ch, document.createTextNode(" since "+shortDate(first.date)));
-  chart($("pf-chart"), h.map(d=>({x:shortDate(d.date),y:d.value,tip:shortDate(d.date)+" · "+eur(d.value,2)+" · €"+d.price.toFixed(2)})),{type:"line"});
-  $("pf-note").textContent=p.name+" · last price €"+last.price.toFixed(2)+" ("+shortDate(last.date)+")"+(h.length<3?" · the line fills in as days pass":"");
+  const stamp=d=>d.time? new Date(d.time).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:TZ}) : shortDate(d.date);
+  chart($("pf-chart"), h.map(d=>({x:stamp(d),y:d.value,tip:stamp(d)+" · "+eur(d.value,2)+" · €"+d.price.toFixed(2)})),{type:"line"});
+  $("pf-note").textContent=p.name+" · last price €"+last.price.toFixed(2)+" ("+stamp(last)+")"+(h.length<3?" · a new point every 2 hours while the market is open":"");
 }
 window.addEventListener("resize",()=>{renderSales();renderPf();});
 function renderAll(){renderDay();renderTasks();renderStd();renderCd();renderSales();renderPf();
