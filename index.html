@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b0b0c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Alfred">
+<title>Alfred</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a quiet study at night. Three columns on desktop (day | orb | tasks), orb first on phones. */
+:root{
+  --ink:#0b0b0c;         /* page */
+  --panel:#141416;       /* panels */
+  --panel-2:#1b1b1e;     /* raised rows */
+  --line:#2a2a2e;        /* hairlines */
+  --mute:#8d8a83;        /* secondary text, warm grey */
+  --text:#e9e6df;        /* primary text, warm white */
+  --gold:#c9a75d;        /* the one accent */
+  --gold-dim:#7d6a40;
+  --ok:#8fae7e; --warn:#d2a24c; --due:#c9705d;
+  --display:"Cormorant Garamond", "Times New Roman", serif;
+  --body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ink);color:var(--text);font:15px/1.5 var(--body);
+  -webkit-font-smoothing:antialiased;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(16px,env(safe-area-inset-left,0px))}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit}
+.wrap{max-width:1280px;margin:0 auto;padding-block:20px 32px;display:flex;flex-direction:column;gap:18px;min-height:100%}
+
+/* Header */
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
+.brand{display:flex;align-items:baseline;gap:12px}
+.brand h1{margin:0;font:600 30px/1 var(--display);letter-spacing:.14em;text-transform:uppercase}
+.brand span{font:500 11px/1 var(--mono);letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+.clock{text-align:right}
+.clock .time{font:500 26px/1 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.clock .date{font:500 12px/1.4 var(--body);color:var(--mute);letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:1000px){.grid{grid-template-columns:minmax(0,1fr)}.center{order:-1}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+.panel h2{margin:0 0 14px;font:500 11px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);display:flex;justify-content:space-between;gap:8px}
+.panel h2 b{font-weight:500;color:var(--gold)}
+.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+
+/* Day timeline */
+.day-tabs{display:flex;gap:6px;margin:-4px 0 14px}
+.day-tabs button{background:none;border:1px solid var(--line);border-radius:3px;padding:5px 10px;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);cursor:pointer}
+.day-tabs button[aria-pressed="true"]{border-color:var(--gold-dim);color:var(--gold)}
+.day-tabs button:focus-visible,.talk:focus-visible,.std button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+ol.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.ev{display:grid;grid-template-columns:52px 3px minmax(0,1fr);gap:12px;padding:9px 0;align-items:start}
+.ev .t{font:500 12px/1.3 var(--mono);color:var(--mute);font-variant-numeric:tabular-nums;padding-top:2px}
+.ev .bar{align-self:stretch;border-radius:2px;background:var(--line)}
+.ev .title{font-weight:500}
+.ev .meta{font-size:12.5px;color:var(--mute)}
+.ev.class .bar{background:#8a8f99}
+.ev.work .bar{background:#6f7d6a}
+.ev.gym .bar{background:#9a8fb0}
+.ev.study .bar{background:var(--gold-dim)}
+.ev.japanese .bar{background:#a8665a}
+.ev.exam .bar{background:var(--gold)}
+.ev.exam .title{color:var(--gold)}
+.ev.now{background:linear-gradient(90deg,rgba(201,167,93,.08),transparent)}
+.ev.past{opacity:.45}
+.empty{color:var(--mute);font-style:italic;font-family:var(--display);font-size:18px;padding:8px 0}
+
+/* Orb */
+.center{display:flex;flex-direction:column;align-items:center;gap:14px}
+.stage{position:relative;width:100%;max-width:520px;aspect-ratio:1/1}
+.stage canvas{width:100%;height:100%;display:block}
+.status{font:500 11px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--mute);min-height:1em;text-align:center}
+.status.live{color:var(--gold)}
+.line{min-height:3.2em;max-width:520px;text-align:center;font:italic 500 20px/1.35 var(--display);color:var(--text)}
+.line.user{color:var(--mute);font-style:normal;font-family:var(--body);font-size:15px}
+.talk{background:transparent;border:1px solid var(--gold-dim);color:var(--gold);border-radius:999px;padding:14px 34px;font:600 12px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;cursor:pointer;transition:background .2s,border-color .2s}
+.talk:hover{background:rgba(201,167,93,.08);border-color:var(--gold)}
+.talk[data-on="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.talk:disabled{opacity:.5;cursor:wait}
+.err{color:var(--due);font-size:13px;text-align:center;max-width:460px}
+
+/* Tasks */
+ul.tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.task{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:10px 12px;background:var(--panel-2);border-radius:4px;align-items:center}
+.task .tt{font-weight:500;line-height:1.35}
+.task .ta{font:500 11px/1.4 var(--mono);color:var(--mute);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.pill{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:3px;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.pill.over{border-color:var(--due);color:var(--due)}
+.pill.soon{border-color:var(--warn);color:var(--warn)}
+
+/* Standards */
+.std{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.std button{display:flex;align-items:center;gap:10px;background:var(--panel-2);border:1px solid transparent;border-radius:4px;padding:10px 12px;cursor:pointer;text-align:left;font-size:13.5px}
+.std .box{width:16px;height:16px;border:1px solid var(--mute);border-radius:3px;flex:none;display:grid;place-items:center}
+.std button[aria-pressed="true"]{border-color:var(--gold-dim)}
+.std button[aria-pressed="true"] .box{background:var(--gold);border-color:var(--gold)}
+.std button[aria-pressed="true"] .box::after{content:"";width:7px;height:4px;border:2px solid var(--ink);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.std-note{font-size:12px;color:var(--mute);margin-top:10px}
+
+/* Countdowns */
+.cd{display:flex;flex-direction:column;gap:12px}
+.cd .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.cd .row:last-child{border-bottom:0;padding-bottom:0}
+.cd .n{font:600 30px/1 var(--display);color:var(--text);font-variant-numeric:tabular-nums}
+.cd .n small{font:500 11px var(--mono);color:var(--mute);letter-spacing:.1em;margin-left:4px;text-transform:uppercase}
+.cd .l{font-size:13.5px;color:var(--mute)}
+.cd .row:first-child .n{color:var(--gold)}
+
+footer{margin-top:auto;font:500 11px/1.5 var(--mono);color:var(--mute);letter-spacing:.06em;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><h1>Alfred</h1><span>At your service</span></div>
+    <div class="clock"><div class="time" id="time">--:--</div><div class="date" id="date"></div></div>
+  </header>
+
+  <main class="grid">
+    <section class="col">
+      <div class="panel">
+        <h2><span>The day</span><b id="day-count"></b></h2>
+        <div class="day-tabs" role="group" aria-label="Choose day">
+          <button id="tab-today" aria-pressed="true">Today</button>
+          <button id="tab-tomorrow" aria-pressed="false">Tomorrow</button>
+        </div>
+        <ol class="timeline" id="timeline"></ol>
+      </div>
+    </section>
+
+    <section class="center">
+      <div class="stage"><canvas id="orb" aria-hidden="true"></canvas></div>
+      <div class="status" id="status">Standing by</div>
+      <div class="line" id="line">Good evening, sir.</div>
+      <button class="talk" id="talk" data-on="false">Speak with Alfred</button>
+      <div class="err" id="err" hidden></div>
+    </section>
+
+    <section class="col">
+      <div class="panel">
+        <h2><span>Open tasks</span><b id="task-count"></b></h2>
+        <ul class="tasks" id="tasks"></ul>
+      </div>
+      <div class="panel">
+        <h2><span>Today's standards</span><b id="std-count"></b></h2>
+        <div class="std" id="std"></div>
+        <div class="std-note">Ticks are kept on this device. Your Notion habits remain the record.</div>
+      </div>
+      <div class="panel">
+        <h2><span>Ahead</span></h2>
+        <div class="cd" id="cd"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><span id="updated">Schedule as of —</span><span>Alfred · v1</span></footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.26.0/dist/lib.iife.js"></script>
+<script>
+(function(){
+"use strict";
+const TZ = "Europe/Amsterdam";
+const FALLBACK_AGENT = "agent_7801m4zva478edy8mfhqj4q727sr";
+let DATA = {events:[],tasks:[],countdowns:[],standards:[]};
+let showDay = 0; // 0 today, 1 tomorrow
+
+const $ = id => document.getElementById(id);
+const fmtTime = d => d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:TZ});
+const dayKey = d => d.toLocaleDateString("en-CA",{timeZone:TZ}); // YYYY-MM-DD
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+
+/* ---------- Clock ---------- */
+function tick(){
+  const now=new Date();
+  $("time").textContent=fmtTime(now);
+  $("date").textContent=now.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",timeZone:TZ});
+}
+tick(); setInterval(tick,1000*15);
+
+/* ---------- Day timeline ---------- */
+function renderDay(){
+  const now=new Date();
+  const key=dayKey(addDays(now,showDay));
+  const evs=DATA.events.filter(e=>dayKey(new Date(e.start))===key).sort((a,b)=>new Date(a.start)-new Date(b.start));
+  const ol=$("timeline"); ol.textContent="";
+  $("day-count").textContent=evs.length? evs.length+" items":"";
+  if(!evs.length){const li=document.createElement("li");li.className="empty";li.textContent="Your day is your own, sir.";ol.appendChild(li);return;}
+  for(const e of evs){
+    const s=new Date(e.start), en=new Date(e.end);
+    const li=document.createElement("li");
+    li.className="ev "+(e.kind||"other");
+    if(showDay===0){ if(en<now) li.classList.add("past"); else if(s<=now) li.classList.add("now"); }
+    const t=document.createElement("div");t.className="t";t.textContent=fmtTime(s);
+    const bar=document.createElement("div");bar.className="bar";
+    const body=document.createElement("div");
+    const ti=document.createElement("div");ti.className="title";ti.textContent=e.title.replace(/^[^\w(]+\s*/u,"");
+    const me=document.createElement("div");me.className="meta";me.textContent=fmtTime(s)+"–"+fmtTime(en)+(e.location?" · "+e.location:"");
+    body.append(ti,me); li.append(t,bar,body); ol.appendChild(li);
+  }
+}
+function setTab(n){showDay=n;$("tab-today").setAttribute("aria-pressed",String(n===0));$("tab-tomorrow").setAttribute("aria-pressed",String(n===1));renderDay();}
+$("tab-today").onclick=()=>setTab(0); $("tab-tomorrow").onclick=()=>setTab(1);
+
+/* ---------- Tasks ---------- */
+function renderTasks(){
+  const ul=$("tasks"); ul.textContent="";
+  const today=dayKey(new Date());
+  const pr={High:0,Medium:1,Low:2};
+  const list=[...DATA.tasks].sort((a,b)=>{
+    const ao=a.due&&a.due<today, bo=b.due&&b.due<today;
+    if(ao!==bo) return ao?-1:1;
+    return (a.due||"9").localeCompare(b.due||"9") || (pr[a.priority]??3)-(pr[b.priority]??3);
+  });
+  $("task-count").textContent=list.length||"";
+  for(const t of list.slice(0,6)){
+    const li=document.createElement("li");li.className="task";
+    const l=document.createElement("div");
+    const tt=document.createElement("div");tt.className="tt";tt.textContent=t.title;
+    const ta=document.createElement("div");ta.className="ta";ta.textContent=t.area+(t.priority==="High"?" · High":"");
+    l.append(tt,ta);
+    const p=document.createElement("span");p.className="pill";
+    if(t.due){
+      const days=Math.round((new Date(t.due+"T12:00:00")-new Date(today+"T12:00:00"))/864e5);
+      p.textContent= days<0? Math.abs(days)+"d overdue" : days===0? "Today" : days===1? "Tomorrow" : new Date(t.due+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+      if(days<0)p.classList.add("over"); else if(days<=1)p.classList.add("soon");
+    } else p.textContent="—";
+    li.append(l,p); ul.appendChild(li);
+  }
+}
+
+/* ---------- Standards (local ticks) ---------- */
+function stdKey(){return "alfred-std-"+dayKey(new Date())}
+function loadTicks(){try{return JSON.parse(localStorage.getItem(stdKey())||"{}")}catch(e){return {}}}
+function saveTicks(o){try{localStorage.setItem(stdKey(),JSON.stringify(o))}catch(e){}}
+function renderStd(){
+  const box=$("std"); box.textContent=""; const ticks=loadTicks(); let done=0;
+  DATA.standards.forEach((s,i)=>{
+    const b=document.createElement("button"); const on=!!ticks[s]; if(on)done++;
+    b.id="std-"+i; b.setAttribute("aria-pressed",String(on));
+    const bx=document.createElement("span");bx.className="box";
+    const tx=document.createElement("span");tx.textContent=s;
+    b.append(bx,tx);
+    b.onclick=()=>{const t=loadTicks();t[s]=!t[s];saveTicks(t);renderStd();};
+    box.appendChild(b);
+  });
+  $("std-count").textContent=DATA.standards.length? done+" / "+DATA.standards.length:"";
+}
+
+/* ---------- Countdowns ---------- */
+function renderCd(){
+  const box=$("cd"); box.textContent=""; const now=new Date();
+  for(const c of DATA.countdowns){
+    const d=new Date(c.date); const days=Math.ceil((d-now)/864e5); if(days<0) continue;
+    const r=document.createElement("div");r.className="row";
+    const l=document.createElement("div");l.className="l";l.textContent=c.label+(c.approx?" (approx.)":"");
+    const n=document.createElement("div");n.className="n";n.textContent=days;
+    const sm=document.createElement("small");sm.textContent=days===1?"day":"days";n.appendChild(sm);
+    r.append(l,n); box.appendChild(r);
+  }
+}
+
+function renderAll(){renderDay();renderTasks();renderStd();renderCd();
+  if(DATA.updated){$("updated").textContent="Schedule as of "+new Date(DATA.updated).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:TZ});}
+}
+
+function greeting(){const h=+new Date().toLocaleString("en-GB",{hour:"2-digit",hour12:false,timeZone:TZ});return h<12?"Good morning, sir.":h<18?"Good afternoon, sir.":"Good evening, sir."}
+$("line").textContent=greeting();
+
+fetch("data.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{DATA=Object.assign(DATA,d);renderAll();}).catch(()=>{renderAll();});
+setInterval(()=>{renderDay();renderCd();},60000);
+
+/* ---------- Context for Alfred ---------- */
+function contextText(){
+  const now=new Date(), lines=[];
+  lines.push("Live context from Samir's dashboard. Current time: "+now.toLocaleString("en-GB",{weekday:"long",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit",timeZone:TZ})+" (Amsterdam).");
+  for(const [label,n] of [["Today",0],["Tomorrow",1]]){
+    const key=dayKey(addDays(now,n));
+    const evs=DATA.events.filter(e=>dayKey(new Date(e.start))===key).sort((a,b)=>new Date(a.start)-new Date(b.start));
+    lines.push(label+": "+(evs.length? evs.map(e=>fmtTime(new Date(e.start))+"–"+fmtTime(new Date(e.end))+" "+e.title.replace(/^[^\w(]+\s*/u,"")+(e.location?" ("+e.location+")":"")).join("; ") : "nothing scheduled")+".");
+  }
+  if(DATA.tasks.length) lines.push("Open tasks: "+DATA.tasks.map(t=>t.title+(t.due?" (due "+t.due+")":"")).join("; ")+".");
+  const ticks=loadTicks(); const done=DATA.standards.filter(s=>ticks[s]);
+  lines.push("Daily standards ticked so far today: "+(done.length?done.join(", "):"none")+".");
+  lines.push("This schedule was last refreshed "+(DATA.updated||"unknown")+". Use it when he asks about his day; do not read it out unprompted.");
+  return lines.join("\n");
+}
+
+/* ---------- Voice ---------- */
+let convo=null, mode="idle"; // idle | listening | speaking | connecting
+const talk=$("talk"), statusEl=$("status"), lineEl=$("line"), errEl=$("err");
+function setStatus(t,live){statusEl.textContent=t;statusEl.classList.toggle("live",!!live);}
+function showErr(m){errEl.textContent=m;errEl.hidden=!m;}
+
+async function start(){
+  showErr("");
+  if(!window.ElevenLabsClient){showErr("The voice library didn't load. Check your connection and reload the page.");return;}
+  talk.disabled=true; mode="connecting"; setStatus("Connecting",true);
+  try{
+    await navigator.mediaDevices.getUserMedia({audio:true}).then(s=>s.getTracks().forEach(t=>t.stop()));
+  }catch(e){talk.disabled=false;mode="idle";setStatus("Standing by");showErr("Microphone access was refused. Allow the microphone for this site in your browser settings, then try again.");return;}
+  try{
+    convo = await ElevenLabsClient.Conversation.startSession({
+      agentId: DATA.agentId || FALLBACK_AGENT,
+      connectionType: "websocket",
+      onConnect: ()=>{ try{convo && convo.sendContextualUpdate(contextText());}catch(e){} },
+      onDisconnect: ()=>{ convo=null; mode="idle"; talk.dataset.on="false"; talk.textContent="Speak with Alfred"; talk.disabled=false; setStatus("Standing by"); },
+      onError: (m)=>{ showErr(typeof m==="string"? m : "Something interrupted the line."); },
+      onModeChange: ({mode:m})=>{ mode=m; setStatus(m==="speaking"?"Alfred is speaking":"Listening",true); },
+      onMessage: (p)=>{ const who=p.role||(p.source==="ai"?"agent":"user"); lineEl.textContent=p.message; lineEl.classList.toggle("user",who==="user"); }
+    });
+    talk.dataset.on="true"; talk.textContent="End conversation"; talk.disabled=false;
+    if(mode==="connecting"){mode="listening";setStatus("Listening",true);}
+  }catch(e){
+    convo=null; mode="idle"; talk.disabled=false; setStatus("Standing by");
+    showErr("Couldn't reach Alfred. If this keeps happening, check the agent's allowed domains in ElevenLabs. ("+(e&&e.message?e.message:e)+")");
+  }
+}
+async function stop(){ talk.disabled=true; try{ await convo.endSession(); }catch(e){} }
+talk.addEventListener("click",()=>{ convo? stop() : start(); });
+
+/* ---------- Orb: 3D point sphere with circling sound waves ---------- */
+const cv=$("orb"), ctx=cv.getContext("2d");
+const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);cv.width=r.width*dpr;cv.height=r.height*dpr;}
+size(); window.addEventListener("resize",size);
+
+// Points evenly spread over a sphere (Fibonacci lattice)
+const N=1100, PTS=[];
+for(let i=0;i<N;i++){
+  const y=1-(i/(N-1))*2, rad=Math.sqrt(1-y*y), th=i*2.399963229728653;
+  PTS.push([Math.cos(th)*rad,y,Math.sin(th)*rad]);
+}
+const SAMPLES=180;
+const bands=new Float32Array(SAMPLES);   // smoothed audio shape around the circle
+let level=0;                             // smoothed overall loudness 0..1
+
+function audio(){
+  if(!convo) return null;
+  try{
+    const a = mode==="speaking"? convo.getOutputByteFrequencyData() : convo.getInputByteFrequencyData();
+    return a && a.length? a : null;
+  }catch(e){return null}
+}
+
+function draw(t){
+  const w=cv.width,h=cv.height,cx=w/2,cy=h/2;
+  const live=!!convo, speaking=mode==="speaking";
+  const gold="201,167,93", white="233,230,223";
+  const waveCol= speaking? gold : (live? white : gold);
+  ctx.clearRect(0,0,w,h);
+
+  // audio -> level + per-angle shape
+  const f=audio(); let sum=0;
+  for(let i=0;i<SAMPLES;i++){
+    let v=0;
+    if(f){ const half=SAMPLES/2, k=i<half? i : SAMPLES-1-i; v=f[Math.floor(k/half*f.length*0.55)]/255; }
+    bands[i]+=(v-bands[i])*0.22; sum+=bands[i];
+  }
+  const target= f? Math.min(1,(sum/SAMPLES)*2.2) : 0;
+  level+=(target-level)*0.12;
+
+  const R=Math.min(w,h)*0.25*(1+level*0.06);
+  const time= reduce? 0 : t/1000;
+
+  // halo
+  const halo=ctx.createRadialGradient(cx,cy,R*0.6,cx,cy,R*2.1);
+  halo.addColorStop(0,`rgba(${gold},${0.07+level*0.12})`); halo.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.fillStyle=halo; ctx.fillRect(0,0,w,h);
+
+  // sphere body: dark, lit from top-left, gold rim
+  const body=ctx.createRadialGradient(cx-R*0.35,cy-R*0.4,R*0.05,cx,cy,R);
+  body.addColorStop(0,"#2c2a2e"); body.addColorStop(0.55,"#151417"); body.addColorStop(1,"#0a0a0b");
+  ctx.fillStyle=body; ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fill();
+  const rim=ctx.createRadialGradient(cx,cy,R*0.82,cx,cy,R*1.02);
+  rim.addColorStop(0,"rgba(0,0,0,0)"); rim.addColorStop(1,`rgba(${gold},${0.25+level*0.3})`);
+  ctx.fillStyle=rim; ctx.beginPath(); ctx.arc(cx,cy,R*1.02,0,Math.PI*2); ctx.fill();
+
+  // rotating point cloud
+  const ay=time*0.22, ax=0.42+Math.sin(time*0.15)*0.08;
+  const cyA=Math.cos(ay), syA=Math.sin(ay), cxA=Math.cos(ax), sxA=Math.sin(ax);
+  const ps=Math.max(1,w/520);
+  for(const [x0,y0,z0] of PTS){
+    const x1=x0*cyA+z0*syA, z1=-x0*syA+z0*cyA;
+    const y2=y0*cxA-z1*sxA, z2=y0*sxA+z1*cxA;
+    if(z2<-0.15) continue;                       // back half mostly hidden by the body
+    const depth=(z2+1)/2;                        // 0 back .. 1 front
+    const light=Math.max(0,(-x1*0.5-y2*0.6+z2*0.65)); // key light top-left-front
+    const a=0.14+depth*0.62+light*0.5+level*0.25;
+    const useGold= light>0.55 || speaking;
+    ctx.fillStyle=`rgba(${useGold?gold:white},${Math.min(1,a)})`;
+    const s=ps*(0.6+depth*0.9);
+    ctx.fillRect(cx+x1*R*0.97-s/2, cy+y2*R*0.97-s/2, s, s);
+  }
+
+  // circling sound waves (always gently present; grow with speech)
+  const rings=3;
+  for(let k=0;k<rings;k++){
+    const base=R*(1.22+k*0.13);
+    const idleAmp=R*0.018*(1+k*0.4);
+    const amp=idleAmp+R*0.32*level*(1-k*0.22);
+    const dir=k%2? -1 : 1, spin=time*(0.35+k*0.12)*dir;
+    ctx.beginPath();
+    for(let i=0;i<=SAMPLES;i++){
+      const ii=i%SAMPLES, th=ii/SAMPLES*Math.PI*2;
+      const wave=Math.sin(th*(5+k*2)+spin*2.2)*0.55+Math.sin(th*(9+k)-spin*1.6)*0.3+Math.sin(th*3+spin)*0.15;
+      const shape=bands[(ii+Math.floor(spin*20)+k*30+SAMPLES*10)%SAMPLES];
+      const r=base+wave*amp*(0.45+0.55*(f?shape*1.6:1));
+      const x=cx+Math.cos(th+spin*0.2)*r, y=cy+Math.sin(th+spin*0.2)*r;
+      i? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=`rgba(${waveCol},${(0.18+level*0.6)*(1-k*0.25)})`;
+    ctx.lineWidth=Math.max(1,w/(560+k*180))*(1+level*0.8);
+    ctx.stroke();
+  }
+
+  // faint orbital ellipse for depth
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(-0.35);
+  ctx.strokeStyle=`rgba(${gold},0.12)`; ctx.lineWidth=Math.max(1,w/900);
+  ctx.beginPath(); ctx.ellipse(0,0,R*1.85,R*0.5,0,0,Math.PI*2); ctx.stroke();
+  const ob=time*0.5; ctx.fillStyle=`rgba(${gold},0.8)`;
+  ctx.beginPath(); ctx.arc(Math.cos(ob)*R*1.85,Math.sin(ob)*R*0.5,Math.max(1.5,w/300),0,Math.PI*2); ctx.fill();
+  ctx.restore();
+
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
