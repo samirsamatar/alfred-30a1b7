@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-15T19:10:00+02:00",
+ "updated": "2026-10-15T20:56:18+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
@@ -379,58 +379,21 @@
    "end": "2026-10-29T22:00:00+01:00",
    "location": "",
    "kind": "gym"
-  },
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-30T07:15:00+01:00",
-   "end": "2026-10-30T07:45:00+01:00",
-   "location": "",
-   "kind": "japanese"
-  },
-  {
-   "title": "Nespresso shift",
-   "start": "2026-10-30T11:00:00+01:00",
-   "end": "2026-10-30T17:30:00+01:00",
-   "location": "Nespresso Boutique Amstelveen",
-   "kind": "work"
-  },
-  {
-   "title": "🏋️ Gym (backup day)",
-   "start": "2026-10-30T20:00:00+01:00",
-   "end": "2026-10-30T21:00:00+01:00",
-   "location": "",
-   "kind": "gym"
-  },
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-31T07:15:00+01:00",
-   "end": "2026-10-31T07:45:00+01:00",
-   "location": "",
-   "kind": "japanese"
-  },
-  {
-   "title": "Nespresso shift",
-   "start": "2026-10-31T11:30:00+01:00",
-   "end": "2026-10-31T18:15:00+01:00",
-   "location": "Nespresso Boutique Amstelveen",
-   "kind": "work"
-  },
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-11-01T07:15:00+01:00",
-   "end": "2026-11-01T07:45:00+01:00",
-   "location": "",
-   "kind": "japanese"
-  },
-  {
-   "title": "Nespresso shift",
-   "start": "2026-11-01T11:30:00+01:00",
-   "end": "2026-11-01T17:30:00+01:00",
-   "location": "Nespresso Boutique Amstelveen",
-   "kind": "work"
   }
  ],
  "tasks": [
+  {
+   "title": "Use finance blocks Wed 21, Thu 22 and Mon 26 Oct for Sustainable Finance midterm prep",
+   "area": "Uni",
+   "priority": "High",
+   "due": "2026-10-26"
+  },
+  {
+   "title": "Choose a Japanese study method and a fixed daily time slot",
+   "area": "Japanese",
+   "priority": "Medium",
+   "due": "2026-10-19"
+  },
   {
    "title": "Pick this week's gym days around shifts and classes",
    "area": "Fitness",
@@ -438,25 +401,7 @@
    "due": "2026-10-18"
   },
   {
-   "title": "Make a study plan for the December finance exams",
-   "area": "Uni",
-   "priority": "High",
-   "due": "2026-10-18"
-  },
-  {
-   "title": "Choose a Japanese study method and a daily time slot",
-   "area": "Japanese",
-   "priority": "Medium",
-   "due": "2026-10-19"
-  },
-  {
-   "title": "Confirm midterm time, course and room",
-   "area": "Uni",
-   "priority": "High",
-   "due": "2026-10-20"
-  },
-  {
-   "title": "Collect practice material and past exams per course",
+   "title": "Collect practice material and past exams for each course",
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-21"
@@ -468,10 +413,16 @@
    "due": "2026-10-25"
   },
   {
-   "title": "Sustainable Finance midterm prep (Wed 21, Thu 22, Mon 26)",
+   "title": "Make a study plan for the December finance exams (6 courses)",
    "area": "Uni",
    "priority": "High",
-   "due": "2026-10-26"
+   "due": "2026-10-18"
+  },
+  {
+   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
+   "area": "Uni",
+   "priority": "High",
+   "due": "2026-10-20"
   }
  ],
  "countdowns": [
