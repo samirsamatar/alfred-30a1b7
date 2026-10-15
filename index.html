@@ -118,6 +118,16 @@ ul.tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;g
 .cd .l{font-size:13.5px;color:var(--mute)}
 .cd .row:first-child .n{color:var(--gold)}
 
+
+/* Figures: sales + portfolio */
+.fig-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.fig-big{font:600 30px/1 var(--display);font-variant-numeric:tabular-nums}
+.fig-sub{font:500 11.5px/1.4 var(--mono);color:var(--mute);letter-spacing:.04em}
+.fig-sub .up{color:var(--ok)} .fig-sub .down{color:var(--due)}
+.chart{position:relative;width:100%;height:120px}
+.chart svg{width:100%;height:100%;display:block;overflow:visible}
+.chart .tip{position:absolute;top:-6px;transform:translate(-50%,-100%);background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:6px 8px;font:500 11.5px/1.35 var(--mono);color:var(--text);white-space:nowrap;pointer-events:none}
+.fig-note{font-size:12.5px;color:var(--mute);margin-top:8px}
 footer{margin-top:auto;font:500 11px/1.5 var(--mono);color:var(--mute);letter-spacing:.06em;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -138,6 +148,19 @@ footer{margin-top:auto;font:500 11px/1.5 var(--mono);color:var(--mute);letter-sp
           <button id="tab-tomorrow" aria-pressed="false">Tomorrow</button>
         </div>
         <ol class="timeline" id="timeline"></ol>
+      </div>
+
+      <div class="panel">
+        <h2><span>Dolcessi · last 30 days</span><b id="sales-orders"></b></h2>
+        <div class="fig-head"><div class="fig-big" id="sales-total">€0</div><div class="fig-sub" id="sales-sub"></div></div>
+        <div class="chart" id="sales-chart" role="img" aria-label="Daily sales over the last 30 days"></div>
+        <div class="fig-note" id="sales-note" hidden></div>
+      </div>
+      <div class="panel">
+        <h2><span>Portfolio · DEGIRO</span><b id="pf-units"></b></h2>
+        <div class="fig-head"><div class="fig-big" id="pf-value">—</div><div class="fig-sub" id="pf-sub"></div></div>
+        <div class="chart" id="pf-chart" role="img" aria-label="Portfolio value over time"></div>
+        <div class="fig-note" id="pf-note"></div>
       </div>
     </section>
 
@@ -273,7 +296,77 @@ function renderCd(){
   }
 }
 
-function renderAll(){renderDay();renderTasks();renderStd();renderCd();
+
+/* ---------- Charts ---------- */
+const eur = (n,d=0)=>"€"+Number(n).toLocaleString("nl-NL",{minimumFractionDigits:d,maximumFractionDigits:d});
+const shortDate = s=>new Date(s+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+function svgEl(tag,attrs){const e=document.createElementNS("http://www.w3.org/2000/svg",tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+function chart(box,pts,opt){
+  // pts: [{x:label, y:number, tip:string}]; opt.type 'bar' | 'line'
+  box.textContent="";
+  const W=box.clientWidth||300,H=box.clientHeight||120,pad={t:8,r:6,b:18,l:6};
+  const svg=svgEl("svg",{viewBox:`0 0 ${W} ${H}`,preserveAspectRatio:"none"});
+  const cs=getComputedStyle(document.documentElement);
+  const gold=cs.getPropertyValue("--gold").trim(), line=cs.getPropertyValue("--line").trim(), mute=cs.getPropertyValue("--mute").trim();
+  const ys=pts.map(p=>p.y); let lo=opt.type==="bar"?0:Math.min(...ys), hi=Math.max(...ys);
+  if(hi===lo){hi=lo+(opt.type==="bar"?1:Math.max(1,Math.abs(hi)*0.02)); if(opt.type!=="bar") lo-= (hi-lo);}
+  else if(opt.type!=="bar"){const m=(hi-lo)*0.15;lo-=m;hi+=m;}
+  const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b;
+  const X=i=> pts.length===1? pad.l+iw/2 : pad.l+i*(iw/(pts.length-1));
+  const Y=v=> pad.t+ih-(v-lo)/(hi-lo)*ih;
+  // baseline + faint mid grid
+  svg.appendChild(svgEl("line",{x1:pad.l,x2:W-pad.r,y1:pad.t+ih,y2:pad.t+ih,stroke:line,"stroke-width":1}));
+  svg.appendChild(svgEl("line",{x1:pad.l,x2:W-pad.r,y1:pad.t+ih/2,y2:pad.t+ih/2,stroke:line,"stroke-width":1,"stroke-dasharray":"2 4"}));
+  if(opt.type==="bar"){
+    const bw=Math.max(2,iw/pts.length-2);
+    pts.forEach((p,i)=>{const x=pad.l+i*(iw/pts.length)+1, y=Y(p.y), h=Math.max(p.y>0?2:1,pad.t+ih-y);
+      svg.appendChild(svgEl("rect",{x,y:pad.t+ih-h,width:bw,height:h,rx:Math.min(2,bw/2),fill:p.y>0?gold:line}));});
+  }else{
+    let d=""; pts.forEach((p,i)=>{d+=(i?"L":"M")+X(i).toFixed(1)+" "+Y(p.y).toFixed(1);});
+    if(pts.length>1){const area=svgEl("path",{d:d+`L${X(pts.length-1)} ${pad.t+ih}L${X(0)} ${pad.t+ih}Z`,fill:gold,opacity:.08});svg.appendChild(area);}
+    svg.appendChild(svgEl("path",{d,fill:"none",stroke:gold,"stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round","vector-effect":"non-scaling-stroke"}));
+    const li=pts.length-1; svg.appendChild(svgEl("circle",{cx:X(li),cy:Y(pts[li].y),r:4,fill:gold,stroke:cs.getPropertyValue("--panel").trim(),"stroke-width":2}));
+  }
+  // first/last x labels
+  const lab=(txt,x,anchor)=>{const t=svgEl("text",{x,y:H-3,"text-anchor":anchor,fill:mute,"font-size":10.5,"font-family":"IBM Plex Mono, monospace"});t.textContent=txt;svg.appendChild(t);};
+  if(pts.length){lab(pts[0].x,pad.l,"start"); if(pts.length>1) lab(pts[pts.length-1].x,W-pad.r,"end");}
+  // hover layer
+  const tip=document.createElement("div");tip.className="tip";tip.hidden=true;
+  const guide=svgEl("line",{y1:pad.t,y2:pad.t+ih,stroke:mute,"stroke-width":1,opacity:0});svg.appendChild(guide);
+  const hit=svgEl("rect",{x:0,y:0,width:W,height:H,fill:"transparent"});svg.appendChild(hit);
+  const move=e=>{const r=box.getBoundingClientRect();const fx=(e.clientX-r.left)/r.width*W;
+    const i=Math.max(0,Math.min(pts.length-1, opt.type==="bar"? Math.floor((fx-pad.l)/(iw/pts.length)) : Math.round((fx-pad.l)/(iw/Math.max(1,pts.length-1)))));
+    const cx= opt.type==="bar"? pad.l+(i+.5)*(iw/pts.length) : X(i);
+    guide.setAttribute("x1",cx);guide.setAttribute("x2",cx);guide.setAttribute("opacity",.5);
+    tip.textContent=pts[i].tip; tip.hidden=false; tip.style.left=(cx/W*100)+"%";};
+  hit.addEventListener("pointermove",move); hit.addEventListener("pointerleave",()=>{tip.hidden=true;guide.setAttribute("opacity",0);});
+  box.append(svg,tip);
+}
+function renderSales(){
+  const s=DATA.sales; if(!s||!s.days||!s.days.length) return;
+  const total=s.days.reduce((a,d)=>a+d.total,0), orders=s.days.reduce((a,d)=>a+d.orders,0);
+  const today=s.days[s.days.length-1];
+  $("sales-total").textContent=eur(total, total%1?2:0);
+  $("sales-orders").textContent=orders+(orders===1?" order":" orders");
+  $("sales-sub").textContent="Today "+eur(today.total, today.total%1?2:0)+" · "+today.orders+" orders";
+  chart($("sales-chart"), s.days.map(d=>({x:shortDate(d.date),y:d.total,tip:shortDate(d.date)+" · "+eur(d.total,2)+" · "+d.orders+" orders"})),{type:"bar"});
+  const note=$("sales-note"); note.hidden=orders>0; note.textContent="No orders in the last 30 days. Something to change, sir.";
+}
+function renderPf(){
+  const p=DATA.portfolio; if(!p||!p.history||!p.history.length) return;
+  const h=p.history, last=h[h.length-1], first=h[0];
+  $("pf-value").textContent=eur(last.value,2);
+  $("pf-units").textContent=p.units+" × "+p.ticker;
+  const diff=last.value-first.value, pct=first.value? diff/first.value*100 : 0;
+  const sub=$("pf-sub"); sub.textContent="";
+  const ch=document.createElement("span"); ch.className=diff>=0?"up":"down";
+  ch.textContent=(diff>=0?"+":"−")+eur(Math.abs(diff),2)+" ("+(diff>=0?"+":"−")+Math.abs(pct).toFixed(1)+"%)";
+  sub.append(ch, document.createTextNode(" since "+shortDate(first.date)));
+  chart($("pf-chart"), h.map(d=>({x:shortDate(d.date),y:d.value,tip:shortDate(d.date)+" · "+eur(d.value,2)+" · €"+d.price.toFixed(2)})),{type:"line"});
+  $("pf-note").textContent=p.name+" · last price €"+last.price.toFixed(2)+" ("+shortDate(last.date)+")"+(h.length<3?" · the line fills in as days pass":"");
+}
+window.addEventListener("resize",()=>{renderSales();renderPf();});
+function renderAll(){renderDay();renderTasks();renderStd();renderCd();renderSales();renderPf();
   if(DATA.updated){$("updated").textContent="Schedule as of "+new Date(DATA.updated).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:TZ});}
 }
 
@@ -292,6 +385,8 @@ function contextText(){
     const evs=DATA.events.filter(e=>dayKey(new Date(e.start))===key).sort((a,b)=>new Date(a.start)-new Date(b.start));
     lines.push(label+": "+(evs.length? evs.map(e=>fmtTime(new Date(e.start))+"–"+fmtTime(new Date(e.end))+" "+e.title.replace(/^[^\w(]+\s*/u,"")+(e.location?" ("+e.location+")":"")).join("; ") : "nothing scheduled")+".");
   }
+  if(DATA.sales&&DATA.sales.days&&DATA.sales.days.length){const t=DATA.sales.days[DATA.sales.days.length-1];const tot=DATA.sales.days.reduce((a,d)=>a+d.total,0),o=DATA.sales.days.reduce((a,d)=>a+d.orders,0);lines.push("Dolcessi Shopify store: today "+t.orders+" orders, EUR "+t.total.toFixed(2)+"; last 30 days "+o+" orders, EUR "+tot.toFixed(2)+".");}
+  if(DATA.portfolio&&DATA.portfolio.history&&DATA.portfolio.history.length){const p=DATA.portfolio,l=p.history[p.history.length-1];lines.push("Investment portfolio (DEGIRO): "+p.units+" units of "+p.name+", last price EUR "+l.price.toFixed(2)+" on "+l.date+", value EUR "+l.value.toFixed(2)+". Give facts only, no investment advice.");}
   if(DATA.tasks.length) lines.push("Open tasks: "+DATA.tasks.map(t=>t.title+(t.due?" (due "+t.due+")":"")).join("; ")+".");
   const ticks=loadTicks(); const done=DATA.standards.filter(s=>ticks[s]);
   lines.push("Daily standards ticked so far today: "+(done.length?done.join(", "):"none")+".");
