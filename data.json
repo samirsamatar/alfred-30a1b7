@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-15T22:56:36+02:00",
+ "updated": "2026-10-16T06:58:30+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
@@ -294,7 +294,7 @@
    "start": "2026-10-27T14:45:00+01:00",
    "end": "2026-10-27T16:15:00+01:00",
    "location": "",
-   "kind": "study"
+   "kind": "exam"
   },
   {
    "title": "📝 MIDTERM Sustainable Finance (time to confirm)",
@@ -389,12 +389,6 @@
    "due": "2026-10-26"
   },
   {
-   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
-   "area": "Uni",
-   "priority": "High",
-   "due": "2026-10-20"
-  },
-  {
    "title": "Choose a Japanese study method and a fixed daily time slot",
    "area": "Japanese",
    "priority": "Medium",
@@ -423,6 +417,12 @@
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-18"
+  },
+  {
+   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
+   "area": "Uni",
+   "priority": "High",
+   "due": "2026-10-20"
   }
  ],
  "countdowns": [
@@ -452,11 +452,6 @@
  "sales": {
   "currency": "EUR",
   "days": [
-   {
-    "date": "2026-09-15",
-    "orders": 0,
-    "total": 0
-   },
    {
     "date": "2026-09-16",
     "orders": 0,
@@ -604,6 +599,11 @@
    },
    {
     "date": "2026-10-15",
+    "orders": 0,
+    "total": 0
+   },
+   {
+    "date": "2026-10-16",
     "orders": 0,
     "total": 0
    }
