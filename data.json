@@ -1,28 +1,7 @@
 {
- "updated": "2026-10-16T22:56:47+02:00",
+ "updated": "2026-10-17T06:57:01+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-16T07:15:00+02:00",
-   "end": "2026-10-16T07:45:00+02:00",
-   "location": "",
-   "kind": "japanese"
-  },
-  {
-   "title": "Nespresso shift",
-   "start": "2026-10-16T09:30:00+02:00",
-   "end": "2026-10-16T17:30:00+02:00",
-   "location": "Nespresso Boutique Amstelveen",
-   "kind": "work"
-  },
-  {
-   "title": "🏋️ Gym (backup day)",
-   "start": "2026-10-16T20:00:00+02:00",
-   "end": "2026-10-16T21:00:00+02:00",
-   "location": "",
-   "kind": "gym"
-  },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-17T07:15:00+02:00",
@@ -410,6 +389,12 @@
    "due": "2026-10-26"
   },
   {
+   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
+   "area": "Uni",
+   "priority": "High",
+   "due": "2026-10-20"
+  },
+  {
    "title": "Choose a Japanese study method and a fixed daily time slot",
    "area": "Japanese",
    "priority": "Medium",
@@ -438,12 +423,6 @@
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-18"
-  },
-  {
-   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
-   "area": "Uni",
-   "priority": "High",
-   "due": "2026-10-20"
   }
  ],
  "countdowns": [
@@ -473,11 +452,6 @@
  "sales": {
   "currency": "EUR",
   "days": [
-   {
-    "date": "2026-09-16",
-    "orders": 0,
-    "total": 0
-   },
    {
     "date": "2026-09-17",
     "orders": 0,
@@ -625,6 +599,11 @@
    },
    {
     "date": "2026-10-16",
+    "orders": 0,
+    "total": 0
+   },
+   {
+    "date": "2026-10-17",
     "orders": 0,
     "total": 0
    }
