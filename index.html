@@ -395,6 +395,59 @@ function contextText(){
   return lines.join("\n");
 }
 
+/* ---------- Alfred's opening line: a fresh one each time ---------- */
+function openingLine(){
+  const pick=a=>a[Math.floor(Math.random()*a.length)];
+  const now=new Date();
+  const h=+new Intl.DateTimeFormat("en-GB",{hour:"2-digit",hour12:false,timeZone:TZ}).format(now);
+  const slot = h<5?"late": h<12?"morning": h<18?"afternoon": h<23?"evening":"late";
+  const base={
+    morning:[
+      "Good morning, sir. The kettle's on and the day is yours. Where shall we begin?",
+      "Morning, sir. I trust you slept well, or at least efficiently. What's first?",
+      "Ah, sir. Up and about already. Admirable. How may I be of use?",
+      "Good morning, sir. Everything is in order, or near enough. What do you need?",
+      "Morning, sir. A fresh day and a clean slate. What are we conquering?"
+    ],
+    afternoon:[
+      "Good afternoon, sir. How goes the campaign?",
+      "Sir. Halfway through the day and still standing, I see. What can I do?",
+      "Good afternoon, sir. I've been keeping things tidy in your absence. What's on your mind?",
+      "Ah, there you are, sir. What shall we attend to?",
+      "Afternoon, sir. Shall we make the rest of the day count?"
+    ],
+    evening:[
+      "Good evening, sir. A long day, I imagine. How can I help?",
+      "Evening, sir. The house is quiet and I'm at your disposal.",
+      "Good evening, sir. Shall we wrap the day up properly?",
+      "Ah, sir. Back at last. What do you need before the day is done?",
+      "Evening, sir. I've kept a candle burning, figuratively speaking. What's next?"
+    ],
+    late:[
+      "Burning the midnight oil again, sir? Very well. What do you need?",
+      "Sir, it's rather late. I'll be brief if you will. How can I help?",
+      "Still up, sir? I suppose I am too. What's on your mind?",
+      "A late one, sir. Let's make it quick and get you to bed."
+    ]
+  };
+  let line=pick(base[slot]);
+  // Now and then, add a small observation from the dashboard
+  const hooks=[];
+  try{
+    const todayKey=dayKey(now);
+    const next=DATA.events.filter(e=>dayKey(new Date(e.start))===todayKey && new Date(e.start)>now).sort((a,b)=>new Date(a.start)-new Date(b.start))[0];
+    if(next){const mins=Math.round((new Date(next.start)-now)/60000); const t=next.title.replace(/^[^\w(]+\s*/u,"");
+      if(mins<=90) hooks.push(`Do keep an eye on the clock: ${t} in ${mins} minutes.`);}
+    const mid=(DATA.countdowns||[]).find(c=>/midterm/i.test(c.label||c.title||""));
+    if(mid){const d=Math.ceil((new Date(mid.date||mid.when)-now)/864e5); if(d>0&&d<=7) hooks.push(`The midterm is ${d===1?"tomorrow":"in "+d+" days"}, sir, should you need reminding.`);}
+    const today=dayKey(now); const overdue=DATA.tasks.filter(t=>t.due&&t.due<today).length;
+    if(overdue) hooks.push(`There ${overdue===1?"is one task":"are "+overdue+" tasks"} gently past due, when you're ready.`);
+  }catch(e){}
+  if(hooks.length && Math.random()<0.6) line+=" "+pick(hooks);
+  return line;
+}
+window.alfredOpeningLine = openingLine;
+
 /* ---------- Voice ---------- */
 let convo=null, mode="idle"; // idle | listening | speaking | connecting
 const talk=$("talk"), statusEl=$("status"), lineEl=$("line"), errEl=$("err");
@@ -412,6 +465,7 @@ async function start(){
     convo = await ElevenLabsClient.Conversation.startSession({
       agentId: DATA.agentId || FALLBACK_AGENT,
       connectionType: "websocket",
+      dynamicVariables: { greeting: openingLine() },
       onConnect: ()=>{ try{convo && convo.sendContextualUpdate(contextText());}catch(e){} },
       onDisconnect: ()=>{ convo=null; mode="idle"; talk.dataset.on="false"; talk.textContent="Speak with Alfred"; talk.disabled=false; setStatus("Standing by"); },
       onError: (m)=>{ showErr(typeof m==="string"? m : "Something interrupted the line."); },
