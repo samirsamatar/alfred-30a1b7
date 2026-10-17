@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-17T06:57:01+02:00",
+ "updated": "2026-10-17T08:57:26+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
@@ -273,7 +273,7 @@
    "start": "2026-10-27T14:45:00+01:00",
    "end": "2026-10-27T16:15:00+01:00",
    "location": "",
-   "kind": "exam"
+   "kind": "study"
   },
   {
    "title": "📝 MIDTERM Sustainable Finance (time to confirm)",
