@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-17T12:56:50+02:00",
+ "updated": "2026-10-17T14:57:14+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
@@ -379,6 +379,20 @@
    "end": "2026-10-30T21:00:00+01:00",
    "location": "",
    "kind": "gym"
+  },
+  {
+   "title": "🇯🇵 Japanese",
+   "start": "2026-10-31T07:15:00+01:00",
+   "end": "2026-10-31T07:45:00+01:00",
+   "location": "",
+   "kind": "japanese"
+  },
+  {
+   "title": "Nespresso shift",
+   "start": "2026-10-31T11:30:00+01:00",
+   "end": "2026-10-31T18:15:00+01:00",
+   "location": "Nespresso Boutique Amstelveen",
+   "kind": "work"
   }
  ],
  "tasks": [
