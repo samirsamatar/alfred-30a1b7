@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-18T16:57:03+02:00",
+ "updated": "2026-10-18T18:57:01+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
@@ -379,6 +379,20 @@
    "end": "2026-10-31T18:15:00+01:00",
    "location": "Nespresso Boutique Amstelveen",
    "kind": "work"
+  },
+  {
+   "title": "🇯🇵 Japanese",
+   "start": "2026-11-01T07:15:00+01:00",
+   "end": "2026-11-01T07:45:00+01:00",
+   "location": "",
+   "kind": "japanese"
+  },
+  {
+   "title": "Nespresso shift",
+   "start": "2026-11-01T11:30:00+01:00",
+   "end": "2026-11-01T17:30:00+01:00",
+   "location": "Nespresso Boutique Amstelveen",
+   "kind": "work"
   }
  ],
  "tasks": [
@@ -387,6 +401,12 @@
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-26"
+  },
+  {
+   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
+   "area": "Uni",
+   "priority": "High",
+   "due": "2026-10-20"
   },
   {
    "title": "Choose a Japanese study method and a fixed daily time slot",
@@ -417,12 +437,6 @@
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-18"
-  },
-  {
-   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
-   "area": "Uni",
-   "priority": "High",
-   "due": "2026-10-20"
   }
  ],
  "countdowns": [
