@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Momo Tibet – Tibetaanse momo's in de Pijp (concept)</title>
+<meta name="description" content="Conceptontwerp voor Momo Tibet, familierestaurant met Tibetaanse en Himalayaanse keuken (halal) aan de Ceintuurbaan in Amsterdam. Momo's, thukpa, laping en meer.">
+<meta name="theme-color" content="#6B1E2A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --maroon:#6B1E2A; --maroon-d:#4E1520; --saffron:#E39B2D; --saffron-d:#9A5E0C;
+  --blue:#1F5FA8; --red:#B22222; --green:#2E7D32; --yellow:#F2C230; --white:#fff;
+  --cream:#FBF6EE; --cream-2:#F3E9DA; --ink:#2A1A17; --muted:#5E4A44;
+  --radius:18px; --shadow:0 10px 30px rgba(78,21,32,.12);
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Nunito Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:1rem;line-height:1.55;overflow-x:hidden;padding-bottom:84px}
+img,svg{max-width:100%;display:block}
+a{color:var(--maroon)}
+h1,h2,h3{font-family:var(--serif);line-height:1.12;margin:0 0 .4em;color:var(--maroon-d)}
+h2{font-size:clamp(1.8rem,6vw,2.6rem)}
+h3{font-size:1.2rem}
+p{margin:0 0 1em}
+.en{display:block;font-size:.88em;color:var(--muted);font-style:italic;margin-top:.15em}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 16px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--maroon);color:#fff;padding:10px 14px;border-radius:10px;z-index:100}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+.eyebrow{font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;color:var(--saffron-d);margin-bottom:.6em}
+section{padding:72px 0;position:relative}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55em;min-height:52px;padding:.8em 1.35em;border-radius:999px;font-weight:800;text-decoration:none;font-size:1rem;border:2px solid transparent;transition:transform .2s ease,box-shadow .2s ease,background-color .2s;line-height:1.15;text-align:center}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--saffron);color:#2A1305;box-shadow:0 8px 20px rgba(227,155,45,.35)}
+.btn-primary:hover{background:#EDAA43}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.7)}
+.btn-ghost:hover{background:rgba(255,255,255,.18)}
+.btn-dark{background:var(--maroon);color:#fff}
+.btn-outline{border-color:var(--maroon);color:var(--maroon);background:transparent}
+.btn svg{width:20px;height:20px;flex:none}
+
+/* Header */
+.top{position:absolute;top:0;left:0;right:0;z-index:5;padding:14px 0}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-family:var(--serif);font-weight:800;font-size:1.25rem}
+.logo-mark{width:38px;height:38px}
+.top nav{display:none}
+.top nav a{color:#fff;text-decoration:none;font-weight:600;padding:8px 10px;opacity:.92}
+.top nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+.halal-pill{border:1.5px solid rgba(255,255,255,.75);color:#fff;font-weight:800;font-size:.78rem;letter-spacing:.08em;padding:6px 10px;border-radius:999px}
+
+/* Hero */
+.hero{position:relative;min-height:100svh;background:linear-gradient(180deg,#3E0F18 0%,#6B1E2A 48%,#8A2E34 100%);color:#fff;overflow:hidden;padding:0;display:flex;flex-direction:column}
+.sky-stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 12% 18%,rgba(255,255,255,.7),transparent),radial-gradient(1.5px 1.5px at 72% 12%,rgba(255,255,255,.6),transparent),radial-gradient(1px 1px at 40% 28%,rgba(255,255,255,.6),transparent),radial-gradient(1px 1px at 88% 30%,rgba(255,255,255,.5),transparent),radial-gradient(1.5px 1.5px at 25% 40%,rgba(255,255,255,.4),transparent);pointer-events:none}
+.sun{position:absolute;width:240px;height:240px;right:-60px;top:110px;border-radius:50%;background:radial-gradient(circle,rgba(242,194,48,.55),rgba(227,155,45,.15) 55%,transparent 70%);pointer-events:none}
+.flags{position:absolute;top:66px;left:-2%;width:104%;height:90px;z-index:2;pointer-events:none}
+.flag{transform-box:fill-box;transform-origin:50% 0;animation:flutter 3.2s ease-in-out infinite}
+@keyframes flutter{0%,100%{transform:rotate(-5deg) skewX(-3deg)}50%{transform:rotate(6deg) skewX(4deg)}}
+.mountains{position:absolute;inset:0;pointer-events:none;z-index:1}
+.mtn{position:absolute;left:calc(50% - max(55%,480px));width:max(110%,960px);max-width:none;bottom:0;will-change:transform}
+.mtn-back{height:44%}
+.mtn-front{height:24%}
+.hero-inner{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:170px;padding-bottom:44px}
+.hero-grid{display:grid;gap:18px;align-items:center}
+.hero h1{color:#fff;font-size:clamp(2.9rem,13vw,5.4rem);letter-spacing:-.01em;margin-bottom:.15em}
+.hero h1 span{color:var(--saffron)}
+.tagline{font-size:clamp(1.12rem,4.4vw,1.4rem);font-weight:600;margin-bottom:.25em;max-width:32ch}
+.hero .en{color:rgba(255,255,255,.82)}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:20px;font-size:.92rem;color:rgba(255,255,255,.9)}
+.hero-meta b{color:var(--yellow)}
+.status-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#bbb;margin-right:6px;vertical-align:middle}
+.status-dot.open{background:#6BD06F;box-shadow:0 0 0 4px rgba(107,208,111,.25)}
+.status-dot.closed{background:#F07F7F}
+
+/* Steamer */
+.steamer{width:min(78vw,320px);margin:0 auto;position:relative}
+.steam path{fill:none;stroke:rgba(255,255,255,.75);stroke-width:5;stroke-linecap:round;opacity:0;animation:steam 3.6s ease-in infinite}
+.steam path:nth-child(2){animation-delay:1.2s}
+.steam path:nth-child(3){animation-delay:2.4s}
+@keyframes steam{0%{opacity:0;transform:translateY(18px) scaleY(.8)}25%{opacity:.85}100%{opacity:0;transform:translateY(-46px) scaleY(1.15)}}
+.lid{transform-box:fill-box;transform-origin:15% 100%;animation:lid 4.8s ease-in-out infinite}
+@keyframes lid{0%,55%,100%{transform:translateY(0) rotate(0)}68%,84%{transform:translateY(-14px) rotate(-6deg)}}
+.momo-bob{animation:bob 4.8s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes bob{0%,60%,100%{transform:scale(1)}72%{transform:scale(1.03,.97)}}
+
+/* Quote strip */
+.praise{background:var(--cream-2);padding:28px 0;border-bottom:1px solid #E7D7BF}
+.praise ul{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.praise li{display:flex;gap:12px;align-items:flex-start;font-weight:600}
+.praise small{display:block;font-weight:400;color:var(--muted)}
+.praise .ic{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-family:var(--serif)}
+
+/* Story */
+.story-grid{display:grid;gap:32px;align-items:center}
+.story-card{background:#fff;border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);border-top:6px solid var(--saffron);position:relative}
+.story-card blockquote{margin:0;font-family:var(--serif);font-size:1.35rem;color:var(--maroon-d);line-height:1.3}
+.story-card cite{display:block;margin-top:12px;font-style:normal;font-size:.9rem;color:var(--muted)}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.value{background:#fff;border-radius:14px;padding:14px 10px;text-align:center;font-weight:800;font-size:.9rem;border:1px solid #EADCC7}
+.value svg{width:34px;height:34px;margin:0 auto 6px}
+.value small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+
+/* Menu */
+.menu{background:linear-gradient(180deg,var(--cream) 0%,#F6ECDD 100%)}
+.menu-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px;margin-bottom:26px}
+.cards{display:grid;gap:16px}
+.card{background:#fff;border-radius:var(--radius);padding:20px;box-shadow:0 4px 16px rgba(78,21,32,.07);border:1px solid #EFE2CE;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--c,var(--saffron))}
+.card-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.card h3{margin:0}
+.price{font-family:var(--serif);font-weight:800;color:var(--maroon);font-size:1.15rem;white-space:nowrap}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+.prices{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.prices li{background:var(--cream);border-radius:999px;padding:6px 12px;font-weight:700;font-size:.92rem;border:1px solid #EADCC7}
+.prices li b{color:var(--maroon)}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--maroon);padding:3px 8px;border-radius:6px;align-self:flex-start}
+.card.feature{background:var(--maroon);color:#fff;border:none}
+.card.feature h3,.card.feature .price{color:#fff}
+.card.feature p{color:rgba(255,255,255,.85)}
+.card.feature .en{color:rgba(255,255,255,.78)}
+.card.feature .prices li{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff}
+.card.feature .prices li b{color:var(--yellow)}
+.card.feature .tag{background:var(--saffron);color:#2A1305}
+.more{margin-top:22px;background:#fff;border:2px dashed #D9C3A3;border-radius:var(--radius);padding:18px 20px}
+.more ul{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.more li{background:var(--cream-2);padding:6px 12px;border-radius:999px;font-weight:700}
+.note{font-size:.88rem;color:var(--muted);margin-top:14px}
+
+/* Allergens */
+.allergens{background:#fff}
+.banner{display:flex;gap:12px;align-items:flex-start;background:#FFF4D6;border:2px solid var(--yellow);border-radius:14px;padding:14px 16px;margin:18px 0 24px;font-weight:700;color:#4A3500}
+.banner svg{flex:none;width:26px;height:26px}
+.banner .en{color:#6A5210}
+.chips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.chip{display:flex;align-items:center;gap:10px;background:var(--cream);border:1px solid #EADCC7;border-radius:14px;padding:10px 12px;font-weight:800;font-size:.92rem;line-height:1.2}
+.chip small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+.chip i{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.8rem;font-weight:800;color:#fff;background:var(--c,var(--maroon))}
+.halal-box{display:flex;gap:14px;align-items:center;margin-top:24px;background:var(--cream-2);border-radius:var(--radius);padding:18px}
+.halal-badge{flex:none;width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.8rem;letter-spacing:.06em;border:3px solid #fff;box-shadow:0 0 0 3px var(--green)}
+
+/* Hours */
+.hours-grid{display:grid;gap:26px}
+.hours-table{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.hours-table table{width:100%;border-collapse:collapse}
+.hours-table th,.hours-table td{padding:13px 14px;text-align:left;border-bottom:1px solid #F0E4D2}
+.hours-table th{font-weight:700}
+.hours-table td{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.hours-table tr:last-child th,.hours-table tr:last-child td{border-bottom:none}
+.hours-table tr.today{background:#FDF0D8}
+.hours-table tr.today th::after{content:"vandaag";margin-left:8px;font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--saffron);color:#2A1305;padding:2px 7px;border-radius:6px;vertical-align:middle}
+.closed-day td{color:var(--red)}
+.now{display:flex;align-items:center;gap:12px;background:var(--maroon);color:#fff;border-radius:var(--radius);padding:18px 20px;font-weight:700;font-size:1.05rem}
+.now small{display:block;font-weight:400;opacity:.85;font-size:.85rem}
+.confirm{display:inline-block;margin-top:12px;font-size:.85rem;font-weight:700;background:#FFF4D6;border:1px solid var(--yellow);color:#4A3500;padding:6px 10px;border-radius:8px}
+
+/* Location */
+.location{background:var(--cream-2)}
+.loc-grid{display:grid;gap:22px;align-items:stretch}
+.map-art{position:relative;border-radius:var(--radius);overflow:hidden;min-height:260px;background:#EFE6D6;box-shadow:var(--shadow)}
+.map-art svg{width:100%;height:100%;position:absolute;inset:0}
+.pin{animation:pin 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes pin{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.info-list{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:14px}
+.info-list li{display:flex;gap:12px;align-items:flex-start}
+.info-list .ico{flex:none;width:40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;color:var(--maroon)}
+.info-list .ico svg{width:22px;height:22px}
+.placeholder{display:inline-block;background:#fff;border:1.5px dashed #C9A97C;padding:2px 8px;border-radius:8px;font-weight:700;color:var(--muted)}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px}
+
+/* Final CTA */
+.final{background:var(--maroon-d);color:#fff;text-align:center;overflow:hidden}
+.final h2{color:#fff}
+.final p{color:rgba(255,255,255,.88)}
+.final .en{color:rgba(255,255,255,.75)}
+.final .btn-row{justify-content:center;margin-top:20px}
+.final-flags{width:100%;height:60px;margin-bottom:18px}
+.wa{margin-top:20px;font-size:.95rem;color:rgba(255,255,255,.85)}
+
+/* Footer */
+footer{background:#2A0D13;color:rgba(255,255,255,.8);padding:34px 0 30px;font-size:.92rem}
+footer a{color:#fff}
+.foot-grid{display:grid;gap:14px}
+.disclaimer{border-top:1px solid rgba(255,255,255,.15);padding-top:14px;margin-top:6px;font-weight:700;color:#fff}
+
+/* Sticky bar */
+.actionbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(251,246,238,.97);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid #E7D7BF;padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:8px;box-shadow:0 -6px 20px rgba(78,21,32,.1)}
+.actionbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:54px;border-radius:14px;text-decoration:none;font-weight:800;font-size:.82rem;color:var(--maroon-d);background:#fff;border:1px solid #EADCC7}
+.actionbar a svg{width:22px;height:22px}
+.actionbar a.primary{background:var(--maroon);color:#fff;border-color:var(--maroon)}
+
+/* Reveal */
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal.d1{transition-delay:.08s}.js .reveal.d2{transition-delay:.16s}.js .reveal.d3{transition-delay:.24s}
+
+@media (min-width:600px){
+  .chips{grid-template-columns:repeat(3,1fr)}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .praise ul{grid-template-columns:repeat(3,1fr)}
+}
+@media (min-width:900px){
+  body{padding-bottom:0}
+  .actionbar{display:none}
+  .top nav{display:flex;gap:4px}
+  .hero-grid{grid-template-columns:1.2fr .8fr;gap:40px}
+  .steamer{width:340px}
+  .story-grid{grid-template-columns:1.1fr .9fr;gap:56px}
+  .cards{grid-template-columns:repeat(3,1fr)}
+  .card.feature{grid-column:span 2}
+  .chips{grid-template-columns:repeat(4,1fr)}
+  .hours-grid{grid-template-columns:1fr 1fr;align-items:start}
+  .loc-grid{grid-template-columns:1.1fr .9fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  section{padding:96px 0}
+}
+@media (min-width:1100px){.chips{grid-template-columns:repeat(5,1fr)}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1;transform:none}
+  .steam path{opacity:.5}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Naar inhoud / Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Momo Tibet – naar boven">
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#E39B2D"/><path d="M8 27 Q20 8 32 27 Z" fill="#FBF6EE"/><path d="M14 25 Q20 15 26 25" fill="none" stroke="#6B1E2A" stroke-width="2" stroke-linecap="round"/><path d="M17 17 Q20 12 23 17" fill="none" stroke="#6B1E2A" stroke-width="2" stroke-linecap="round"/></svg>
+      Momo Tibet
+    </a>
+    <nav aria-label="Hoofdmenu">
+      <a href="#verhaal">Verhaal</a>
+      <a href="#menu">Menu</a>
+      <a href="#allergenen">Allergenen</a>
+      <a href="#tijden">Openingstijden</a>
+      <a href="#locatie">Locatie</a>
+    </nav>
+    <span class="halal-pill">HALAL</span>
+  </div>
+</header>
+
+<main id="main">
+<!-- HERO -->
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="sky-stars" aria-hidden="true"></div>
+  <div class="sun" aria-hidden="true"></div>
+
+  <svg class="flags" viewBox="0 0 1200 90" preserveAspectRatio="none" aria-hidden="true" id="flagsSvg"></svg>
+
+  <div class="mountains" aria-hidden="true">
+    <svg class="mtn mtn-back" data-depth="0.18" viewBox="0 0 1200 400" preserveAspectRatio="none">
+      <path d="M0 400 L0 250 L120 150 L210 220 L330 90 L430 190 L520 130 L640 40 L760 170 L860 110 L980 200 L1090 120 L1200 190 L1200 400 Z" fill="#8E3A3F" opacity=".55"/>
+      <path d="M330 90 L300 125 L318 120 L332 132 L350 116 L366 124 Z M640 40 L606 80 L626 74 L642 88 L660 72 L680 82 Z M1090 120 L1066 146 L1082 142 L1094 152 L1108 140 L1120 146 Z" fill="#FBF6EE" opacity=".9"/>
+    </svg>
+    <svg class="mtn mtn-front" data-depth="0.08" viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <path d="M0 300 L0 190 L90 140 L190 200 L300 110 L420 210 L540 150 L650 220 L780 120 L900 200 L1020 150 L1200 230 L1200 300 Z" fill="#4E1520"/>
+      <path d="M300 110 L276 136 L292 132 L304 142 L318 130 L330 134 Z M780 120 L754 146 L772 142 L784 152 L798 140 L810 144 Z" fill="#FBF6EE" opacity=".85"/>
+      <rect x="0" y="270" width="1200" height="30" fill="#FBF6EE"/>
+      <path d="M0 272 Q150 250 300 266 T600 262 T900 266 T1200 258 L1200 300 L0 300Z" fill="#FBF6EE"/>
+    </svg>
+  </div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-grid">
+      <div class="reveal">
+        <p class="eyebrow" style="color:var(--yellow)">Tibetaans · Himalayaans · Halal</p>
+        <h1 id="hero-title">Momo <span>Tibet</span></h1>
+        <p class="tagline">Handgevouwen momo's naar familierecept, midden in de Pijp.
+          <span class="en">Hand-folded dumplings from family recipes, in the heart of De Pijp.</span></p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://www.thuisbezorgd.nl/menu/momo-tibet" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14l-1.5 9h-11z"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            Bestel via Thuisbezorgd
+          </a>
+          <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Momo+Tibet+Ceintuurbaan+432H+Amsterdam" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            Route plannen
+          </a>
+        </div>
+        <p class="hero-meta">
+          <span><span class="status-dot" id="heroDot" aria-hidden="true"></span><b id="heroStatus">Openingstijden</b></span>
+          <span>Ceintuurbaan 432H · Walk-in welkom</span>
+        </p>
+      </div>
+
+      <div class="steamer reveal d2" role="img" aria-label="Illustratie: bamboe stoommandje met momo's en opstijgende stoom">
+        <svg viewBox="0 0 320 300" aria-hidden="true">
+          <g class="steam">
+            <path d="M120 120 C105 100 135 85 120 62 C110 48 125 36 120 24"/>
+            <path d="M160 116 C145 96 175 80 160 56 C150 42 165 30 160 16"/>
+            <path d="M200 120 C185 100 215 85 200 62 C190 48 205 36 200 24"/>
+          </g>
+          <!-- lid -->
+          <g class="lid">
+            <path d="M58 168 Q160 96 262 168 Z" fill="#D9A55A"/>
+            <path d="M58 168 Q160 96 262 168" fill="none" stroke="#A87232" stroke-width="5"/>
+            <path d="M90 150 Q160 118 230 150" fill="none" stroke="#B9823F" stroke-width="3"/>
+            <path d="M115 136 Q160 120 205 136" fill="none" stroke="#B9823F" stroke-width="3"/>
+            <rect x="148" y="116" width="24" height="10" rx="5" fill="#A87232"/>
+          </g>
+          <!-- momos peeking -->
+          <g class="momo-bob">
+            <path d="M88 186 Q92 160 116 158 Q140 160 144 186 Z" fill="#FFF8EC" stroke="#E2CBA6" stroke-width="2"/>
+            <path d="M104 162 Q116 152 128 162" fill="none" stroke="#E2CBA6" stroke-width="2"/>
+            <path d="M138 186 Q142 156 168 154 Q194 156 198 186 Z" fill="#FFFDF7" stroke="#E2CBA6" stroke-width="2"/>
+            <path d="M154 160 Q168 148 182 160 M160 166 Q168 160 176 166" fill="none" stroke="#E2CBA6" stroke-width="2"/>
+            <path d="M190 186 Q194 162 216 160 Q238 162 240 186 Z" fill="#FFF8EC" stroke="#E2CBA6" stroke-width="2"/>
+            <path d="M206 164 Q216 156 226 164" fill="none" stroke="#E2CBA6" stroke-width="2"/>
+          </g>
+          <!-- basket -->
+          <path d="M60 180 H260 L250 250 Q160 266 70 250 Z" fill="#C98D3F"/>
+          <path d="M60 180 H260" stroke="#8E5A1E" stroke-width="8" stroke-linecap="round"/>
+          <path d="M66 210 Q160 222 254 210 M70 236 Q160 248 250 236" fill="none" stroke="#A87232" stroke-width="4"/>
+          <path d="M100 186 V252 M140 186 V258 M180 186 V258 M220 186 V252" stroke="#B37A35" stroke-width="2" opacity=".6"/>
+          <ellipse cx="160" cy="272" rx="120" ry="12" fill="rgba(0,0,0,.18)"/>
+          <!-- chili dip -->
+          <ellipse cx="282" cy="258" rx="26" ry="10" fill="#FBF6EE"/>
+          <ellipse cx="282" cy="255" rx="19" ry="6" fill="#B22222"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRAISE -->
+<div class="praise" aria-label="Wat anderen zeggen">
+  <div class="wrap">
+    <ul>
+      <li class="reveal"><span class="ic" style="background:var(--blue)" aria-hidden="true">★</span><span>Genoemd bij de beste momo-adressen van Amsterdam<small>Listed among the best momo spots — YourLittleBlackBook</small></span></li>
+      <li class="reveal d1"><span class="ic" style="background:var(--green)" aria-hidden="true">“</span><span>“A tasty hideaway in an unlikely spot”<small>Gast op TripAdvisor / TripAdvisor guest</small></span></li>
+      <li class="reveal d2"><span class="ic" style="background:var(--red)" aria-hidden="true">♥</span><span>Familiebedrijf met recepten van generaties<small>Family-run, recipes passed down — TikTok review</small></span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- STORY -->
+<section id="verhaal" aria-labelledby="story-title">
+  <div class="wrap story-grid">
+    <div class="reveal">
+      <p class="eyebrow">Ons verhaal · Our story</p>
+      <h2 id="story-title">Een familierecept, gevouwen met de hand</h2>
+      <p>Momo Tibet is een familiebedrijf. In een knusse ruimte aan de Ceintuurbaan koken we de gerechten waarmee we zijn opgegroeid: recepten die van generatie op generatie zijn doorgegeven. Elke momo wordt met de hand gevouwen en vers gestoomd.
+        <span class="en">A family-run spot. In a cozy room on Ceintuurbaan we cook the dishes we grew up with, recipes handed down through generations. Every momo is folded by hand and freshly steamed.</span></p>
+      <p>Van een dampende kom thukpa tot pittige laping: proef de Himalaya, gewoon in Amsterdam-Zuid. En alles is halal.
+        <span class="en">From steaming thukpa to spicy laping: taste the Himalayas in Amsterdam. Everything is halal.</span></p>
+      <div class="values">
+        <div class="value"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 28 Q10 14 20 13 Q30 14 32 28 Z" fill="#FFF8EC" stroke="#6B1E2A" stroke-width="2"/><path d="M14 17 Q20 10 26 17" fill="none" stroke="#6B1E2A" stroke-width="2"/></svg>Handgemaakt<small>Handmade</small></div>
+        <div class="value"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="13" cy="15" r="5" fill="#E39B2D"/><circle cx="27" cy="15" r="5" fill="#B22222"/><path d="M5 33 Q13 21 20 33 Q27 21 35 33" fill="none" stroke="#6B1E2A" stroke-width="2.5"/></svg>Familie<small>Family-run</small></div>
+        <div class="value"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14" fill="none" stroke="#2E7D32" stroke-width="3"/><path d="M13 20 l5 5 9-10" fill="none" stroke="#2E7D32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Halal<small>Halal</small></div>
+      </div>
+    </div>
+    <figure class="story-card reveal d2" style="margin:0">
+      <blockquote>“A tasty hideaway in an unlikely spot.”</blockquote>
+      <cite>— Gast op TripAdvisor</cite>
+      <p style="margin:16px 0 0;color:var(--muted);font-size:.95rem">Verstopt in de Nieuwe Pijp, maar het vinden waard.
+        <span class="en">Tucked away in Nieuwe Pijp, but worth finding.</span></p>
+    </figure>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu" aria-labelledby="menu-title">
+  <div class="wrap">
+    <div class="menu-head reveal">
+      <div>
+        <p class="eyebrow">Signature gerechten · Signature dishes</p>
+        <h2 id="menu-title">Van het stoommandje</h2>
+        <p style="margin:0">Een greep uit de kaart. <span class="en">A taste of the menu.</span></p>
+      </div>
+      <a class="btn btn-outline" href="https://www.thuisbezorgd.nl/menu/momo-tibet" target="_blank" rel="noopener">Volledig menu ↗</a>
+    </div>
+
+    <div class="cards">
+      <article class="card feature reveal">
+        <span class="tag">Signature</span>
+        <div class="card-top"><h3>Momo's · 8 stuks</h3></div>
+        <p>Handgevouwen Tibetaanse dumplings, vers gestoomd. Kies je vulling.
+          <span class="en">Hand-folded Tibetan dumplings, freshly steamed. Pick your filling.</span></p>
+        <ul class="prices" aria-label="Prijzen per vulling">
+          <li>Rund / Beef <b>€14,50</b></li>
+          <li>Kip / Chicken <b>€13,50</b></li>
+          <li>Groente / Vegetable <b>€12,50</b></li>
+        </ul>
+      </article>
+      <article class="card reveal d1" style="--c:var(--red)">
+        <div class="card-top"><h3>Jhol momo</h3><span class="price">€13 – 15</span></div>
+        <p>Momo's in een bouillon van tomaat en sesam.<span class="en">Momos in a tomato-sesame broth.</span></p>
+      </article>
+      <article class="card reveal" style="--c:var(--blue)">
+        <div class="card-top"><h3>Thukpa</h3><span class="price">€12,50 – 14,50</span></div>
+        <p>Noedelsoep met handgetrokken noedels.<span class="en">Hand-pulled noodle soup.</span></p>
+      </article>
+      <article class="card reveal d1" style="--c:var(--maroon)">
+        <div class="card-top"><h3>Phing sha</h3><span class="price">€16,50</span></div>
+        <p>Gestoofde glasnoedels met rundvlees.<span class="en">Stewed glass noodles with beef.</span></p>
+      </article>
+      <article class="card reveal d2" style="--c:var(--saffron)">
+        <div class="card-top"><h3>Shapale · 2 st.</h3><span class="price">€8,00</span></div>
+        <p>Tibetaans gevuld vleesdeeggerecht.<span class="en">Tibetan meat pastry.</span></p>
+      </article>
+      <article class="card reveal" style="--c:var(--green)">
+        <div class="card-top"><h3>Laping</h3><span class="price">€6,00</span></div>
+        <p>Koude, pittige rolletjes van mungbonen-noedels.<span class="en">Cold spicy mung-bean noodle rolls.</span></p>
+      </article>
+      <article class="card reveal d1" style="--c:var(--yellow)">
+        <div class="card-top"><h3>Crispy honey chili potatoes</h3><span class="price">€8,50</span></div>
+        <p>Krokante aardappel met honing en chili.<span class="en">Crispy potatoes, honey and chili.</span></p>
+      </article>
+    </div>
+
+    <div class="more reveal">
+      <strong>Ook op de kaart</strong> <span class="en" style="display:inline">· Also on the menu (prijzen te bevestigen / prices to confirm)</span>
+      <ul>
+        <li>Thenthuk</li><li>Mokthuk</li><li>Shaptak</li><li>Tingmo</li>
+      </ul>
+    </div>
+    <p class="note">Prijzen overgenomen van het huidige menu; wijzigingen voorbehouden. <span class="en" style="display:inline">Prices from the current menu, subject to change.</span></p>
+  </div>
+</section>
+
+<!-- ALLERGENS -->
+<section class="allergens" id="allergenen" aria-labelledby="all-title">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Allergenen · Allergens</p>
+      <h2 id="all-title">De 14 allergenen, overzichtelijk</h2>
+      <p>Zo kan per gerecht straks in één oogopslag worden getoond welke allergenen erin zitten. Vraag bij twijfel altijd even in het restaurant.
+        <span class="en">This is how allergens per dish could be shown at a glance. When in doubt, always ask the team.</span></p>
+    </div>
+    <div class="banner reveal" role="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20z"/><path d="M12 10v5M12 18h.01"/></svg>
+      <span>Voorbeeld – allergenen per gerecht nog te bevestigen met het restaurant
+        <span class="en">Example – to be confirmed</span></span>
+    </div>
+    <ul class="chips" aria-label="De 14 EU-allergenen">
+      <li class="chip reveal" style="--c:#9A5E0C"><i aria-hidden="true">GL</i><span>Gluten<small>Gluten</small></span></li>
+      <li class="chip reveal" style="--c:#B22222"><i aria-hidden="true">SK</i><span>Schaaldieren<small>Crustaceans</small></span></li>
+      <li class="chip reveal" style="--c:#8A6A00"><i aria-hidden="true">EI</i><span>Ei<small>Eggs</small></span></li>
+      <li class="chip reveal" style="--c:#1F5FA8"><i aria-hidden="true">VI</i><span>Vis<small>Fish</small></span></li>
+      <li class="chip reveal" style="--c:#7A4A1E"><i aria-hidden="true">PN</i><span>Pinda's<small>Peanuts</small></span></li>
+      <li class="chip reveal" style="--c:#2E7D32"><i aria-hidden="true">SO</i><span>Soja<small>Soybeans</small></span></li>
+      <li class="chip reveal" style="--c:#2F5D8A"><i aria-hidden="true">ML</i><span>Melk<small>Milk</small></span></li>
+      <li class="chip reveal" style="--c:#6B3E1E"><i aria-hidden="true">NT</i><span>Noten<small>Nuts</small></span></li>
+      <li class="chip reveal" style="--c:#3B7A3E"><i aria-hidden="true">SE</i><span>Selderij<small>Celery</small></span></li>
+      <li class="chip reveal" style="--c:#8A6A00"><i aria-hidden="true">MO</i><span>Mosterd<small>Mustard</small></span></li>
+      <li class="chip reveal" style="--c:#6B1E2A"><i aria-hidden="true">SZ</i><span>Sesamzaad<small>Sesame</small></span></li>
+      <li class="chip reveal" style="--c:#5A3D8A"><i aria-hidden="true">SU</i><span>Sulfiet<small>Sulphites</small></span></li>
+      <li class="chip reveal" style="--c:#8E3A6B"><i aria-hidden="true">LU</i><span>Lupine<small>Lupin</small></span></li>
+      <li class="chip reveal" style="--c:#1E6B6B"><i aria-hidden="true">WE</i><span>Weekdieren<small>Molluscs</small></span></li>
+    </ul>
+    <div class="halal-box reveal">
+      <div class="halal-badge" aria-hidden="true">HALAL</div>
+      <p style="margin:0"><strong>Alles is halal.</strong> Momo Tibet serveert een halal Tibetaans-Himalayaanse keuken.
+        <span class="en">Halal Tibetan &amp; Himalayan kitchen.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS -->
+<section id="tijden" aria-labelledby="hours-title">
+  <div class="wrap hours-grid">
+    <div class="reveal">
+      <p class="eyebrow">Openingstijden · Opening hours</p>
+      <h2 id="hours-title">Wanneer de mandjes stomen</h2>
+      <p>Kom binnenlopen of bestel online voor bezorging en afhalen.
+        <span class="en">Walk in, or order online for delivery and pickup.</span></p>
+      <div class="now" aria-live="polite">
+        <span class="status-dot" id="nowDot" aria-hidden="true"></span>
+        <span><span id="nowText">Openingstijden</span><small id="nowSub">Tijd in Amsterdam</small></span>
+      </div>
+      <span class="confirm">Openingstijden te bevestigen · gebaseerd op bezorg-/afhaaltijden</span>
+    </div>
+    <div class="hours-table reveal d2">
+      <table>
+        <caption class="sr-only" style="position:absolute;left:-9999px">Openingstijden per dag</caption>
+        <tbody id="hoursBody">
+          <tr data-day="1" class="closed-day"><th scope="row">Maandag <span class="en" style="display:inline">· Mon</span></th><td>Gesloten</td></tr>
+          <tr data-day="2"><th scope="row">Dinsdag <span class="en" style="display:inline">· Tue</span></th><td>13:15 – 21:30</td></tr>
+          <tr data-day="3"><th scope="row">Woensdag <span class="en" style="display:inline">· Wed</span></th><td>13:15 – 21:30</td></tr>
+          <tr data-day="4"><th scope="row">Donderdag <span class="en" style="display:inline">· Thu</span></th><td>13:15 – 21:30</td></tr>
+          <tr data-day="5"><th scope="row">Vrijdag <span class="en" style="display:inline">· Fri</span></th><td>13:00 – 22:30</td></tr>
+          <tr data-day="6"><th scope="row">Zaterdag <span class="en" style="display:inline">· Sat</span></th><td>13:00 – 22:30</td></tr>
+          <tr data-day="0"><th scope="row">Zondag <span class="en" style="display:inline">· Sun</span></th><td>13:00 – 22:30</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="location" id="locatie" aria-labelledby="loc-title">
+  <div class="wrap loc-grid">
+    <div class="map-art reveal" role="img" aria-label="Gestileerde kaart van de Nieuwe Pijp met een speld op de Ceintuurbaan">
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="400" height="300" fill="#EFE6D6"/>
+        <path d="M0 210 Q120 190 220 214 T400 200 L400 232 Q300 240 220 246 T0 242Z" fill="#9EC3E6" opacity=".8"/>
+        <g stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round">
+          <path d="M-10 120 L410 100"/>
+          <path d="M80 -10 L110 310"/><path d="M200 -10 L215 310"/><path d="M320 -10 L330 310"/>
+          <path d="M-10 50 L410 34"/>
+        </g>
+        <g stroke="#F6EFE2" stroke-width="4" fill="none"><path d="M-10 165 L410 152"/><path d="M150 -10 L160 200"/><path d="M265 -10 L272 200"/></g>
+        <rect x="120" y="128" width="70" height="30" rx="6" fill="#B8D9A8" opacity=".9"/>
+        <text x="16" y="112" font-family="Nunito Sans, sans-serif" font-size="13" font-weight="800" fill="#6B1E2A">Ceintuurbaan</text>
+        <text x="228" y="276" font-family="Nunito Sans, sans-serif" font-size="11" fill="#1F5FA8" font-weight="700">Amstelkanaal</text>
+        <g class="pin">
+          <path d="M268 108 c-16 0-26-12-26-26 a26 26 0 0 1 52 0 c0 14-10 26-26 26z" fill="#6B1E2A" transform="translate(0,-8)"/>
+          <path d="M268 112 l-12-14 h24z" fill="#6B1E2A"/>
+          <circle cx="268" cy="74" r="10" fill="#E39B2D"/>
+        </g>
+        <ellipse cx="268" cy="114" rx="12" ry="4" fill="rgba(0,0,0,.2)"/>
+      </svg>
+    </div>
+    <div class="reveal d2">
+      <p class="eyebrow">Locatie · Location</p>
+      <h2 id="loc-title">Te vinden in de Nieuwe Pijp</h2>
+      <ul class="info-list">
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+          <span><strong>Ceintuurbaan 432H</strong><br>1074 EB Amsterdam (Nieuwe Pijp)</span></li>
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span>
+          <span><span class="placeholder">Telefoonnummer volgt</span><span class="en">Phone to confirm</span></span></li>
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+          <span><strong>Walk-in welkom</strong><span class="en">Walk-ins welcome</span></span></li>
+      </ul>
+      <div class="btn-row">
+        <a class="btn btn-dark" href="https://www.google.com/maps/search/?api=1&amp;query=Momo+Tibet+Ceintuurbaan+432H+Amsterdam" target="_blank" rel="noopener">Route plannen ↗</a>
+        <a class="btn btn-outline" href="https://www.instagram.com/momotibetnl/" target="_blank" rel="noopener">Instagram ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final" aria-labelledby="final-title">
+  <svg class="final-flags" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" id="flagsSvg2"></svg>
+  <div class="wrap reveal">
+    <h2 id="final-title">Zin in momo's?</h2>
+    <p>Laat ze bezorgen of kom langs in de Pijp.<span class="en">Get them delivered or drop by in De Pijp.</span></p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="https://www.thuisbezorgd.nl/menu/momo-tibet" target="_blank" rel="noopener">Bestel via Thuisbezorgd</a>
+      <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Momo+Tibet+Ceintuurbaan+432H+Amsterdam" target="_blank" rel="noopener">Route plannen</a>
+    </div>
+    <p class="wa">Reserveren? Binnenkort direct via WhatsApp<span class="en">Reservations? Soon directly via WhatsApp</span></p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <strong style="font-family:var(--serif);font-size:1.2rem;color:#fff">Momo Tibet</strong><br>
+      Ceintuurbaan 432H, 1074 EB Amsterdam<br>
+      Tibetaans &amp; Himalayaans · Halal
+    </div>
+    <div>
+      <a href="https://www.thuisbezorgd.nl/menu/momo-tibet" target="_blank" rel="noopener">Thuisbezorgd</a> ·
+      <a href="https://www.instagram.com/momotibetnl/" target="_blank" rel="noopener">Instagram</a> ·
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Momo+Tibet+Ceintuurbaan+432H+Amsterdam" target="_blank" rel="noopener">Google Maps</a>
+    </div>
+    <p class="disclaimer" style="grid-column:1/-1;margin:0">Concept design by Dolcessi for Momo Tibet · not the official website</p>
+  </div>
+</footer>
+
+<nav class="actionbar" aria-label="Snelle acties">
+  <a class="primary" href="https://www.thuisbezorgd.nl/menu/momo-tibet" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14l-1.5 9h-11z"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Bestel</a>
+  <a href="https://www.google.com/maps/search/?api=1&amp;query=Momo+Tibet+Ceintuurbaan+432H+Amsterdam" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Route</a>
+  <a href="https://www.instagram.com/momotibetnl/" target="_blank" rel="noopener" aria-label="Instagram (opent in nieuw venster)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Instagram</a>
+</nav>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var NS = 'http://www.w3.org/2000/svg';
+  var COLORS = ['#1F5FA8','#FFFFFF','#B22222','#2E7D32','#F2C230'];
+
+  /* Prayer flags along a sagging string */
+  function buildFlags(svg, w, h, count, sag, fw, fh){
+    if(!svg) return;
+    var path = document.createElementNS(NS,'path');
+    var y0 = 6;
+    path.setAttribute('d','M0 '+y0+' Q'+(w/2)+' '+(y0+sag*2)+' '+w+' '+y0);
+    path.setAttribute('stroke','rgba(255,255,255,.55)');
+    path.setAttribute('stroke-width','1.5');
+    path.setAttribute('fill','none');
+    svg.appendChild(path);
+    for(var i=0;i<count;i++){
+      var t=(i+0.5)/count, x=t*w;
+      var y=(1-t)*(1-t)*y0 + 2*(1-t)*t*(y0+sag*2) + t*t*y0;
+      var r=document.createElementNS(NS,'rect');
+      r.setAttribute('x',(x-fw/2).toFixed(1));
+      r.setAttribute('y',y.toFixed(1));
+      r.setAttribute('width',fw);
+      r.setAttribute('height',fh);
+      r.setAttribute('rx','1.5');
+      r.setAttribute('fill',COLORS[i%5]);
+      r.setAttribute('class','flag');
+      r.style.animationDelay=(-(i*0.37)%3.2).toFixed(2)+'s';
+      r.style.animationDuration=(2.8+(i%3)*0.4)+'s';
+      svg.appendChild(r);
+    }
+  }
+  buildFlags(document.getElementById('flagsSvg'),1200,90,22,22,34,40);
+  buildFlags(document.getElementById('flagsSvg2'),1200,60,26,12,28,30);
+
+  /* Reveal on scroll */
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{rootMargin:'0px 0px -8% 0px',threshold:0.08});
+    els.forEach(function(el){io.observe(el)});
+  } else { els.forEach(function(el){el.classList.add('in')}); }
+
+  /* Mountain parallax-lite */
+  var mtns=[].slice.call(document.querySelectorAll('.mtn'));
+  if(!reduce && mtns.length){
+    var ticking=false;
+    function upd(){
+      var y=window.scrollY||0;
+      if(y<window.innerHeight*1.2){
+        mtns.forEach(function(m){ m.style.transform='translate3d(0,'+(y*parseFloat(m.dataset.depth)).toFixed(1)+'px,0)'; });
+      }
+      ticking=false;
+    }
+    window.addEventListener('scroll',function(){ if(!ticking){ticking=true;requestAnimationFrame(upd);} },{passive:true});
+  }
+
+  /* Hours: today + open/closed in Europe/Amsterdam */
+  var HOURS={0:[780,1350],1:null,2:[795,1290],3:[795,1290],4:[795,1290],5:[780,1350],6:[780,1350]};
+  var DAYS=['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
+  function fmt(m){var h=Math.floor(m/60),mm=m%60;return (h<10?'0':'')+h+':'+(mm<10?'0':'')+mm;}
+  function ams(){
+    try{
+      var parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+      var o={};parts.forEach(function(p){o[p.type]=p.value});
+      var map={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+      return {day:map[o.weekday],min:parseInt(o.hour,10)*60+parseInt(o.minute,10)};
+    }catch(e){var d=new Date();return {day:d.getDay(),min:d.getHours()*60+d.getMinutes()};}
+  }
+  function nextOpen(day){
+    for(var i=1;i<=7;i++){var d=(day+i)%7;if(HOURS[d]) return {d:d,i:i};}
+    return null;
+  }
+  function render(){
+    var n=ams(), h=HOURS[n.day];
+    var rows=document.querySelectorAll('#hoursBody tr');
+    for(var i=0;i<rows.length;i++){
+      var isToday=+rows[i].getAttribute('data-day')===n.day;
+      rows[i].classList.toggle('today',isToday);
+      if(isToday) rows[i].setAttribute('aria-current','date'); else rows[i].removeAttribute('aria-current');
+    }
+    var open=false, text, sub, short;
+    if(h && n.min>=h[0] && n.min<h[1]){
+      open=true; text='Nu open'; sub='Vandaag tot '+fmt(h[1])+' · Open now'; short='Nu open tot '+fmt(h[1]);
+    } else if(h && n.min<h[0]){
+      text='Nu gesloten'; sub='Vandaag open vanaf '+fmt(h[0])+' · Closed now'; short='Gesloten · open om '+fmt(h[0]);
+    } else {
+      var nx=nextOpen(n.day);
+      var when=nx.i===1?'morgen':DAYS[nx.d];
+      text='Nu gesloten'; sub='Weer open '+when+' om '+fmt(HOURS[nx.d][0])+' · Closed now'; short='Gesloten · '+when+' vanaf '+fmt(HOURS[nx.d][0]);
+    }
+    ['nowDot','heroDot'].forEach(function(id){var d=document.getElementById(id); d.classList.toggle('open',open); d.classList.toggle('closed',!open);});
+    document.getElementById('nowText').textContent=text;
+    document.getElementById('nowSub').textContent=sub+' (Amsterdam)';
+    document.getElementById('heroStatus').textContent=short;
+  }
+  render(); setInterval(render,60000);
+})();
+</script>
+</body>
+</html>
