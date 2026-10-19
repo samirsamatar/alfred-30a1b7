@@ -1,21 +1,7 @@
 {
- "updated": "2026-10-18T22:57:28+02:00",
+ "updated": "2026-10-19T06:57:43+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-18T07:15:00+02:00",
-   "end": "2026-10-18T07:45:00+02:00",
-   "location": "",
-   "kind": "japanese"
-  },
-  {
-   "title": "Nespresso shift",
-   "start": "2026-10-18T13:00:00+02:00",
-   "end": "2026-10-18T18:15:00+02:00",
-   "location": "Nespresso Boutique Amstelveen",
-   "kind": "work"
-  },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-19T07:15:00+02:00",
@@ -467,11 +453,6 @@
   "currency": "EUR",
   "days": [
    {
-    "date": "2026-09-18",
-    "orders": 0,
-    "total": 0
-   },
-   {
     "date": "2026-09-19",
     "orders": 0,
     "total": 0
@@ -618,6 +599,11 @@
    },
    {
     "date": "2026-10-18",
+    "orders": 0,
+    "total": 0
+   },
+   {
+    "date": "2026-10-19",
     "orders": 0,
     "total": 0
    }
