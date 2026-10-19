@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T18:57:06+02:00",
+ "updated": "2026-10-19T20:57:09+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
@@ -393,14 +393,61 @@
    "end": "2026-11-01T17:30:00+01:00",
    "location": "Nespresso Boutique Amstelveen",
    "kind": "work"
+  },
+  {
+   "title": "🇯🇵 Japanese",
+   "start": "2026-11-02T07:15:00+01:00",
+   "end": "2026-11-02T07:45:00+01:00",
+   "location": "",
+   "kind": "japanese"
+  },
+  {
+   "title": "Management Control (3026MAC_WC)",
+   "start": "2026-11-02T08:30:00+01:00",
+   "end": "2026-11-02T11:00:00+01:00",
+   "location": "HvA, CTH 3.030",
+   "kind": "class"
+  },
+  {
+   "title": "Investment Analysis (3026INA_WC)",
+   "start": "2026-11-02T12:50:00+01:00",
+   "end": "2026-11-02T15:20:00+01:00",
+   "location": "HvA, CTH 3.105",
+   "kind": "class"
+  },
+  {
+   "title": "📘 Finance practice",
+   "start": "2026-11-02T18:45:00+01:00",
+   "end": "2026-11-02T20:30:00+01:00",
+   "location": "",
+   "kind": "study"
+  },
+  {
+   "title": "🏋️ Gym",
+   "start": "2026-11-02T21:00:00+01:00",
+   "end": "2026-11-02T22:00:00+01:00",
+   "location": "",
+   "kind": "gym"
   }
  ],
  "tasks": [
+  {
+   "title": "Catch up on missed classes: Management Control and Investment Analysis",
+   "area": "Uni",
+   "priority": null,
+   "due": "2026-10-19"
+  },
   {
    "title": "Use finance blocks Wed 21, Thu 22 and Mon 26 Oct for Sustainable Finance midterm prep",
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-26"
+  },
+  {
+   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
+   "area": "Uni",
+   "priority": "High",
+   "due": "2026-10-20"
   },
   {
    "title": "Choose a Japanese study method and a fixed daily time slot",
@@ -431,18 +478,6 @@
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-18"
-  },
-  {
-   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
-   "area": "Uni",
-   "priority": "High",
-   "due": "2026-10-20"
-  },
-  {
-   "title": "Catch up on missed classes: Management Control and Investment Analysis",
-   "area": "Uni",
-   "priority": null,
-   "due": "2026-10-19"
   }
  ],
  "countdowns": [
