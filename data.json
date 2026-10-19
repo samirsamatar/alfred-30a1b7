@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T16:57:20+02:00",
+ "updated": "2026-10-19T18:57:06+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
@@ -57,6 +57,13 @@
    "end": "2026-10-20T18:15:00+02:00",
    "location": "Nespresso Boutique Amstelveen",
    "kind": "work"
+  },
+  {
+   "title": "🚗 Arnhem: visiting family",
+   "start": "2026-10-20T18:15:00+02:00",
+   "end": "2026-10-20T23:30:00+02:00",
+   "location": "Arnhem",
+   "kind": "other"
   },
   {
    "title": "🏋️ Gym",
@@ -148,6 +155,13 @@
    "end": "2026-10-23T18:15:00+02:00",
    "location": "Nespresso Boutique Amstelveen",
    "kind": "work"
+  },
+  {
+   "title": "🍽️ Dinner at MIU",
+   "start": "2026-10-23T19:00:00+02:00",
+   "end": "2026-10-23T21:30:00+02:00",
+   "location": "MIU",
+   "kind": "other"
   },
   {
    "title": "🏋️ Gym (backup day)",
@@ -383,22 +397,10 @@
  ],
  "tasks": [
   {
-   "title": "Catch up on missed classes: Management Control and Investment Analysis",
-   "area": "Uni",
-   "priority": null,
-   "due": "2026-10-19"
-  },
-  {
    "title": "Use finance blocks Wed 21, Thu 22 and Mon 26 Oct for Sustainable Finance midterm prep",
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-26"
-  },
-  {
-   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
-   "area": "Uni",
-   "priority": "High",
-   "due": "2026-10-20"
   },
   {
    "title": "Choose a Japanese study method and a fixed daily time slot",
@@ -429,6 +431,18 @@
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-18"
+  },
+  {
+   "title": "Confirm midterm time, course and room (Tue 27 Oct)",
+   "area": "Uni",
+   "priority": "High",
+   "due": "2026-10-20"
+  },
+  {
+   "title": "Catch up on missed classes: Management Control and Investment Analysis",
+   "area": "Uni",
+   "priority": null,
+   "due": "2026-10-19"
   }
  ],
  "countdowns": [
