@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T06:57:43+02:00",
+ "updated": "2026-10-19T09:00:01+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
@@ -423,6 +423,12 @@
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-20"
+  },
+  {
+   "title": "Catch up on missed classes: Management Control and Investment Analysis",
+   "area": "Uni",
+   "priority": null,
+   "due": "2026-10-19"
   }
  ],
  "countdowns": [
