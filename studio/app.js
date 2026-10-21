@@ -1,5 +1,5 @@
 /* Dolcessi studio — one particle field that travels the whole scroll.
-   Shapes per section: sphere → bad-phone outline → chart that becomes a rocket → stars →
+   Shapes per section: sphere → crowd card outline → chart that becomes a rocket → stars →
    orbit around the work → tile outlines → proof outlines → stars → rising sun. */
 (() => {
 "use strict";
@@ -450,35 +450,48 @@ function setupScroll() {
   const stats = $$(".stat");
   const counted = new Set();
   const countUp = (st) => { if (counted.has(st)) return; counted.add(st); const n = st.querySelector("[data-to]"); const o = { v: 0 }; gsap.to(st, { opacity: 1, y: 0, duration: 0.9, ease: "expo.out" }); gsap.to(o, { v: +n.dataset.to, duration: 1.6, ease: "expo.out", onUpdate: () => n.textContent = Math.round(o.v) }); };
-  let crumbsDone = false;
-  const crumbs = () => {
-    if (crumbsDone) return; crumbsDone = true;
-    const box = $("#crumbs"), sc = $("#badscreen").getBoundingClientRect();
-    for (let i = 0; i < 46; i++) {
-      const c = document.createElement("i"); box.appendChild(c);
-      const x = Math.random() * sc.width, y = Math.random() * sc.height * 0.6;
-      gsap.fromTo(c, { x, y, opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.25, delay: i * 0.012 });
-      gsap.to(c, { y: sc.height + 200 + Math.random() * 200, x: x + (Math.random() - 0.5) * 140, rotate: Math.random() * 360, duration: 1.4 + Math.random(), delay: 0.25 + i * 0.012, ease: "power2.in" });
-    }
-    gsap.to(".bad-spin", { opacity: 0, duration: 0.3 });
-    gsap.to("#badx", { opacity: 1, y: 0, duration: 0.6, delay: 0.5, ease: "expo.out" });
-    gsap.to("#badscreen > :not(#crumbs):not(#badx)", { filter: "grayscale(1) brightness(.5)", duration: 1.2, delay: 0.3 });
-    const r = $("#bad-phone").getBoundingClientRect(); shock(r.left + r.width / 2, r.top + r.height / 2, 0.5);
+  // the crowd: 100 dots = 100 hungry people
+  const grid = $("#crowd-grid"), dots = [];
+  for (let i = 0; i < 100; i++) { const d = document.createElement("i"); d.style.setProperty("--d", (Math.random() * 0.45).toFixed(2) + "s"); grid.appendChild(d); dots.push(d); }
+  let sd = 11; const srnd = () => ((sd = (sd * 16807) % 2147483647) / 2147483647);
+  const pick = n => { const idx = [...Array(100).keys()]; for (let i = 99; i > 0; i--) { const j = (srnd() * (i + 1)) | 0; [idx[i], idx[j]] = [idx[j], idx[i]]; } return new Set(idx.slice(0, n)); };
+  const S77 = pick(77), S70 = pick(70), S53 = pick(53);
+  dots.forEach((d, i) => { d.style.setProperty("--gx", ((srnd() - 0.5) * 120).toFixed(0) + "px"); d.style.setProperty("--gy", (-60 - srnd() * 140).toFixed(0) + "px"); });
+  const CROWD = [
+    { n: 100, tag: "100 hungry people nearby", cap: "Every dot is someone deciding where to eat tonight." },
+    { n: 77, tag: "Look you up first", cap: "77 of them check your website before they come." },
+    { n: 70, tag: "Turned away by a website", cap: "~70 have skipped a restaurant because of its site. Empty seats." },
+    { n: 53, tag: "Gone after 3 seconds", cap: "53 leave if your page takes more than 3 seconds to load. Never coming in." }
+  ];
+  let cState = -1; const cnt = { v: 100 };
+  const setCrowd = k => {
+    if (k === cState) return; cState = k;
+    dots.forEach((d, i) => {
+      d.className = "";
+      if (k === 1 && S77.has(i)) d.className = "lit";
+      if (k === 2) d.className = S70.has(i) ? "off" : "lit";
+      if (k === 3) d.className = S53.has(i) ? "gone" : "lit";
+    });
+    $("#crowd").dataset.state = k;
+    $("#crowd-tag").textContent = CROWD[k].tag; $("#crowd-cap").textContent = CROWD[k].cap;
+    gsap.to(cnt, { v: CROWD[k].n, duration: 0.9, ease: "expo.out", onUpdate: () => $("#crowd-n").textContent = Math.round(cnt.v) });
+    if (k === 3) { const r = $("#crowd").getBoundingClientRect(); shock(r.left + r.width / 2, r.top + r.height * 0.4, 0.45); energy = Math.min(1, energy + 0.5); }
   };
+  setCrowd(0);
   const problemUpdate = p => {
-    const lit = Math.floor(clamp(0, 1, p / 0.32) * words.length);
+    const lit = Math.floor(clamp(0, 1, p / 0.3) * words.length);
     words.forEach((w, i) => { w.style.opacity = i < lit ? 1 : 0.16; });
-    if (p > 0.34) countUp(stats[0]);
-    if (p > 0.48) countUp(stats[1]);
-    if (p > 0.62) countUp(stats[2]);
-    if (p > 0.72) crumbs();
+    if (p > 0.32) countUp(stats[0]);
+    if (p > 0.5) countUp(stats[1]);
+    if (p > 0.68) countUp(stats[2]);
+    setCrowd(p > 0.68 ? 3 : p > 0.5 ? 2 : p > 0.32 ? 1 : 0);
   };
   if (!mobile) {
-    ScrollTrigger.create({ trigger: "#why", start: "top top", end: "+=190%", pin: true, scrub: true, onUpdate: s => problemUpdate(s.progress) });
+    ScrollTrigger.create({ trigger: "#why", start: "top top", end: "+=220%", pin: true, scrub: true, onUpdate: s => problemUpdate(s.progress) });
   } else {
     words.forEach(w => w.style.opacity = 1);
     stats.forEach((st, i) => ScrollTrigger.create({ trigger: st, start: "top 85%", once: true, onEnter: () => countUp(st) }));
-    ScrollTrigger.create({ trigger: "#bad-phone", start: "top 45%", once: true, onEnter: crumbs });
+    ScrollTrigger.create({ trigger: "#crowd", start: "top 85%", end: "bottom 15%", scrub: true, onUpdate: s => { const p = s.progress; setCrowd(p > 0.66 ? 3 : p > 0.44 ? 2 : p > 0.22 ? 1 : 0); } });
   }
 
   /* ---- 03 takeoff ---- */
@@ -504,10 +517,12 @@ function setupScroll() {
   const track = $("#how-track");
   if (!mobile) {
     const dist = () => Math.max(0, track.scrollWidth - innerWidth);
-    const tween = gsap.to(track, { x: () => -dist(), ease: "none",
-      scrollTrigger: { trigger: ".how-pin", start: "top top", end: () => "+=" + (dist() + innerHeight * 0.6), pin: true, scrub: 0.6, invalidateOnRefresh: true,
-        onUpdate: s => { $("#how-bar").style.transform = `scaleX(${s.progress})`; } } });
-    $$(".step").forEach(st => ScrollTrigger.create({ trigger: st, containerAnimation: tween, start: "left 70%", end: "right 30%", toggleClass: "on" }));
+    const steps = $$(".step");
+    const lightSteps = () => steps.forEach(st => { const r = st.getBoundingClientRect(), c = r.left + r.width / 2; st.classList.toggle("on", c > innerWidth * 0.08 && c < innerWidth * 0.92 && r.left < innerWidth * 0.72); });
+    const tl = gsap.timeline({ scrollTrigger: { trigger: ".how-pin", start: "top top", end: () => "+=" + (dist() * 1.3 + innerHeight * 0.9), pin: true, scrub: 0.6, invalidateOnRefresh: true,
+      onUpdate: s => { $("#how-bar").style.transform = `scaleX(${s.progress})`; lightSteps(); }, onRefresh: lightSteps } });
+    tl.to({}, { duration: 0.22 }).to(track, { x: () => -dist(), ease: "none", duration: 1 }).to({}, { duration: 0.14 });
+    lightSteps();
   } else {
     $$(".step").forEach(st => ScrollTrigger.create({ trigger: st, start: "top 70%", end: "bottom 30%", toggleClass: "on" }));
   }
@@ -578,7 +593,7 @@ function setupScroll() {
   /* ---- particle stations (after pins so spacers exist) ---- */
   const spacer = el => (el.parentElement && el.parentElement.classList.contains("pin-spacer")) ? el.parentElement : el;
   station($("#hero"), anchorSphere("#a-hero", 0.18, 0.05, 1));
-  station($("#why"), rectShape(["#bad-phone"], 40));
+  station($("#why"), rectShape(["#crowd"], 26));
   station($("#takeoff"), chartRocket);
   station($("#how"), starShape);
   station($("#work"), orbit);
