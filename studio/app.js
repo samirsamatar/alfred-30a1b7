@@ -96,7 +96,7 @@ tickClock(); setInterval(tickClock, 20000);
 const cv = $("#field"), ctx = cv.getContext("2d");
 let W = innerWidth, H = innerHeight, DPR = 1;
 function resize() {
-  DPR = Math.min(devicePixelRatio || 1, 3);
+  DPR = Math.min(devicePixelRatio || 1, mobile ? 2 : 3);
   W = innerWidth; H = innerHeight;
   cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
@@ -104,7 +104,7 @@ function resize() {
 resize();
 addEventListener("resize", resize);
 
-const N = reduce ? 700 : mobile ? 950 : 2600;
+const N = reduce ? 700 : mobile ? 820 : 2600;
 const X = new Float32Array(N), Y = new Float32Array(N), VX = new Float32Array(N), VY = new Float32Array(N), AL = new Float32Array(N), SZ = new Float32Array(N);
 const R1 = new Float32Array(N), R2 = new Float32Array(N), R3 = new Float32Array(N), K = new Float32Array(N);
 const perm = new Uint32Array(N);
