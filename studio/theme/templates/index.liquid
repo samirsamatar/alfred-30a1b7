@@ -35,7 +35,7 @@
     <a href="#work" data-cursor="GO">Work</a><a href="#how" data-cursor="GO">How</a><a href="#proof" data-cursor="GO">Proof</a><a href="#faq" data-cursor="GO">FAQ</a>
   </nav>
   <div class="clock mono"><span class="live-dot"></span><span id="clock">AMS --:--</span><span class="kitchen" id="kitchen"></span></div>
-  <a class="btn btn-s magnetic" href="#ask" data-cursor="HI">Show me my site</a>
+  <a class="btn btn-s magnetic" href="#ask" data-open-ask data-cursor="HI">Show me my site</a>
 </header>
 
 <main id="top">
@@ -48,7 +48,7 @@
     <h1 class="split hero-title">Hungry people <em>Google</em> first.</h1>
     <p class="hero-sub reveal">Before anyone walks in, they look you up. We build the kind of website that makes them come in, and we build yours <b>before you even ask.</b></p>
     <div class="hero-ctas reveal">
-      <a class="btn magnetic" href="#ask" data-cursor="HI">Show me my site <span class="arr">→</span></a>
+      <a class="btn magnetic" href="#ask" data-open-ask data-cursor="HI">Show me my site <span class="arr">→</span></a>
       <a class="btn btn-o magnetic" href="#work" data-cursor="LOOK">See the work ↓</a>
     </div>
   </div>
@@ -186,8 +186,8 @@
   <div class="bento" id="bento">
     <div class="tile t-menu"><span class="tag mono">Menu</span><h3>A menu you can read with one thumb.</h3><p>Not a PDF. Prices, allergens, photos.</p>
       <div class="menu-roll"><div class="menu-list mono">
-        <div><span>Beef momo (8)</span><b>14.50</b></div><div><span>Phở bò</span><b>17.00</b></div><div><span>Jiaozi, pork &amp; chive</span><b>11.00</b></div><div><span>Bánh xèo</span><b>13.50</b></div><div><span>Thenthuk</span><b>15.00</b></div><div><span>Guo bao rou</span><b>16.50</b></div>
-        <div><span>Beef momo (8)</span><b>14.50</b></div><div><span>Phở bò</span><b>17.00</b></div><div><span>Jiaozi, pork &amp; chive</span><b>11.00</b></div><div><span>Bánh xèo</span><b>13.50</b></div><div><span>Thenthuk</span><b>15.00</b></div><div><span>Guo bao rou</span><b>16.50</b></div>
+        <div><span>Beef momos · 8 pcs</span><b>€14.50</b></div><div><span>Phở bò · rare beef</span><b>€17.00</b></div><div><span>Jiaozi · pork &amp; chives</span><b>€11.00</b></div><div><span>Bánh xèo · crispy pancake</span><b>€13.50</b></div><div><span>Thenthuk · noodle soup</span><b>€15.00</b></div><div><span>Guo bao rou · sweet &amp; sour pork</span><b>€16.50</b></div>
+        <div><span>Beef momos · 8 pcs</span><b>€14.50</b></div><div><span>Phở bò · rare beef</span><b>€17.00</b></div><div><span>Jiaozi · pork &amp; chives</span><b>€11.00</b></div><div><span>Bánh xèo · crispy pancake</span><b>€13.50</b></div><div><span>Thenthuk · noodle soup</span><b>€15.00</b></div><div><span>Guo bao rou · sweet &amp; sour pork</span><b>€16.50</b></div>
       </div></div></div>
     <div class="tile t-tap"><span class="tag mono">Tap</span><h3>Call. Route. Book.</h3><div class="taps"><span class="tap tap-call" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></span><span class="tap"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span><span class="tap"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V9h14v11z"/></svg></span></div><p>One tap each.</p></div>
     <div class="tile t-hours"><span class="tag mono live-c"><span class="live-dot" id="open-dot"></span> <span id="open-word">Open now</span></span><h3>Hours that are actually right.</h3><p class="mono small" id="open-line">Kitchen 17:00–22:00</p></div>
@@ -215,8 +215,8 @@
     <div class="proof-side">
       <div class="score"><div class="score-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="ring-bg"/><circle cx="60" cy="60" r="52" class="ring-fg" id="ring"/></svg><div class="score-num mono" id="score" data-to="0">0</div></div><div><b>Mobile performance</b><p class="mono small" id="score-src">Lighthouse, our concept sites</p></div></div>
       <div class="quotes" aria-label="Client words">
-        <div class="qcol"><div class="q"><p>“This spot is saved for our first client’s words.”</p><span class="mono">Could be you · Amsterdam</span></div><div class="q q-v"><span class="play">▶</span><span class="mono">15 s owner video · soon</span></div><div class="q"><p>“We only publish real quotes. Every one will be checkable.”</p><span class="mono">Dolcessi house rule</span></div></div>
-        <div class="qcol rev"><div class="q"><p>“Your Google review about your new site goes here.”</p><span class="mono">Linked to Google</span></div><div class="q"><p>“First three restaurants get the front row.”</p><span class="mono">Ask us how</span></div><div class="q q-v"><span class="play">▶</span><span class="mono">Before / after call log · soon</span></div></div>
+        <div class="qcol"><div class="q"><p>“This spot is saved for our first client’s words.”</p><span class="mono">Could be you · Amsterdam</span></div><div class="q q-ghost"><span class="mono gh-tag">Next on the wall</span><p class="gh-name"><span class="ghost-name">Your restaurant</span><i class="caret"></i></p><span class="mono">This spot is waiting for a name</span></div><div class="q"><p>“We only publish real quotes. Every one will be checkable.”</p><span class="mono">Dolcessi house rule</span></div><div class="qdup" aria-hidden="true"><div class="q"><p>“This spot is saved for our first client’s words.”</p><span class="mono">Could be you · Amsterdam</span></div><div class="q q-ghost"><span class="mono gh-tag">Next on the wall</span><p class="gh-name"><span class="ghost-name">Your restaurant</span><i class="caret"></i></p><span class="mono">This spot is waiting for a name</span></div><div class="q"><p>“We only publish real quotes. Every one will be checkable.”</p><span class="mono">Dolcessi house rule</span></div></div></div>
+        <div class="qcol rev"><div class="q"><p>“Your Google review about your new site goes here.”</p><span class="mono">Linked to Google</span></div><div class="q q-map"><svg viewBox="0 0 200 130" class="ams"><path class="ij" d="M0 18 C40 10 80 22 120 14 S180 10 200 16"/><path class="cn" d="M70 24 A30 26 0 0 0 130 24"/><path class="cn" d="M58 24 A42 37 0 0 0 142 24"/><path class="cn" d="M46 24 A54 48 0 0 0 154 24"/><path class="cn" d="M34 24 A66 59 0 0 0 166 24"/><path class="amstel" d="M100 24 C104 60 118 82 150 130"/><g class="pin p1" transform="translate(121 98)"><circle r="9" class="halo"/><circle r="3.2"/></g><g class="pin p2" transform="translate(112 92)"><circle r="9" class="halo"/><circle r="3.2"/></g><g class="pin p3" transform="translate(66 108)"><circle r="9" class="halo"/><circle r="3.2"/></g></svg><span class="mono">3 concepts built · De Pijp · Albert Cuyp · Oud-Zuid</span></div><div class="q"><p>“First three restaurants get the front row.”</p><span class="mono">Ask us how</span></div><div class="qdup" aria-hidden="true"><div class="q"><p>“Your Google review about your new site goes here.”</p><span class="mono">Linked to Google</span></div><div class="q q-map"><svg viewBox="0 0 200 130" class="ams"><path class="ij" d="M0 18 C40 10 80 22 120 14 S180 10 200 16"/><path class="cn" d="M70 24 A30 26 0 0 0 130 24"/><path class="cn" d="M58 24 A42 37 0 0 0 142 24"/><path class="cn" d="M46 24 A54 48 0 0 0 154 24"/><path class="cn" d="M34 24 A66 59 0 0 0 166 24"/><path class="amstel" d="M100 24 C104 60 118 82 150 130"/><g class="pin p1" transform="translate(121 98)"><circle r="9" class="halo"/><circle r="3.2"/></g><g class="pin p2" transform="translate(112 92)"><circle r="9" class="halo"/><circle r="3.2"/></g><g class="pin p3" transform="translate(66 108)"><circle r="9" class="halo"/><circle r="3.2"/></g></svg><span class="mono">3 concepts built · De Pijp · Albert Cuyp · Oud-Zuid</span></div><div class="q"><p>“First three restaurants get the front row.”</p><span class="mono">Ask us how</span></div></div></div>
       </div>
     </div>
   </div>
@@ -243,7 +243,7 @@
     <h2 class="split ask-title">Let’s make the hungry people <em>come in.</em></h2>
     <p class="reveal">Send us your restaurant’s name. We’ll send you its new site.</p>
     <div class="reveal ask-ctas">
-      <a class="btn btn-xl magnetic" id="ask-btn" data-cursor="HI" href="mailto:dolcessi@hotmail.com?subject=Show%20me%20my%20site&amp;body=Restaurant%20name%3A%20">Show me my site <span class="arr">→</span></a>
+      <a class="btn btn-xl magnetic" id="ask-btn" data-open-ask data-cursor="HI" href="#ask">Show me my site <span class="arr">→</span></a>
     </div>
   </div>
   <footer class="foot mono">
@@ -254,6 +254,43 @@
 </section>
 
 </main>
+
+<!-- Show me my site: two-step form -->
+<div class="askm" id="askm" role="dialog" aria-modal="true" aria-labelledby="askm-title" hidden>
+  <div class="askm-bg" data-close></div>
+  <div class="askm-panel">
+    <button type="button" class="askm-x" data-close aria-label="Close">×</button>
+    <div class="askm-prog"><i id="askm-bar"></i></div>
+    {% form 'contact', id: 'ask-form', class: 'ask-form', data-mode: 'shopify', novalidate: 'novalidate' %}{% if form.posted_successfully? %}<i hidden data-sent></i>{% endif %}{% if form.errors %}<i hidden data-err>{{ form.errors | default_errors | strip_html | escape }}</i>{% endif %}
+      <input type="hidden" name="contact[subject]" value="Show me my site">
+      <div class="fstep is-on" data-step="1">
+        <p class="label">Step 1 of 2</p>
+        <h3 id="askm-title">What’s your restaurant <em>called?</em></h3>
+        <label class="fld"><span class="mono">Restaurant</span><input name="contact[restaurant]" id="f-rest" autocomplete="organization" placeholder="e.g. Momo Tibet" maxlength="80"></label>
+        <label class="fld"><span class="mono">Neighbourhood <i>optional</i></span><input name="contact[neighbourhood]" id="f-area" placeholder="e.g. De Pijp" maxlength="60"></label>
+        <div class="askm-row"><button type="button" class="btn" id="to2">Next <span class="arr">→</span></button></div>
+      </div>
+      <div class="fstep" data-step="2">
+        <p class="label">Step 2 of 2</p>
+        <h3>Almost there. <em>Where do we send it?</em></h3>
+        <p class="askm-hint" id="askm-hint">We’ll start sketching right away.</p>
+        <label class="fld"><span class="mono">Your name</span><input name="contact[name]" id="f-name" autocomplete="name" placeholder="First name is fine" maxlength="60"></label>
+        <label class="fld"><span class="mono">Email</span><input type="email" name="contact[email]" id="f-email" autocomplete="email" placeholder="you@restaurant.nl" maxlength="120"></label>
+        <label class="fld"><span class="mono">WhatsApp / phone <i>optional</i></span><input type="tel" name="contact[phone]" id="f-phone" autocomplete="tel" placeholder="+31 6 …" maxlength="30"></label>
+        <input type="hidden" name="contact[body]" id="f-body">
+        <div class="askm-row"><button type="button" class="btn btn-o" id="back1">← Back</button><button type="submit" class="btn" id="send">Send it <span class="arr">→</span></button></div>
+        <p class="askm-fine mono">We only use this to send you your site. No spam, no newsletter.</p>
+      </div>
+      <div class="fstep" data-step="3">
+        <p class="label live-c"><span class="live-dot"></span> Received</p>
+        <h3>It’s on the stove. <em>We’re on it.</em></h3>
+        <p class="askm-hint" id="askm-done">We’ll get back to you soon with your concept. Keep an eye on your inbox.</p>
+        <div class="askm-row"><button type="button" class="btn" data-close>Back to the site</button></div>
+      </div>
+      <p class="askm-err mono" id="askm-err" role="alert" hidden></p>
+    {% endform %}
+  </div>
+</div>
 
 <script>window.DOLCESSI_SCORE={value:97,label:"Lighthouse mobile · lab test of our 3 concept sites · Oct 2026"};</script>
 <script defer src="{{ 'gsap.min.js' | asset_url }}"></script>

@@ -588,7 +588,77 @@ function setupScroll() {
   $$("#acc details").forEach(d => d.addEventListener("toggle", () => { if (d.open) gsap.fromTo(d.querySelector("p"), { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }); setTimeout(() => ScrollTrigger.refresh(), 60); }));
 
   /* ---- 09 ask ---- */
-  $("#ask-btn").addEventListener("click", e => { const r = e.currentTarget.getBoundingClientRect(); shock(r.left + r.width / 2, r.top + r.height / 2, 1.6); energy = 1; });
+  /* ---- the "Show me my site" form (opens from every CTA) ---- */
+  const askm = $("#askm"), form = $("#ask-form"), steps = $$("#ask-form .fstep"), bar = $("#askm-bar"), err = $("#askm-err");
+  const shopifyMode = form.dataset.mode === "shopify";
+  let lastFocus = null;
+  const showStep = n => {
+    steps.forEach(s => s.classList.toggle("is-on", +s.dataset.step === n));
+    bar.style.width = n === 1 ? "50%" : "100%";
+    const on = steps.find(s => +s.dataset.step === n);
+    gsap.fromTo(on.children, { y: 18, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.05, duration: 0.6, ease: "expo.out" });
+    const first = on.querySelector("input:not([type=hidden]),button"); if (first && fine) setTimeout(() => first.focus(), 80);
+    err.hidden = true;
+  };
+  const openAsk = (step = 1, from) => {
+    lastFocus = document.activeElement;
+    askm.hidden = false; if (lenis) lenis.stop(); document.documentElement.style.overflow = "hidden";
+    gsap.fromTo(".askm-bg", { opacity: 0 }, { opacity: 1, duration: 0.4 });
+    gsap.fromTo(".askm-panel", { y: 60, opacity: 0, scale: 0.96 }, { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "expo.out" });
+    showStep(step);
+    if (from) { const r = from.getBoundingClientRect(); shock(r.left + r.width / 2, r.top + r.height / 2, 1.2); } energy = 1;
+  };
+  const closeAsk = () => {
+    gsap.to(".askm-panel", { y: 40, opacity: 0, duration: 0.35, ease: "power2.in" });
+    gsap.to(".askm-bg", { opacity: 0, duration: 0.35, onComplete: () => { askm.hidden = true; document.documentElement.style.overflow = ""; if (lenis) lenis.start(); if (lastFocus) lastFocus.focus({ preventScroll: true }); } });
+  };
+  $$("[data-open-ask]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); e.stopImmediatePropagation(); openAsk(1, b); }, true));
+  askm.addEventListener("click", e => { if (e.target.closest("[data-close]")) closeAsk(); });
+  addEventListener("keydown", e => { if (e.key === "Escape" && !askm.hidden) closeAsk(); });
+  const bad = (el, msg) => { const f = el.closest(".fld"); f.classList.add("bad"); f.classList.remove("shake"); void f.offsetWidth; f.classList.add("shake"); err.textContent = msg; err.hidden = false; el.focus(); return false; };
+  $$("#ask-form input").forEach(i => i.addEventListener("input", () => { const f = i.closest(".fld"); if (f) f.classList.remove("bad"); err.hidden = true; }));
+  const restName = () => $("#f-rest").value.trim();
+  const toStep2 = () => {
+    if (!restName()) return bad($("#f-rest"), "Tell us the restaurant’s name first.");
+    $("#askm-hint").innerHTML = "We’ll start sketching <b></b> right away.";
+    $("#askm-hint b").textContent = restName();
+    showStep(2);
+  };
+  $("#to2").addEventListener("click", toStep2);
+  $("#f-rest").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); toStep2(); } });
+  $("#f-area").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); toStep2(); } });
+  $("#back1").addEventListener("click", () => showStep(1));
+  form.addEventListener("submit", e => {
+    if (!steps[1].classList.contains("is-on")) { e.preventDefault(); toStep2(); return; }
+    const name = $("#f-name").value.trim(), email = $("#f-email").value.trim(), phone = $("#f-phone").value.trim();
+    if (!name) { e.preventDefault(); return bad($("#f-name"), "What should we call you?"); }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { e.preventDefault(); return bad($("#f-email"), "That email doesn’t look right yet."); }
+    const area = $("#f-area").value.trim();
+    $("#f-body").value = `Show me my site\nRestaurant: ${restName()}${area ? "\nNeighbourhood: " + area : ""}\nName: ${name}\nEmail: ${email}${phone ? "\nPhone/WhatsApp: " + phone : ""}`;
+    try { sessionStorage.setItem("dol-rest", restName()); } catch (x) {}
+    if (shopifyMode) { $("#send").disabled = true; $("#send").textContent = "Sending…"; return; } // real submit to Shopify
+    e.preventDefault();
+    location.href = "mailto:dolcessi@hotmail.com?subject=" + encodeURIComponent("Show me my site: " + restName()) + "&body=" + encodeURIComponent($("#f-body").value);
+    $("#askm-done").textContent = "Your email app should open with everything filled in. Just hit send. No email app? Write to dolcessi@hotmail.com.";
+    showStep(3); energy = 1; shock(innerWidth / 2, innerHeight / 2, 1.5);
+  });
+  // coming back from Shopify after sending
+  const sent = form.querySelector("[data-sent]") || /contact_posted=true/.test(location.search);
+  const sendErr = form.querySelector("[data-err]");
+  window.__askReturn = () => {
+    let r = ""; try { r = sessionStorage.getItem("dol-rest") || ""; } catch (x) {}
+    if (sent) { openAsk(3); if (r) { $("#askm-done").innerHTML = "We’ll get back to you soon with the concept for <b></b>. Keep an eye on your inbox."; $("#askm-done b").textContent = r; } shock(innerWidth / 2, innerHeight / 2, 1.8); }
+    else if (sendErr) { openAsk(2); err.textContent = sendErr.textContent.trim() || "Something went wrong. Please try again."; err.hidden = false; }
+  };
+
+  // the ghost card: a name waiting to be written
+  const ghostNames = ["Your restaurant", "Your eethuis", "Your café", "Your bistro", "Your dumpling bar", "Your noodle place"];
+  let gi = 0;
+  (function ghostLoop() {
+    const els = $$(".ghost-name"), word = ghostNames[gi]; let k = word.length;
+    const del = setInterval(() => { k--; els.forEach(el => el.textContent = word.slice(0, k)); if (k <= 0) { clearInterval(del); gi = (gi + 1) % ghostNames.length; const nw = ghostNames[gi]; let j = 0;
+      const add = setInterval(() => { j++; els.forEach(el => el.textContent = nw.slice(0, j)); if (j >= nw.length) { clearInterval(add); setTimeout(ghostLoop, 1800); } }, 70); } }, 35);
+  })();
 
   /* ---- particle stations (after pins so spacers exist) ---- */
   const spacer = el => (el.parentElement && el.parentElement.classList.contains("pin-spacer")) ? el.parentElement : el;
@@ -637,6 +707,7 @@ function start() {
           gsap.to(".hero .reveal", { opacity: 1, y: 0, stagger: 0.12, duration: 1.2, ease: "expo.out", delay: 0.6 });
           gsap.from(".nav", { y: -30, opacity: 0, duration: 1, ease: "expo.out", delay: 0.4 });
           gsap.from(".hero-foot", { opacity: 0, duration: 1, delay: 1 });
+          if (window.__askReturn) setTimeout(window.__askReturn, 900);
         });
     } });
 }

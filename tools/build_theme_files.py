@@ -14,5 +14,9 @@ h = h.replace('<meta name="robots" content="noindex, nofollow">\n', '')
 desc = re.search(r'<meta name="description"[^>]*>', h).group(0)
 h = h.replace(desc, desc + '\n<link rel="canonical" href="{{ canonical_url }}">\n<meta property="og:title" content="Dolcessi — websites for Amsterdam restaurants">\n<meta property="og:description" content="Hungry people Google first. We build the website that makes them come in.">\n<meta property="og:type" content="website">\n<meta property="og:url" content="{{ canonical_url }}">')
 assert '{%' not in h
+open_tag = '<form class="ask-form" id="ask-form" data-mode="mailto" novalidate>'
+assert h.count(open_tag) == 1 and h.count('</form>') == 1
+h = h.replace(open_tag, "{% form 'contact', id: 'ask-form', class: 'ask-form', data-mode: 'shopify', novalidate: 'novalidate' %}{% if form.posted_successfully? %}<i hidden data-sent></i>{% endif %}{% if form.errors %}<i hidden data-err>{{ form.errors | default_errors | strip_html | escape }}</i>{% endif %}")
+h = h.replace('</form>', '{% endform %}')
 open(O + '/templates/index.liquid', 'w').write('{% layout none %}' + h)
 print('ok', h.count('asset_url'))
