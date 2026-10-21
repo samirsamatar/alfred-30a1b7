@@ -96,7 +96,7 @@ tickClock(); setInterval(tickClock, 20000);
 const cv = $("#field"), ctx = cv.getContext("2d");
 let W = innerWidth, H = innerHeight, DPR = 1;
 function resize() {
-  DPR = Math.min(devicePixelRatio || 1, mobile ? 1.5 : 2);
+  DPR = Math.min(devicePixelRatio || 1, 3);
   W = innerWidth; H = innerHeight;
   cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
@@ -331,13 +331,14 @@ function currentTargets() {
 
 /* sprites: soft glow dots */
 function sprite(r, g, bl) {
-  const c = document.createElement("canvas"); c.width = c.height = 32; const x = c.getContext("2d");
-  const gr = x.createRadialGradient(16, 16, 0, 16, 16, 16);
-  gr.addColorStop(0, `rgba(255,${Math.min(255, g + 110)},${Math.min(255, bl + 120)},1)`);
-  gr.addColorStop(0.18, `rgba(${r},${g},${bl},0.95)`);
-  gr.addColorStop(0.5, `rgba(${r},${g},${bl},0.25)`);
-  gr.addColorStop(1, `rgba(${r},${g},${bl},0)`);
-  x.fillStyle = gr; x.fillRect(0, 0, 32, 32); return c;
+  // 96px sprite: a crisp solid core with a soft halo, so dots stay sharp on 3x phone screens
+  const S = 96, c = document.createElement("canvas"); c.width = c.height = S; const x = c.getContext("2d"), m = S / 2;
+  const halo = x.createRadialGradient(m, m, 0, m, m, m);
+  halo.addColorStop(0, `rgba(${r},${g},${bl},0.35)`); halo.addColorStop(0.35, `rgba(${r},${g},${bl},0.16)`); halo.addColorStop(1, `rgba(${r},${g},${bl},0)`);
+  x.fillStyle = halo; x.fillRect(0, 0, S, S);
+  x.beginPath(); x.arc(m, m, S * 0.17, 0, Math.PI * 2); x.fillStyle = `rgb(${r},${g},${bl})`; x.fill();
+  x.beginPath(); x.arc(m, m, S * 0.09, 0, Math.PI * 2); x.fillStyle = `rgb(255,${Math.min(255, g + 90)},${Math.min(255, bl + 110)})`; x.fill();
+  return c;
 }
 const SP_EMBER = sprite(255, 90, 31), SP_HOT = sprite(255, 150, 80);
 
@@ -357,7 +358,7 @@ function frame(now) {
 
   ctx.clearRect(0, 0, W, H);
   ctx.globalCompositeOperation = "lighter";
-  const base = mobile ? 3.2 : 3.6;
+  const base = mobile ? 4.2 : 4.4;
   const spring = loaded ? 0.055 : 0.028, damp = 0.8;
   const mr = mobile ? 0 : 130;
   const nowW = performance.now();
