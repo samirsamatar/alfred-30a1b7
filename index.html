@@ -4,197 +4,289 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0b0b0c">
+<meta name="theme-color" content="#070707">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Alfred">
-<title>Alfred</title>
+<title>ALFRED_OS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap">
 <style>
-/* Layout: a quiet study at night. Three columns on desktop (day | orb | tasks), orb first on phones. */
+/* ALFRED_OS: ember dots on black, everything monospace. Rail | left | stage | right. */
 :root{
-  --ink:#0b0b0c;         /* page */
-  --panel:#141416;       /* panels */
-  --panel-2:#1b1b1e;     /* raised rows */
-  --line:#2a2a2e;        /* hairlines */
-  --mute:#8d8a83;        /* secondary text, warm grey */
-  --text:#e9e6df;        /* primary text, warm white */
-  --gold:#c9a75d;        /* the one accent */
-  --gold-dim:#7d6a40;
-  --ok:#8fae7e; --warn:#d2a24c; --due:#c9705d;
-  --display:"Cormorant Garamond", "Times New Roman", serif;
-  --body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --ink:#070707;          /* page */
+  --panel:#0e0e0e;        /* cards */
+  --panel-2:#151515;      /* raised rows */
+  --line:#1f1f1f;         /* hairlines */
+  --line-2:#2a2a2a;
+  --mute:#6f6a66;         /* secondary text */
+  --text:#e8e4df;         /* primary text */
+  --ember:#ff5a1f;        /* the one accent */
+  --ember-2:#ff8a4c;
+  --ember-dim:#5a2410;
+  --gold:var(--ember);    /* charts read --gold */
+  --ok:#5fd38a; --warn:#ffb347; --due:#ff4d3d;
+  --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;background:var(--ink);color:var(--text);font:15px/1.5 var(--body);
-  -webkit-font-smoothing:antialiased;
-  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(16px,env(safe-area-inset-left,0px))}
+body{margin:0;background:var(--ink);color:var(--text);font:12.5px/1.55 var(--mono);letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(60% 50% at 50% 42%,rgba(255,90,31,.06),transparent 70%),
+    radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/22px 22px}
 [hidden]{display:none!important}
-button{font:inherit;color:inherit}
-.wrap{max-width:1280px;margin:0 auto;padding-block:20px 32px;display:flex;flex-direction:column;gap:18px;min-height:100%}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+.app{position:relative;z-index:1;display:grid;grid-template-columns:52px 300px minmax(0,1fr) 340px;grid-template-rows:auto minmax(0,1fr) auto;height:100vh;height:100dvh}
+.col{overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
 
-/* Header */
-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
-.brand{display:flex;align-items:baseline;gap:12px}
-.brand h1{margin:0;font:600 30px/1 var(--display);letter-spacing:.14em;text-transform:uppercase}
-.brand span{font:500 11px/1 var(--mono);letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
-.clock{text-align:right}
-.clock .time{font:500 26px/1 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:.02em}
-.clock .date{font:500 12px/1.4 var(--body);color:var(--mute);letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+/* top bar */
+.top{grid-column:1/-1;display:flex;align-items:center;gap:18px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.mark{font-weight:700;font-size:14px;letter-spacing:.06em}
+.mark sup{font-size:8px;color:var(--mute);margin-left:1px}
+.mark i{font-style:normal;color:var(--ember)}
+.top .sp{flex:1}
+.counter{display:flex;gap:16px;color:var(--mute);text-transform:uppercase;font-size:10.5px;letter-spacing:.12em}
+.counter b{font-weight:500;color:var(--text);margin-left:6px}
+.counter .ok b{color:var(--ok)}
+.clock{text-align:right;line-height:1.2}
+.clock .time{font-size:15px;font-weight:500}
+.clock .date{color:var(--mute);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em}
 
-/* Grid */
-.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
-@media (max-width:1000px){.grid{grid-template-columns:minmax(0,1fr)}.center{order:-1}}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
-.panel h2{margin:0 0 14px;font:500 11px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);display:flex;justify-content:space-between;gap:8px}
-.panel h2 b{font-weight:500;color:var(--gold)}
-.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+/* rail */
+.rail{grid-row:2/4;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 0}
+.rail a{width:34px;height:34px;display:grid;place-items:center;border-radius:8px;color:var(--mute);text-decoration:none;border:1px solid transparent}
+.rail a:hover,.rail a[aria-current]{color:var(--ember);border-color:var(--line-2);background:var(--panel)}
+.rail svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5}
 
-/* Day timeline */
-.day-tabs{display:flex;gap:6px;margin:-4px 0 14px}
-.day-tabs button{background:none;border:1px solid var(--line);border-radius:3px;padding:5px 10px;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);cursor:pointer}
-.day-tabs button[aria-pressed="true"]{border-color:var(--gold-dim);color:var(--gold)}
-.day-tabs button:focus-visible,.talk:focus-visible,.std button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-ol.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
-.ev{display:grid;grid-template-columns:52px 3px minmax(0,1fr);gap:12px;padding:9px 0;align-items:start}
-.ev .t{font:500 12px/1.3 var(--mono);color:var(--mute);font-variant-numeric:tabular-nums;padding-top:2px}
-.ev .bar{align-self:stretch;border-radius:2px;background:var(--line)}
-.ev .title{font-weight:500}
-.ev .meta{font-size:12.5px;color:var(--mute)}
-.ev.class .bar{background:#8a8f99}
-.ev.work .bar{background:#6f7d6a}
-.ev.gym .bar{background:#9a8fb0}
-.ev.study .bar{background:var(--gold-dim)}
-.ev.japanese .bar{background:#a8665a}
-.ev.exam .bar{background:var(--gold)}
-.ev.exam .title{color:var(--gold)}
-.ev.now{background:linear-gradient(90deg,rgba(201,167,93,.08),transparent)}
-.ev.past{opacity:.45}
-.empty{color:var(--mute);font-style:italic;font-family:var(--display);font-size:18px;padding:8px 0}
+/* side columns */
+.col{padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.left{border-right:1px solid var(--line)}
+.right{border-left:1px solid var(--line)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card h2{margin:0 0 10px;font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card h2 span::before{content:"■";color:var(--ember);font-size:8px;margin-right:8px;vertical-align:1px}
+.card h2 b{font-weight:400;color:var(--mute)}
 
-/* Orb */
-.center{display:flex;flex-direction:column;align-items:center;gap:14px}
-.stage{position:relative;width:100%;max-width:520px;aspect-ratio:1/1}
-.stage canvas{width:100%;height:100%;display:block}
-.status{font:500 11px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--mute);min-height:1em;text-align:center}
-.status.live{color:var(--gold)}
-.line{min-height:3.2em;max-width:520px;text-align:center;font:italic 500 20px/1.35 var(--display);color:var(--text)}
-.line.user{color:var(--mute);font-style:normal;font-family:var(--body);font-size:15px}
-.talk{background:transparent;border:1px solid var(--gold-dim);color:var(--gold);border-radius:999px;padding:14px 34px;font:600 12px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;cursor:pointer;transition:background .2s,border-color .2s}
-.talk:hover{background:rgba(201,167,93,.08);border-color:var(--gold)}
-.talk[data-on="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.tabs{display:flex;gap:4px;margin-bottom:10px}
+.tabs button{flex:1;background:transparent;border:1px solid var(--line-2);border-radius:6px;padding:5px 0;color:var(--mute);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em}
+.tabs button[aria-pressed="true"]{color:var(--ember);border-color:var(--ember-dim);background:rgba(255,90,31,.06)}
+
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;max-height:300px;overflow:auto}
+.timeline li{display:grid;grid-template-columns:42px 2px 1fr;gap:10px;padding:6px 4px;border-radius:6px}
+.timeline .t{color:var(--mute);font-size:11px}
+.timeline .bar{background:var(--line-2);border-radius:2px}
+.timeline .title{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timeline .meta{font-size:10.5px;color:var(--mute)}
+.timeline .now{background:rgba(255,90,31,.07)}
+.timeline .now .bar{background:var(--ember);box-shadow:0 0 8px var(--ember)}
+.timeline .now .t{color:var(--ember)}
+.timeline .past{opacity:.4}
+.timeline .empty{display:block;color:var(--mute);padding:8px 4px}
+
+.std{display:flex;flex-direction:column;gap:2px}
+.std button{display:flex;align-items:center;gap:10px;background:transparent;border:0;padding:6px 4px;border-radius:6px;text-align:left;color:var(--text);font-size:12px}
+.std button:hover{background:var(--panel-2)}
+.std .box{width:12px;height:12px;border:1px solid var(--line-2);border-radius:3px;flex:none}
+.std button[aria-pressed="true"]{color:var(--mute)}
+.std button[aria-pressed="true"] .box{background:var(--ok);border-color:var(--ok);box-shadow:0 0 6px rgba(95,211,138,.5)}
+
+.cd .row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed var(--line)}
+.cd .row:last-child{border:0}
+.cd .l{color:var(--mute);font-size:11.5px}
+.cd .n{font-size:16px;color:var(--ember)}
+.cd small{font-size:10px;color:var(--mute);margin-left:4px}
+
+/* stage */
+.stage{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:560px;padding:20px 12px;overflow:hidden}
+.statepill{position:absolute;top:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line-2);border-radius:999px;background:rgba(14,14,14,.8);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.statepill i{width:7px;height:7px;border-radius:50%;background:var(--mute)}
+.statepill.live{color:var(--ember);border-color:var(--ember-dim)}
+.statepill.live i{background:var(--ember);box-shadow:0 0 10px var(--ember);animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.knowbtn{position:absolute;top:18px;right:16px;background:transparent;border:1px solid var(--line-2);border-radius:6px;padding:6px 10px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.knowbtn[aria-pressed="true"]{color:var(--ember);border-color:var(--ember-dim)}
+#orb{width:100%;max-width:780px;aspect-ratio:1.45/1;display:block}
+.who{display:flex;align-items:center;gap:22px;margin-top:-8px}
+.who button{background:transparent;border:0;color:var(--mute);font-size:16px;padding:4px 8px}
+.who button:hover{color:var(--ember)}
+.who .name{font-size:26px;font-weight:300;letter-spacing:.42em;margin-right:-.42em}
+.who .role{display:block;text-align:center;font-size:10px;letter-spacing:.2em;color:var(--mute);text-transform:uppercase;margin-top:4px}
+.dots{display:flex;gap:6px;margin-top:10px}
+.dots i{width:5px;height:5px;border-radius:50%;background:var(--line-2)}
+.dots i.on{background:var(--ember)}
+.talk{margin-top:18px;background:var(--ember);color:#120700;border:0;border-radius:8px;padding:11px 22px;font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;box-shadow:0 0 24px rgba(255,90,31,.25)}
+.talk:hover{background:var(--ember-2)}
+.talk[data-on="true"]{background:transparent;color:var(--ember);border:1px solid var(--ember-dim);box-shadow:none}
 .talk:disabled{opacity:.5;cursor:wait}
-.err{color:var(--due);font-size:13px;text-align:center;max-width:460px}
+.err{margin-top:12px;color:var(--due);max-width:460px;text-align:center;font-size:11.5px}
+.jnote{margin-top:16px;color:var(--mute);max-width:420px;text-align:center;font-size:11.5px}
 
-/* Tasks */
-ul.tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.task{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:10px 12px;background:var(--panel-2);border-radius:4px;align-items:center}
-.task .tt{font-weight:500;line-height:1.35}
-.task .ta{font:500 11px/1.4 var(--mono);color:var(--mute);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
-.pill{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:3px;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
-.pill.over{border-color:var(--due);color:var(--due)}
-.pill.soon{border-color:var(--warn);color:var(--warn)}
-
-/* Standards */
-.std{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.std button{display:flex;align-items:center;gap:10px;background:var(--panel-2);border:1px solid transparent;border-radius:4px;padding:10px 12px;cursor:pointer;text-align:left;font-size:13.5px}
-.std .box{width:16px;height:16px;border:1px solid var(--mute);border-radius:3px;flex:none;display:grid;place-items:center}
-.std button[aria-pressed="true"]{border-color:var(--gold-dim)}
-.std button[aria-pressed="true"] .box{background:var(--gold);border-color:var(--gold)}
-.std button[aria-pressed="true"] .box::after{content:"";width:7px;height:4px;border:2px solid var(--ink);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
-.std-note{font-size:12px;color:var(--mute);margin-top:10px}
-
-/* Countdowns */
-.cd{display:flex;flex-direction:column;gap:12px}
-.cd .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1px solid var(--line);padding-bottom:10px}
-.cd .row:last-child{border-bottom:0;padding-bottom:0}
-.cd .n{font:600 30px/1 var(--display);color:var(--text);font-variant-numeric:tabular-nums}
-.cd .n small{font:500 11px var(--mono);color:var(--mute);letter-spacing:.1em;margin-left:4px;text-transform:uppercase}
-.cd .l{font-size:13.5px;color:var(--mute)}
-.cd .row:first-child .n{color:var(--gold)}
-
-
-/* Figures: sales + portfolio */
-.fig-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.fig-big{font:600 30px/1 var(--display);font-variant-numeric:tabular-nums}
-.fig-sub{font:500 11.5px/1.4 var(--mono);color:var(--mute);letter-spacing:.04em}
+/* knowledge view: the money panel over the stage */
+.know{position:absolute;inset:60px 16px 16px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start;background:rgba(7,7,7,.92);backdrop-filter:blur(6px)}
+.fig-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.fig-big{font-size:24px;font-weight:300}
+.fig-sub{color:var(--mute);font-size:11px}
 .fig-sub .up{color:var(--ok)} .fig-sub .down{color:var(--due)}
-.chart{position:relative;width:100%;height:120px}
-.chart svg{width:100%;height:100%;display:block;overflow:visible}
-.chart .tip{position:absolute;top:-6px;transform:translate(-50%,-100%);background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:6px 8px;font:500 11.5px/1.35 var(--mono);color:var(--text);white-space:nowrap;pointer-events:none}
-.fig-note{font-size:12.5px;color:var(--mute);margin-top:8px}
-footer{margin-top:auto;font:500 11px/1.5 var(--mono);color:var(--mute);letter-spacing:.06em;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.fig-note{color:var(--mute);font-size:10.5px;margin-top:6px}
+.chart{position:relative;height:150px}
+.chart svg{width:100%;height:100%;display:block}
+.tip{position:absolute;top:-6px;transform:translate(-50%,-100%);background:var(--panel-2);border:1px solid var(--line-2);padding:3px 8px;border-radius:5px;font-size:10.5px;white-space:nowrap;pointer-events:none}
+
+/* right column */
+.auto{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.auto li{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel-2)}
+.auto .ic{width:26px;height:26px;border-radius:6px;display:grid;place-items:center;background:rgba(255,90,31,.1);color:var(--ember)}
+.auto .ic svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.6}
+.auto .nm{font-size:11.5px}
+.auto .wh{font-size:10px;color:var(--mute)}
+.auto .st{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 7px;border-radius:4px;border:1px solid var(--line-2);color:var(--mute)}
+.auto .st.next{color:var(--ember);border-color:var(--ember-dim)}
+
+.tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.task{display:flex;justify-content:space-between;gap:10px;padding:6px 4px;border-bottom:1px dashed var(--line)}
+.task:last-child{border:0}
+.task .tt{font-size:12px}
+.task .ta{font-size:10px;color:var(--mute)}
+.pill2,.task .pill{font-size:10px;color:var(--mute);white-space:nowrap;align-self:center}
+.task .pill.over{color:var(--due)} .task .pill.soon{color:var(--ember)}
+
+.chat{display:flex;flex-direction:column;min-height:280px;flex:1;padding:0;overflow:hidden}
+.chat .ctabs{display:flex;border-bottom:1px solid var(--line)}
+.chat .ctabs button{flex:1;background:transparent;border:0;border-bottom:1px solid transparent;padding:10px 0;font-size:10.5px;letter-spacing:.16em;color:var(--mute);margin-bottom:-1px}
+.chat .ctabs button[aria-pressed="true"]{color:var(--ember);border-bottom-color:var(--ember)}
+.log{flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px;max-height:340px}
+.msg{max-width:92%}
+.msg .by{font-size:9.5px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase;margin-bottom:2px}
+.msg.ai .by{color:var(--ember)}
+.msg.me{align-self:flex-end;text-align:right}
+.msg.me .tx{background:var(--panel-2);border:1px solid var(--line-2);border-radius:8px 8px 2px 8px;padding:6px 9px;display:inline-block}
+.msg.sys{color:var(--mute);font-size:11px;align-self:center;text-align:center}
+.compose{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+.compose input{flex:1;min-width:0;background:var(--ink);border:1px solid var(--line-2);border-radius:7px;padding:9px 10px;outline:none;font-size:12px}
+.compose input:focus{border-color:var(--ember-dim)}
+.compose button{background:transparent;border:1px solid var(--line-2);border-radius:7px;padding:0 12px;color:var(--ember)}
+
+footer{grid-column:2/-1;display:flex;justify-content:space-between;gap:12px;padding:10px 20px;border-top:1px solid var(--line);color:var(--mute);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+
+@media (max-width:1240px){.app{grid-template-columns:52px 270px minmax(0,1fr) 300px}}
+@media (max-width:1020px){
+  .app{grid-template-columns:minmax(0,1fr);grid-template-rows:none;height:auto}
+  .col{overflow:visible}
+  .rail{display:none}
+  .top{padding:12px 16px;gap:12px}
+  .counter{display:none}
+  .stage{order:1;min-height:0;padding:56px 0 24px}
+  .right{order:2;border:0;padding:0 16px 16px}
+  .left{order:3;border:0;padding:0 16px 16px}
+  footer{order:4;grid-column:1;padding:12px 16px}
+  .know{position:static;inset:auto;grid-template-columns:1fr;width:100%;padding:0 16px;margin-top:12px;background:none;backdrop-filter:none}
+  #orb{aspect-ratio:1.1/1}
+  .knowbtn{right:16px}
+  .who .name{font-size:22px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand"><h1>Alfred</h1><span>At your service</span></div>
+<div class="app">
+  <header class="top">
+    <div class="mark">ALFRED<i>_</i>OS<sup>™</sup></div>
+    <div class="counter"><span>Active<b id="st-active">0</b></span><span class="ok">Done<b id="st-done">0</b></span><span>Night shift<b id="st-night">03:40</b></span></div>
+    <div class="sp"></div>
     <div class="clock"><div class="time" id="time">--:--</div><div class="date" id="date"></div></div>
   </header>
 
-  <main class="grid">
-    <section class="col">
-      <div class="panel">
-        <h2><span>The day</span><b id="day-count"></b></h2>
-        <div class="day-tabs" role="group" aria-label="Choose day">
-          <button id="tab-today" aria-pressed="true">Today</button>
-          <button id="tab-tomorrow" aria-pressed="false">Tomorrow</button>
-        </div>
-        <ol class="timeline" id="timeline"></ol>
-      </div>
+  <nav class="rail" aria-label="Sections">
+    <a href="#stage" aria-current="page" title="Alfred"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/></svg></a>
+    <a href="#day" title="Calendar"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></a>
+    <a href="#money" title="Money" id="rail-money"><svg viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 7-9"/><path d="M15 6h5v5"/></svg></a>
+    <a href="#tasks-card" title="Tasks"><svg viewBox="0 0 24 24"><path d="M5 7l2 2 4-4M5 15l2 2 4-4M14 8h6M14 16h6"/></svg></a>
+    <a href="#chat" title="Transcript"><svg viewBox="0 0 24 24"><path d="M5 5h14v10H9l-4 4z"/></svg></a>
+  </nav>
 
-      <div class="panel">
-        <h2><span>Dolcessi · last 30 days</span><b id="sales-orders"></b></h2>
+  <aside class="col left">
+    <section class="card" id="day">
+      <h2><span>Calendar</span><b id="day-count"></b></h2>
+      <div class="tabs" role="group" aria-label="Day">
+        <button id="tab-today" aria-pressed="true">Today</button>
+        <button id="tab-tomorrow" aria-pressed="false">Tomorrow</button>
+      </div>
+      <ol class="timeline" id="timeline"></ol>
+    </section>
+    <section class="card">
+      <h2><span>Standards</span><b id="std-count"></b></h2>
+      <div class="std" id="std"></div>
+    </section>
+    <section class="card">
+      <h2><span>Countdown</span><b></b></h2>
+      <div class="cd" id="cd"></div>
+    </section>
+  </aside>
+
+  <main class="stage" id="stage">
+    <div class="statepill" id="status"><i></i><span id="status-t">Idle</span></div>
+    <button class="knowbtn" id="know-btn" aria-pressed="false">Money view</button>
+    <canvas id="orb" aria-hidden="true"></canvas>
+    <div class="who">
+      <button id="prev" aria-label="Previous companion">&lt;</button>
+      <div><span class="name" id="who-name">ALFRED</span><span class="role" id="who-role">Voice · on duty</span></div>
+      <button id="next" aria-label="Next companion">&gt;</button>
+    </div>
+    <div class="dots"><i class="on" id="dot-0"></i><i id="dot-1"></i></div>
+    <button class="talk" id="talk" data-on="false">Speak with Alfred</button>
+    <div class="jnote" id="jnote" hidden>Jarvis works in the background: the request inbox runs hourly until 01:00 and the night shift at 03:40. Tell Alfred or Telegram what you need, and the results arrive in the morning briefing.</div>
+    <div class="err" id="err" hidden></div>
+
+    <div class="know" id="money" hidden>
+      <section class="card">
+        <h2><span>Dolcessi · 30 days</span><b id="sales-orders"></b></h2>
         <div class="fig-head"><div class="fig-big" id="sales-total">€0</div><div class="fig-sub" id="sales-sub"></div></div>
         <div class="chart" id="sales-chart" role="img" aria-label="Daily sales over the last 30 days"></div>
         <div class="fig-note" id="sales-note" hidden></div>
-      </div>
-      <div class="panel">
+      </section>
+      <section class="card">
         <h2><span>Portfolio · DEGIRO</span><b id="pf-units"></b></h2>
         <div class="fig-head"><div class="fig-big" id="pf-value">—</div><div class="fig-sub" id="pf-sub"></div></div>
         <div class="chart" id="pf-chart" role="img" aria-label="Portfolio value over time"></div>
         <div class="fig-note" id="pf-note"></div>
-      </div>
-    </section>
-
-    <section class="center">
-      <div class="stage"><canvas id="orb" aria-hidden="true"></canvas></div>
-      <div class="status" id="status">Standing by</div>
-      <div class="line" id="line">Good evening, sir.</div>
-      <button class="talk" id="talk" data-on="false">Speak with Alfred</button>
-      <div class="err" id="err" hidden></div>
-    </section>
-
-    <section class="col">
-      <div class="panel">
-        <h2><span>Open tasks</span><b id="task-count"></b></h2>
-        <ul class="tasks" id="tasks"></ul>
-      </div>
-      <div class="panel">
-        <h2><span>Today's standards</span><b id="std-count"></b></h2>
-        <div class="std" id="std"></div>
-        <div class="std-note">Ticks are kept on this device. Your Notion habits remain the record.</div>
-      </div>
-      <div class="panel">
-        <h2><span>Ahead</span></h2>
-        <div class="cd" id="cd"></div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
-  <footer><span id="updated">Schedule as of —</span><span>Alfred · v1</span></footer>
+  <aside class="col right">
+    <section class="card">
+      <h2><span>Automations</span><b id="auto-count"></b></h2>
+      <ul class="auto" id="auto"></ul>
+    </section>
+    <section class="card" id="tasks-card">
+      <h2><span>Open tasks</span><b id="task-count"></b></h2>
+      <ul class="tasks" id="tasks"></ul>
+    </section>
+    <section class="card chat" id="chat">
+      <div class="ctabs" role="group" aria-label="Transcript">
+        <button aria-pressed="true" id="ct-alfred">ALFRED</button>
+        <button aria-pressed="false" id="ct-jarvis">JARVIS</button>
+      </div>
+      <div class="log" id="log" aria-live="polite"></div>
+      <form class="compose" id="compose">
+        <input id="say" autocomplete="off" placeholder="You're talking to Alfred" aria-label="Message Alfred">
+        <button type="submit" aria-label="Send">↵</button>
+      </form>
+    </section>
+  </aside>
+
+  <footer><span id="updated">Schedule as of —</span><span>ALFRED_OS · v2</span></footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.26.0/dist/lib.iife.js"></script>
 <script>
 (function(){
+"use strict";
 "use strict";
 const TZ = "Europe/Amsterdam";
 const FALLBACK_AGENT = "agent_7801m4zva478edy8mfhqj4q727sr";
@@ -249,7 +341,7 @@ function renderTasks(){
     return (a.due||"9").localeCompare(b.due||"9") || (pr[a.priority]??3)-(pr[b.priority]??3);
   });
   $("task-count").textContent=list.length||"";
-  for(const t of list.slice(0,6)){
+  for(const t of list.slice(0,3)){
     const li=document.createElement("li");li.className="task";
     const l=document.createElement("div");
     const tt=document.createElement("div");tt.className="tt";tt.textContent=t.title;
@@ -277,7 +369,7 @@ function renderStd(){
     const bx=document.createElement("span");bx.className="box";
     const tx=document.createElement("span");tx.textContent=s;
     b.append(bx,tx);
-    b.onclick=()=>{const t=loadTicks();t[s]=!t[s];saveTicks(t);renderStd();};
+    b.onclick=()=>{const t=loadTicks();t[s]=!t[s];saveTicks(t);renderStd();renderStats();};
     box.appendChild(b);
   });
   $("std-count").textContent=DATA.standards.length? done+" / "+DATA.standards.length:"";
@@ -367,12 +459,11 @@ function renderPf(){
   $("pf-note").textContent=p.name+" · last price €"+last.price.toFixed(2)+" ("+stamp(last)+")"+(h.length<3?" · a new point every 2 hours while the market is open":"");
 }
 window.addEventListener("resize",()=>{renderSales();renderPf();});
-function renderAll(){renderDay();renderTasks();renderStd();renderCd();renderSales();renderPf();
+function renderAll(){renderDay();renderTasks();renderStd();renderCd();renderSales();renderPf();renderStats();
   if(DATA.updated){$("updated").textContent="Schedule as of "+new Date(DATA.updated).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:TZ});}
 }
 
 function greeting(){const h=+new Date().toLocaleString("en-GB",{hour:"2-digit",hour12:false,timeZone:TZ});return h<12?"Good morning, sir.":h<18?"Good afternoon, sir.":"Good evening, sir."}
-$("line").textContent=greeting();
 
 fetch("data.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{DATA=Object.assign(DATA,d);renderAll();}).catch(()=>{renderAll();});
 setInterval(()=>{renderDay();renderCd();},60000);
@@ -448,10 +539,119 @@ function openingLine(){
 }
 window.alfredOpeningLine = openingLine;
 
+
+/* ---------- Header counters ---------- */
+function renderStats(){
+  $("st-active").textContent=DATA.tasks.length;
+  const ticks=loadTicks(); const done=DATA.standards.filter(s=>ticks[s]).length;
+  $("st-done").textContent= (typeof DATA.done==="number"? DATA.done : done+"/"+DATA.standards.length);
+}
+
+/* ---------- Automations: Jarvis's scheduled work (Amsterdam time) ---------- */
+const AUTOS=[
+  {name:"Morning briefing", when:"Daily 06:53", ic:"sun",  runs:[{h:6,m:53}]},
+  {name:"Request inbox",    when:"Hourly :05 · 08–01", ic:"inbox", runs:[0,1,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23].map(h=>({h,m:5}))},
+  {name:"Dashboard refresh",when:"07:50 · 13:50 · 19:50", ic:"sync", runs:[{h:7,m:50},{h:13,m:50},{h:19,m:50}]},
+  {name:"Evening money check",when:"Daily 20:20", ic:"coin", runs:[{h:20,m:20}]},
+  {name:"Night shift",      when:"Daily 03:40", ic:"moon", runs:[{h:3,m:40}]},
+  {name:"Weekly money plan",when:"Sunday 09:57", ic:"chart", runs:[{h:9,m:57,dow:0}]}
+];
+const ICONS={
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',
+  inbox:'<path d="M4 13l2-8h12l2 8v6H4z"/><path d="M4 13h5l1 2h4l1-2h5"/>',
+  sync:'<path d="M20 11a8 8 0 0 0-14-4M4 13a8 8 0 0 0 14 4"/><path d="M6 3v4h4M18 21v-4h-4"/>',
+  coin:'<circle cx="12" cy="12" r="8"/><path d="M14.5 9a3 3 0 1 0 0 6M8 11h5M8 13h5"/>',
+  moon:'<path d="M19 15A8 8 0 0 1 9 5a8 8 0 1 0 10 10z"/>',
+  chart:'<path d="M4 19h16M7 16V10M12 16V6M17 16v-4"/>'
+};
+function amsNow(){ // minutes into the week, Amsterdam time
+  const p=new Intl.DateTimeFormat("en-GB",{weekday:"short",hour:"2-digit",minute:"2-digit",hour12:false,timeZone:TZ}).formatToParts(new Date());
+  const g=k=>p.find(x=>x.type===k).value; const dw=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday"));
+  return dw*1440+(+g("hour")%24)*60+(+g("minute"));
+}
+function minsUntil(a,now){
+  let best=1e9;
+  for(const r of a.runs){
+    for(let d=0;d<7;d++){
+      if(r.dow!=null && r.dow!==d) continue;
+      let t=d*1440+r.h*60+r.m-now; if(t<=0) t+=7*1440; if(t<best) best=t;
+    }
+  }
+  return best;
+}
+function renderAutos(){
+  const ul=$("auto"); ul.textContent=""; const now=amsNow();
+  const list=AUTOS.map(a=>({...a,in:minsUntil(a,now)})); const soon=Math.min(...list.map(a=>a.in));
+  for(const a of list){
+    const li=document.createElement("li");
+    const ic=document.createElement("span");ic.className="ic";ic.innerHTML='<svg viewBox="0 0 24 24">'+ICONS[a.ic]+'</svg>';
+    const tx=document.createElement("div");
+    const nm=document.createElement("div");nm.className="nm";nm.textContent=a.name;
+    const wh=document.createElement("div");wh.className="wh";wh.textContent=a.when;
+    tx.append(nm,wh);
+    const st=document.createElement("span");st.className="st";
+    if(a.in===soon){st.classList.add("next"); st.textContent= a.in<60? "in "+a.in+"m" : "in "+Math.floor(a.in/60)+"h";}
+    else st.textContent="On";
+    li.append(ic,tx,st); ul.appendChild(li);
+  }
+  $("auto-count").textContent=AUTOS.length+" live";
+  // night-shift countdown in the header
+  const ns=list.find(a=>a.ic==="moon"); $("st-night").textContent= ns.in<60? ns.in+"m" : Math.floor(ns.in/60)+"h "+(ns.in%60)+"m";
+}
+renderAutos(); setInterval(renderAutos,30000);
+
+/* ---------- Money view toggle ---------- */
+const knowBtn=$("know-btn"), money=$("money");
+function setKnow(on){knowBtn.setAttribute("aria-pressed",String(on)); money.hidden=!on; if(on){renderSales();renderPf();}}
+knowBtn.onclick=()=>setKnow(money.hidden);
+$("rail-money").addEventListener("click",e=>{e.preventDefault();setKnow(true);$("stage").scrollIntoView({behavior:"smooth"});});
+if(window.matchMedia("(max-width:1020px)").matches){setKnow(true);knowBtn.hidden=true;}
+
+/* ---------- Companions ---------- */
+const COMPANIONS=[{name:"ALFRED",role:"Voice · on duty"},{name:"JARVIS",role:"Background · works while you sleep"}];
+let comp=0;
+function setComp(n){
+  comp=(n+COMPANIONS.length)%COMPANIONS.length;
+  $("who-name").textContent=COMPANIONS[comp].name; $("who-role").textContent=COMPANIONS[comp].role;
+  COMPANIONS.forEach((_,i)=>$("dot-"+i).classList.toggle("on",i===comp));
+  $("talk").hidden= comp!==0 && !convo; $("jnote").hidden= comp===0;
+  setChatTab(comp);
+}
+$("prev").onclick=()=>setComp(comp-1); $("next").onclick=()=>setComp(comp+1);
+
+/* ---------- Transcript + typed messages ---------- */
+const LOG={0:[],1:[{who:"sys",text:"Type a job for Jarvis. Alfred will file it in the request inbox and the result lands in your morning briefing."}]};
+let chatTab=0;
+function setChatTab(n){chatTab=n;$("ct-alfred").setAttribute("aria-pressed",String(n===0));$("ct-jarvis").setAttribute("aria-pressed",String(n===1));
+  $("say").placeholder= n===0? "You're talking to Alfred" : "Queue a job for Jarvis"; renderLog();}
+$("ct-alfred").onclick=()=>setChatTab(0); $("ct-jarvis").onclick=()=>setChatTab(1);
+function addMsg(who,text,tab=0){LOG[tab].push({who,text}); if(LOG[tab].length>60) LOG[tab].shift(); if(tab===chatTab) renderLog();}
+function renderLog(){
+  const box=$("log"); box.textContent="";
+  const items=LOG[chatTab];
+  if(!items.length){const d=document.createElement("div");d.className="msg sys";d.textContent="Press Speak with Alfred, or type below.";box.appendChild(d);}
+  for(const m of items){
+    const d=document.createElement("div"); d.className="msg "+m.who;
+    if(m.who!=="sys"){const b=document.createElement("div");b.className="by";b.textContent=m.who==="ai"?(chatTab===1?"Jarvis queue":"Alfred"):"You";d.appendChild(b);}
+    const t=document.createElement("div");t.className="tx";t.textContent=m.text;d.appendChild(t);
+    box.appendChild(d);
+  }
+  box.scrollTop=box.scrollHeight;
+}
+renderLog();
+let pending=null;
+$("compose").addEventListener("submit",async e=>{
+  e.preventDefault(); const inp=$("say"); const text=inp.value.trim(); if(!text) return; inp.value="";
+  const msg= chatTab===1? "Please pass this to Jarvis as a request: "+text : text;
+  addMsg("me",text,chatTab);
+  if(convo){ try{convo.sendUserMessage(msg);}catch(err){showErr("Couldn't send that line.");} }
+  else { pending=msg; addMsg("sys","Opening the line to Alfred…",chatTab); start(); }
+});
+
 /* ---------- Voice ---------- */
-let convo=null, mode="idle"; // idle | listening | speaking | connecting
-const talk=$("talk"), statusEl=$("status"), lineEl=$("line"), errEl=$("err");
-function setStatus(t,live){statusEl.textContent=t;statusEl.classList.toggle("live",!!live);}
+let convo=null, mode="idle"; // idle | connecting | listening | speaking
+const talk=$("talk"), statusEl=$("status"), errEl=$("err");
+function setStatus(t,live){$("status-t").textContent=t;statusEl.classList.toggle("live",!!live);}
 function showErr(m){errEl.textContent=m;errEl.hidden=!m;}
 
 async function start(){
@@ -460,135 +660,124 @@ async function start(){
   talk.disabled=true; mode="connecting"; setStatus("Connecting",true);
   try{
     await navigator.mediaDevices.getUserMedia({audio:true}).then(s=>s.getTracks().forEach(t=>t.stop()));
-  }catch(e){talk.disabled=false;mode="idle";setStatus("Standing by");showErr("Microphone access was refused. Allow the microphone for this site in your browser settings, then try again.");return;}
+  }catch(e){talk.disabled=false;mode="idle";setStatus("Idle");showErr("Microphone access was refused. Allow the microphone for this site in your browser settings, then try again.");return;}
   try{
     convo = await ElevenLabsClient.Conversation.startSession({
       agentId: DATA.agentId || FALLBACK_AGENT,
       connectionType: "websocket",
       dynamicVariables: { greeting: openingLine() },
       onConnect: ()=>{ try{convo && convo.sendContextualUpdate(contextText());}catch(e){} },
-      onDisconnect: ()=>{ convo=null; mode="idle"; talk.dataset.on="false"; talk.textContent="Speak with Alfred"; talk.disabled=false; setStatus("Standing by"); },
+      onDisconnect: ()=>{ convo=null; mode="idle"; talk.dataset.on="false"; talk.textContent="Speak with Alfred"; talk.disabled=false; setStatus("Idle"); addMsg("sys","Line closed."); setComp(comp); },
       onError: (m)=>{ showErr(typeof m==="string"? m : "Something interrupted the line."); },
-      onModeChange: ({mode:m})=>{ mode=m; setStatus(m==="speaking"?"Alfred is speaking":"Listening",true); },
-      onMessage: (p)=>{ const who=p.role||(p.source==="ai"?"agent":"user"); lineEl.textContent=p.message; lineEl.classList.toggle("user",who==="user"); }
+      onModeChange: ({mode:m})=>{ mode=m; setStatus(m==="speaking"?"Speaking":"Listening",true); },
+      onMessage: (p)=>{ const who=(p.role||(p.source==="ai"?"agent":"user"))==="user"?"me":"ai"; if(p.message) addMsg(who,p.message,0); }
     });
     talk.dataset.on="true"; talk.textContent="End conversation"; talk.disabled=false;
     if(mode==="connecting"){mode="listening";setStatus("Listening",true);}
+    if(pending){ const m=pending; pending=null; setTimeout(()=>{try{convo&&convo.sendUserMessage(m);}catch(e){}},600); }
   }catch(e){
-    convo=null; mode="idle"; talk.disabled=false; setStatus("Standing by");
+    convo=null; mode="idle"; talk.disabled=false; setStatus("Idle");
     showErr("Couldn't reach Alfred. If this keeps happening, check the agent's allowed domains in ElevenLabs. ("+(e&&e.message?e.message:e)+")");
   }
 }
 async function stop(){ talk.disabled=true; try{ await convo.endSession(); }catch(e){} }
 talk.addEventListener("click",()=>{ convo? stop() : start(); });
 
-/* ---------- Orb: 3D point sphere with circling sound waves ---------- */
+/* ---------- The blob: a dot sphere that turns to liquid when he speaks ---------- */
 const cv=$("orb"), ctx=cv.getContext("2d");
 const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);cv.width=r.width*dpr;cv.height=r.height*dpr;}
+function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);cv.width=Math.max(1,r.width*dpr);cv.height=Math.max(1,r.height*dpr);}
 size(); window.addEventListener("resize",size);
 
-// Points evenly spread over a sphere (Fibonacci lattice)
-const N=1100, PTS=[];
+const N=1500, PTS=[];
 for(let i=0;i<N;i++){
   const y=1-(i/(N-1))*2, rad=Math.sqrt(1-y*y), th=i*2.399963229728653;
   PTS.push([Math.cos(th)*rad,y,Math.sin(th)*rad]);
 }
-const SAMPLES=180;
-const bands=new Float32Array(SAMPLES);   // smoothed audio shape around the circle
-let level=0;                             // smoothed overall loudness 0..1
+const SIDE=PTS.filter((_,i)=>i%3===0);
+const BANDS=32, bands=new Float32Array(BANDS);
+let level=0, amp=0.03, phase=0, last=0;
 
+const SIM=new URLSearchParams(location.search).get("sim"); // ?sim=speaking previews the animation
+if(SIM){mode=SIM;setStatus(SIM==="speaking"?"Speaking":"Listening",true);}
 function audio(){
+  if(SIM){const a=new Uint8Array(128),t=performance.now()/1000,e=Math.max(0,Math.sin(t*2.3)*Math.sin(t*0.7+1));for(let i=0;i<128;i++)a[i]=Math.min(255,e*255*(1-i/128)*(0.7+0.3*Math.sin(t*9+i)));return a;}
   if(!convo) return null;
-  try{
-    const a = mode==="speaking"? convo.getOutputByteFrequencyData() : convo.getInputByteFrequencyData();
-    return a && a.length? a : null;
-  }catch(e){return null}
+  try{ const a= mode==="speaking"? convo.getOutputByteFrequencyData() : convo.getInputByteFrequencyData(); return a&&a.length? a:null; }catch(e){return null}
+}
+// smooth pseudo-noise on the sphere (layered travelling waves)
+function field(x,y,z,t){
+  return Math.sin(x*2.1+t*1.3)*Math.cos(y*1.8-t*0.9)*0.5
+       + Math.sin(y*3.2+z*2.3+t*1.7)*0.3
+       + Math.sin(z*4.3-x*3.1-t*2.4)*0.2;
 }
 
-function draw(t){
+function drawSphere(pts,cx,cy,R,rot,t,A,alpha,hot){
+  const cyA=Math.cos(rot), syA=Math.sin(rot), tilt=0.38, cxA=Math.cos(tilt), sxA=Math.sin(tilt);
+  const dot=Math.max(0.8,cv.width/900);
+  for(let i=0;i<pts.length;i++){
+    const [x0,y0,z0]=pts[i];
+    let d=1;
+    if(A>0){
+      const n=field(x0,y0,z0,t);
+      const b=bands[Math.floor(((y0+1)/2)*(BANDS-1))];
+      d=1+n*A+b*A*0.3*Math.sin(t*2+x0*3);
+    }
+    const x=x0*d,y=y0*d,z=z0*d;
+    const x1=x*cyA+z*syA, z1=-x*syA+z*cyA;
+    const y2=y*cxA-z1*sxA, z2=y*sxA+z1*cxA;
+    const depth=(z2+1.4)/2.8;                    // 0 back .. 1 front
+    const out=Math.max(0,d-1)*3;                 // bulging points glow hotter
+    const a=alpha*(0.12+depth*0.88)*(1+out*0.6);
+    const g=Math.min(255,90+out*120+hot*60), bl=Math.min(255,31+out*90+hot*40);
+    ctx.fillStyle=`rgba(255,${g|0},${bl|0},${Math.min(1,a)})`;
+    const s=dot*(0.55+depth*1.15)*(1+out*0.4);
+    ctx.beginPath(); ctx.arc(cx+x1*R, cy+y2*R, s, 0, 6.2832); ctx.fill();
+  }
+}
+
+function draw(now){
+  const dt=Math.min(0.05,(now-last)/1000||0.016); last=now;
   const w=cv.width,h=cv.height,cx=w/2,cy=h/2;
-  const live=!!convo, speaking=mode==="speaking";
-  const gold="201,167,93", white="233,230,223";
-  const waveCol= speaking? gold : (live? white : gold);
+  const speaking=mode==="speaking", listening=mode==="listening"&&(!!convo||!!SIM);
   ctx.clearRect(0,0,w,h);
 
-  // audio -> level + per-angle shape
+  // audio → level and per-latitude bands
   const f=audio(); let sum=0;
-  for(let i=0;i<SAMPLES;i++){
-    let v=0;
-    if(f){ const half=SAMPLES/2, k=i<half? i : SAMPLES-1-i; v=f[Math.floor(k/half*f.length*0.55)]/255; }
-    bands[i]+=(v-bands[i])*0.22; sum+=bands[i];
+  for(let i=0;i<BANDS;i++){
+    const v= f? f[Math.floor(i/BANDS*f.length*0.6)]/255 : 0;
+    bands[i]+=(v-bands[i])*0.25; sum+=bands[i];
   }
-  const target= f? Math.min(1,(sum/SAMPLES)*2.2) : 0;
-  level+=(target-level)*0.12;
+  const target= f? Math.min(1,(sum/BANDS)*2.4) : 0;
+  level+=(target-level)*(target>level?0.3:0.08);
 
-  const R=Math.min(w,h)*0.25*(1+level*0.06);
-  const time= reduce? 0 : t/1000;
+  // how liquid the surface is
+  const base= speaking? 0.10 : listening? 0.05 : mode==="connecting"? 0.06 : 0.025;
+  const want= Math.min(0.26, base + level*(speaking?0.3:0.16)) + (reduce?0:Math.sin(now/900)*0.008);
+  amp+=(want-amp)*0.12;
+  phase+= reduce? 0 : dt*(speaking? 1.3+level*1.2 : listening? 0.9 : 0.45);
 
-  // halo
-  const halo=ctx.createRadialGradient(cx,cy,R*0.6,cx,cy,R*2.1);
-  halo.addColorStop(0,`rgba(${gold},${0.07+level*0.12})`); halo.addColorStop(1,"rgba(0,0,0,0)");
+  const R=Math.min(w*0.62,h)*0.36*(1+level*0.05);
+
+  // glow behind
+  ctx.globalCompositeOperation="source-over";
+  const halo=ctx.createRadialGradient(cx,cy,R*0.2,cx,cy,R*1.9);
+  halo.addColorStop(0,`rgba(255,90,31,${0.10+level*0.18})`); halo.addColorStop(0.5,`rgba(255,70,20,${0.03+level*0.05})`); halo.addColorStop(1,"rgba(0,0,0,0)");
   ctx.fillStyle=halo; ctx.fillRect(0,0,w,h);
 
-  // sphere body: dark, lit from top-left, gold rim
-  const body=ctx.createRadialGradient(cx-R*0.35,cy-R*0.4,R*0.05,cx,cy,R);
-  body.addColorStop(0,"#2c2a2e"); body.addColorStop(0.55,"#151417"); body.addColorStop(1,"#0a0a0b");
-  ctx.fillStyle=body; ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fill();
-  const rim=ctx.createRadialGradient(cx,cy,R*0.82,cx,cy,R*1.02);
-  rim.addColorStop(0,"rgba(0,0,0,0)"); rim.addColorStop(1,`rgba(${gold},${0.25+level*0.3})`);
-  ctx.fillStyle=rim; ctx.beginPath(); ctx.arc(cx,cy,R*1.02,0,Math.PI*2); ctx.fill();
-
-  // rotating point cloud
-  const ay=time*0.22, ax=0.42+Math.sin(time*0.15)*0.08;
-  const cyA=Math.cos(ay), syA=Math.sin(ay), cxA=Math.cos(ax), sxA=Math.sin(ax);
-  const ps=Math.max(1,w/520);
-  for(const [x0,y0,z0] of PTS){
-    const x1=x0*cyA+z0*syA, z1=-x0*syA+z0*cyA;
-    const y2=y0*cxA-z1*sxA, z2=y0*sxA+z1*cxA;
-    if(z2<-0.15) continue;                       // back half mostly hidden by the body
-    const depth=(z2+1)/2;                        // 0 back .. 1 front
-    const light=Math.max(0,(-x1*0.5-y2*0.6+z2*0.65)); // key light top-left-front
-    const a=0.14+depth*0.62+light*0.5+level*0.25;
-    const useGold= light>0.55 || speaking;
-    ctx.fillStyle=`rgba(${useGold?gold:white},${Math.min(1,a)})`;
-    const s=ps*(0.6+depth*0.9);
-    ctx.fillRect(cx+x1*R*0.97-s/2, cy+y2*R*0.97-s/2, s, s);
-  }
-
-  // circling sound waves (always gently present; grow with speech)
-  const rings=3;
-  for(let k=0;k<rings;k++){
-    const base=R*(1.22+k*0.13);
-    const idleAmp=R*0.018*(1+k*0.4);
-    const amp=idleAmp+R*0.32*level*(1-k*0.22);
-    const dir=k%2? -1 : 1, spin=time*(0.35+k*0.12)*dir;
-    ctx.beginPath();
-    for(let i=0;i<=SAMPLES;i++){
-      const ii=i%SAMPLES, th=ii/SAMPLES*Math.PI*2;
-      const wave=Math.sin(th*(5+k*2)+spin*2.2)*0.55+Math.sin(th*(9+k)-spin*1.6)*0.3+Math.sin(th*3+spin)*0.15;
-      const shape=bands[(ii+Math.floor(spin*20)+k*30+SAMPLES*10)%SAMPLES];
-      const r=base+wave*amp*(0.45+0.55*(f?shape*1.6:1));
-      const x=cx+Math.cos(th+spin*0.2)*r, y=cy+Math.sin(th+spin*0.2)*r;
-      i? ctx.lineTo(x,y) : ctx.moveTo(x,y);
-    }
-    ctx.closePath();
-    ctx.strokeStyle=`rgba(${waveCol},${(0.18+level*0.6)*(1-k*0.25)})`;
-    ctx.lineWidth=Math.max(1,w/(560+k*180))*(1+level*0.8);
-    ctx.stroke();
-  }
-
-  // faint orbital ellipse for depth
-  ctx.save(); ctx.translate(cx,cy); ctx.rotate(-0.35);
-  ctx.strokeStyle=`rgba(${gold},0.12)`; ctx.lineWidth=Math.max(1,w/900);
-  ctx.beginPath(); ctx.ellipse(0,0,R*1.85,R*0.5,0,0,Math.PI*2); ctx.stroke();
-  const ob=time*0.5; ctx.fillStyle=`rgba(${gold},0.8)`;
-  ctx.beginPath(); ctx.arc(Math.cos(ob)*R*1.85,Math.sin(ob)*R*0.5,Math.max(1.5,w/300),0,Math.PI*2); ctx.fill();
-  ctx.restore();
+  ctx.globalCompositeOperation="lighter";
+  // the other companion, faint on either side
+  const sideR=R*0.36, rot=phase*0.35;
+  drawSphere(SIDE, cx-w*0.39, cy+R*0.12, sideR, -rot*0.6, phase, 0, 0.16, 0);
+  drawSphere(SIDE, cx+w*0.39, cy+R*0.12, sideR, rot*0.6, phase, 0, 0.16, 0);
+  // the one on duty
+  drawSphere(PTS, cx, cy, R, rot + (comp===1? 0.8:0), phase, comp===1? amp*0.6 : amp, comp===1? 0.6:1, listening?0.6:0);
+  ctx.globalCompositeOperation="source-over";
 
   requestAnimationFrame(draw);
 }
 requestAnimationFrame(draw);
+setComp(0);
 })();
 </script>
 </body>
