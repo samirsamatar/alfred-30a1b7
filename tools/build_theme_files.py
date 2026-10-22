@@ -12,6 +12,9 @@ h = re.sub(r'(href|src)="(?:fonts/|img/|vendor/)?([\w.\-]+\.(?:woff2|webp|js|css
 h = h.replace('href="../demos/', 'href="https://samirsamatar.github.io/alfred-30a1b7/demos/')
 h = h.replace('https://samirsamatar.github.io/alfred-30a1b7/studio/img/og.jpg', "{{ 'og.jpg' | asset_url | prepend: 'https:' }}")
 shutil.copy(R + '/img/og.jpg', O + '/assets/og.jpg')
+for _f in ['favicon-192.png','favicon-48.png','apple-touch-icon.png']:
+    h = h.replace('img/' + _f, "{{ '" + _f + "' | asset_url }}")
+    shutil.copy(R + '/img/' + _f, O + '/assets/' + _f)
 h = h.replace('<meta name="robots" content="noindex, nofollow">\n', '')
 desc = re.search(r'<meta name="description"[^>]*>', h).group(0)
 h = h.replace(desc, desc + '\n<link rel="canonical" href="{{ canonical_url }}">\n<meta property="og:title" content="Dolcessi — websites for Amsterdam restaurants">\n<meta property="og:description" content="Hungry people Google first. We build the website that makes them come in.">\n<meta property="og:type" content="website">\n<meta property="og:url" content="{{ canonical_url }}">')
