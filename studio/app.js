@@ -743,8 +743,8 @@ function setupScroll() {
     try { sessionStorage.setItem("dol-rest", restName()); } catch (x) {}
     if (shopifyMode) { $("#send").disabled = true; $("#send").textContent = tr("Sending…", "Versturen…"); return; } // real submit to Shopify
     e.preventDefault();
-    location.href = "mailto:dolcessi@hotmail.com?subject=" + encodeURIComponent(tr("Show me my site: ", "Laat mijn site zien: ") + restName()) + "&body=" + encodeURIComponent($("#f-body").value);
-    $("#askm-done").textContent = tr("Your email app should open with everything filled in. Just hit send. No email app? Write to dolcessi@hotmail.com.", "Je mailapp opent met alles al ingevuld. Druk op versturen. Geen mailapp? Mail naar dolcessi@hotmail.com.");
+    location.href = "mailto:info@dolcessi.com?subject=" + encodeURIComponent(tr("Show me my site: ", "Laat mijn site zien: ") + restName()) + "&body=" + encodeURIComponent($("#f-body").value);
+    $("#askm-done").textContent = tr("Your email app should open with everything filled in. Just hit send. No email app? Write to info@dolcessi.com.", "Je mailapp opent met alles al ingevuld. Druk op versturen. Geen mailapp? Mail naar info@dolcessi.com.");
     showStep(3); energy = 1; shock(innerWidth / 2, innerHeight / 2, 1.5);
   });
   // coming back from Shopify after sending
