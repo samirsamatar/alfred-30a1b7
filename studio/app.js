@@ -9,6 +9,91 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mobile = matchMedia("(max-width: 900px)").matches;
 const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
 const TZ = "Europe/Amsterdam";
+
+/* ---------------- language: Dutch for Dutch browsers, English otherwise, switchable ---------------- */
+const LANG = (() => {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q === "nl" || q === "en") { try { localStorage.setItem("dol-lang", q); } catch (e) {} return q; }
+  try { const s = localStorage.getItem("dol-lang"); if (s === "nl" || s === "en") return s; } catch (e) {}
+  return /^nl\b/i.test(navigator.language || "") ? "nl" : "en";
+})();
+const NLg = LANG === "nl";
+const tr = (en, nl) => (NLg ? nl : en);
+const NL_TEXT = {
+  "Work": "Werk", "How": "Aanpak", "Proof": "Bewijs", "FAQ": "Vragen",
+  "Show me my site": "Laat mijn site zien", "See the work ↓": "Bekijk het werk ↓",
+  "High-end websites for Amsterdam restaurants": "High-end websites voor Amsterdamse restaurants",
+  "3 concepts live": "3 concepten live", "Built in Amsterdam": "Gemaakt in Amsterdam",
+  "02 · Why it matters": "02 · Waarom het ertoe doet",
+  "of diners check a restaurant’s website before they come.": "van de gasten bekijkt de website van een restaurant voordat ze komen.",
+  "of them say a website has put them off a restaurant.": "van hen zegt dat een website ze weleens heeft afgeschrikt.",
+  "of phone visitors leave if a page takes over 3 seconds.": "van de mobiele bezoekers haakt af als een pagina langer dan 3 seconden laadt.",
+  "MGH survey of 1,101 US diners, 2019 · Google mobile speed research, 2016": "MGH-onderzoek onder 1.101 Amerikaanse gasten, 2019 · Google-onderzoek naar mobiele snelheid, 2016",
+  "100 hungry people nearby": "100 hongerige mensen in de buurt",
+  "Every dot is someone deciding where to eat tonight.": "Elke stip is iemand die kiest waar hij vanavond eet.",
+  "03 · What a good site does": "03 · Wat een goede site doet",
+  "Found": "Gevonden", "on Google, at last": "op Google, eindelijk", "Clicked": "Geklikt", "because it looks the part": "omdat het er goed uitziet",
+  "Called": "Gebeld", "one tap, no hunting": "één tik, niet zoeken", "Booked": "Geboekt", "“table for four, Friday?”": "“tafel voor vier, vrijdag?”",
+  "04 · How it works": "04 · Hoe het werkt",
+  "Your place": "Jouw zaak", "Designing…": "Ontwerpen…", "We build it first.": "Wij bouwen het eerst.",
+  "A real concept of your restaurant: your menu, your hours, your street. We walk in and show it to you on a phone.": "Een echt concept van jouw restaurant: je menukaart, je openingstijden, je straat. We lopen binnen en laten het zien op een telefoon.",
+  "Your restaurant": "Jouw restaurant", "Est. today": "Sinds vandaag", "Make it mine": "Maak het van mij", "✓ It’s yours": "✓ Het is van jou",
+  "You say yes. Or you don’t.": "Jij zegt ja. Of niet.",
+  "Like it? It’s yours. Don’t? You lost five minutes and got a free look at your own restaurant.": "Bevalt het? Dan is het van jou. Niet? Dan ben je vijf minuten kwijt en heb je gratis een blik op je eigen restaurant gehad.",
+  "Incoming call": "Inkomend gesprek", "Route to you": "Route naar jou", "Table for 4 · Fri": "Tafel voor 4 · vr",
+  "Live within days.": "Binnen dagen live.",
+  "Domain, Google, call and route buttons, all connected. You keep cooking.": "Domein, Google, bel- en routeknoppen, alles gekoppeld. Jij blijft gewoon koken.",
+  "Fast": "Snel", "Found on Google": "Gevonden op Google", "Made for phones": "Gemaakt voor mobiel", "Fully booked": "Volgeboekt", "Yours in days": "In dagen van jou",
+  "05 · Work": "05 · Werk",
+  "We pick restaurants we love and design the site they deserve. Tap one. It’s live.": "We kiezen restaurants waar we van houden en ontwerpen de site die ze verdienen. Tik er een aan. Hij staat live.",
+  "Monastery cloth & steam": "Kloosterdoek & stoom", "Red lacquer & northern winter": "Rood lakwerk & noordelijke winter", "Lotus on still water": "Lotus op stil water",
+  "Unofficial concept designs. Not the restaurants’ own websites.": "Onofficiële conceptontwerpen. Niet de eigen websites van de restaurants.",
+  "06 · What’s inside": "06 · Wat je krijgt",
+  "A menu you can read with one thumb.": "Een menukaart die je met één duim leest.", "Not a PDF. Prices, allergens, photos.": "Geen PDF. Prijzen, allergenen, foto’s.",
+  "Tap": "Tik", "Call. Route. Book.": "Bellen. Route. Reserveren.", "One tap each.": "Eén tik per stuk.",
+  "Hours that are actually right.": "Openingstijden die gewoon kloppen.", "Speed": "Snelheid", "Fast on a phone.": "Snel op je telefoon.",
+  "Ours": "Van ons", "Old site": "Oude site", "Dutch and English. Locals and tourists.": "Nederlands en Engels. Buurtbewoners en toeristen.",
+  "Found when they search.": "Gevonden als ze zoeken.",
+  "Your own domain": "Je eigen domein", "Changes by WhatsApp": "Wijzigingen via WhatsApp", "Your photos, your story": "Jouw foto’s, jouw verhaal",
+  "Made for phones first": "Eerst gemaakt voor mobiel", "Google profile set up": "Google-profiel ingericht", "Allergens clearly marked": "Allergenen duidelijk aangegeven",
+  "07 · Proof": "07 · Bewijs", "Typical restaurant site": "Typische restaurantsite", "Mobile performance": "Mobiele prestaties",
+  "“This spot is saved for our first client’s words.”": "“Deze plek is gereserveerd voor de woorden van onze eerste klant.”",
+  "Could be you · Amsterdam": "Misschien jij · Amsterdam", "Next on the wall": "Straks aan de muur", "This spot is waiting for a name": "Deze plek wacht op een naam",
+  "“We only publish real quotes. Every one will be checkable.”": "“We plaatsen alleen echte quotes. Elke quote is te controleren.”",
+  "Dolcessi house rule": "Huisregel van Dolcessi",
+  "“Your Google review about your new site goes here.”": "“Hier komt jouw Google-review over je nieuwe site.”",
+  "Linked to Google": "Gelinkt aan Google",
+  "3 concepts built · De Pijp · Albert Cuyp · Oud-Zuid": "3 concepten gebouwd · De Pijp · Albert Cuyp · Oud-Zuid",
+  "“First three restaurants get the front row.”": "“De eerste drie restaurants krijgen de eerste rij.”", "Ask us how": "Vraag ons hoe",
+  "Founding clients": "Eerste klanten", "3 of 3 spots open": "3 van 3 plekken vrij", "Claim a spot": "Claim een plek",
+  "08 · Questions": "08 · Vragen",
+  "Do I have to do anything?": "Moet ik er iets voor doen?", "Send us your menu and a few photos. We do the rest.": "Stuur ons je menukaart en een paar foto’s. Wij doen de rest.",
+  "Who owns it?": "Van wie is het?", "You. Your domain, your content, always.": "Van jou. Je domein, je content, altijd.",
+  "How fast is it live?": "Hoe snel staat het live?", "Days, not months.": "Dagen, geen maanden.",
+  "I already have a website.": "Ik heb al een website.", "Then let us show you a better one. Free.": "Dan laten we je een betere zien. Gratis.",
+  "Reservations or delivery?": "Reserveringen of bezorging?", "We link the system you already use, so nothing changes in your kitchen.": "We koppelen het systeem dat je al gebruikt, dus in je keuken verandert niets.",
+  "What does it cost?": "Wat kost het?", "Less than you think. We show you your site first, then we talk. No surprises.": "Minder dan je denkt. We laten eerst je site zien, dan praten we. Geen verrassingen.",
+  "Send us your restaurant’s name. We’ll send you its new site.": "Stuur ons de naam van je restaurant. Wij sturen je de nieuwe site.",
+  "Step 1 of 2": "Stap 1 van 2", "Neighbourhood": "Buurt", "optional": "optioneel", "Next": "Volgende", "Step 2 of 2": "Stap 2 van 2",
+  "We’ll start sketching right away.": "We beginnen meteen met schetsen.", "Your name": "Je naam", "Email": "E-mail", "WhatsApp / phone": "WhatsApp / telefoon",
+  "← Back": "← Terug", "Send it": "Versturen",
+  "We only use this to send you your site. No spam, no newsletter.": "We gebruiken dit alleen om je je site te sturen. Geen spam, geen nieuwsbrief.",
+  "Received": "Ontvangen", "We’ll get back to you soon with your concept. Keep an eye on your inbox.": "We komen snel bij je terug met je concept. Houd je inbox in de gaten.",
+  "Back to the site": "Terug naar de site"
+};
+const NL_ATTR = { "e.g. Momo Tibet": "bijv. Momo Tibet", "e.g. De Pijp": "bijv. De Pijp", "First name is fine": "Voornaam is prima", "Switch language": "Taal wisselen", "Close": "Sluiten" };
+document.documentElement.lang = LANG;
+if (NLg) {
+  $$("[data-nl]").forEach(el => { el.innerHTML = el.dataset.nl; });
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement && !n.parentElement.closest("script,style,.old-site,.menu-list,[data-nl]") ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT });
+  const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(n => { const k = n.nodeValue.trim(); if (k && NL_TEXT[k]) n.nodeValue = n.nodeValue.replace(k, NL_TEXT[k]); });
+  $$("[placeholder],[aria-label]").forEach(el => { ["placeholder", "aria-label"].forEach(a => { const v = el.getAttribute(a); if (v && NL_ATTR[v]) el.setAttribute(a, NL_ATTR[v]); }); });
+  const d = $('meta[name="description"]'); if (d) d.content = "Dolcessi bouwt high-end websites voor Amsterdamse restaurants. Wij bouwen die van jou voordat je erom vraagt.";
+  document.title = "Dolcessi — websites voor Amsterdamse restaurants";
+}
+{ const sw = $("#lang"); if (sw) { sw.querySelector(`[data-l="${LANG}"]`).classList.add("on"); sw.addEventListener("click", () => { const to = NLg ? "en" : "nl"; try { localStorage.setItem("dol-lang", to); } catch (e) {} const u = new URL(location.href); u.searchParams.set("lang", to); location.href = u.toString(); }); } }
+
 const clamp = (a, b, v) => Math.max(a, Math.min(b, v));
 const lerp = (a, b, t) => a + (b - a) * t;
 const ease = t => t * t * (3 - 2 * t);
@@ -80,13 +165,14 @@ function tickClock() {
   const t = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: TZ });
   const h = amsHour(), open = h >= 12 && h < 22;
   $("#clock").textContent = "AMS " + t;
-  $("#kitchen").textContent = open ? "· kitchens open" : "· kitchens closed";
+  { const cd = $(".clock .live-dot"); if (cd) cd.classList.toggle("off", !open); }
+  $("#kitchen").textContent = open ? tr("· kitchens open", "· keukens open") : tr("· kitchens closed", "· keukens dicht");
   $("#foot-clock").textContent = "AMS " + t;
-  $("#foot-kitchen").textContent = open ? "most kitchens are open" : "most kitchens are closed";
+  $("#foot-kitchen").textContent = open ? tr("most kitchens are open", "de meeste keukens zijn open") : tr("most kitchens are closed", "de meeste keukens zijn dicht");
   const ko = h >= 17 && h < 22;
-  $("#open-word").textContent = ko ? "Open now" : "Closed";
+  $("#open-word").textContent = ko ? tr("Open now", "Nu open") : tr("Closed", "Gesloten");
   $("#open-dot").classList.toggle("off", !ko);
-  $("#open-line").textContent = ko ? "Kitchen 17:00–22:00 · closes in " + (22 - h - 1 > 0 ? (22 - h - 1) + "h+" : "<1h") : "Kitchen 17:00–22:00 · opens at 17:00";
+  $("#open-line").textContent = ko ? tr("Kitchen 17:00–22:00 · closes in ", "Keuken 17:00–22:00 · sluit over ") + (22 - h - 1 > 0 ? (22 - h - 1) + tr("h+", " uur+") : tr("<1h", "<1 uur")) : tr("Kitchen 17:00–22:00 · opens at 17:00", "Keuken 17:00–22:00 · open vanaf 17:00");
 }
 tickClock(); setInterval(tickClock, 20000);
 
@@ -104,7 +190,9 @@ function resize() {
 resize();
 addEventListener("resize", resize);
 
-const N = reduce ? 700 : mobile ? 820 : 2600;
+const N = reduce ? 700 : mobile ? 900 : 2600;          // allocated maximum
+let NA = reduce ? 700 : mobile ? 560 : 2000;           // active now; adapts to the device
+const NMIN = mobile ? 360 : 1100;
 const X = new Float32Array(N), Y = new Float32Array(N), VX = new Float32Array(N), VY = new Float32Array(N), AL = new Float32Array(N), SZ = new Float32Array(N);
 const R1 = new Float32Array(N), R2 = new Float32Array(N), R3 = new Float32Array(N), K = new Float32Array(N);
 const perm = new Uint32Array(N);
@@ -161,7 +249,7 @@ let T = 0, vel = 0, energy = 0, mouseX = -9999, mouseY = -9999;
 /* ---- shape: sphere (out: x, y, alpha, size per particle) ---- */
 function sphere(out, cx, cy, R, rot, amp, alphaMul) {
   const cr = Math.cos(rot), sr = Math.sin(rot), tl = 0.38, ct = Math.cos(tl), st = Math.sin(tl), t = T;
-  for (let i = 0, j = 0; i < N; i++, j += 4) {
+  for (let i = 0, j = 0; i < NA; i++, j += 4) {
     const x0 = SPH[i * 3], y0 = SPH[i * 3 + 1], z0 = SPH[i * 3 + 2];
     const d = 1 + field(x0, y0, z0, t) * amp;
     const x = x0 * d, y = y0 * d, z = z0 * d;
@@ -182,7 +270,7 @@ const anchorSphere = (sel, spin, ampBase, alphaMul) => out => {
 /* ---- shape: outlines of DOM rects (with aura) ---- */
 function rects(out, list, radius) {
   let total = 0; const per = list.map(r => { const p = 2 * (r.width + r.height); total += p; return p; });
-  for (let i = 0, j = 0; i < N; i++, j += 4) {
+  for (let i = 0, j = 0; i < NA; i++, j += 4) {
     const role = ROLE[i];
     const outline = role < 0.72;
     let s = (outline ? role / 0.72 : (role - 0.72) / 0.28) * total;
@@ -211,7 +299,7 @@ const rectShape = (sels, radius) => out => rects(out, sels.flatMap(s => $$(s)).m
 
 /* ---- shape: drifting stars ---- */
 function stars(out, alphaMul = 1) {
-  for (let i = 0, j = 0; i < N; i++, j += 4) {
+  for (let i = 0, j = 0; i < NA; i++, j += 4) {
     const y = ((R2[i] * (H + 80) - T * (6 + R3[i] * 18) - vel * 0.0) % (H + 80) + (H + 80)) % (H + 80) - 40;
     out[j] = R1[i] * W + Math.sin(T * 0.3 + R3[i] * 30) * 12; out[j + 1] = y;
     out[j + 2] = (0.06 + 0.3 * Math.pow(0.5 + 0.5 * Math.sin(T * 1.6 + R1[i] * 40), 3)) * alphaMul * (R3[i] > 0.92 ? 2.2 : 1);
@@ -224,7 +312,7 @@ const starShape = out => stars(out, 1);
 function orbit(out) {
   const r = rectOf($("#deck")); const cx = r.left + r.width / 2, cy = r.top + r.height * 0.55;
   const rx = Math.max(r.width * 0.56, 280), ry = Math.max(70, r.height * 0.16);
-  for (let i = 0, j = 0; i < N; i++, j += 4) {
+  for (let i = 0, j = 0; i < NA; i++, j += 4) {
     if (ROLE[i] < 0.8) {
       const th = R1[i] * Math.PI * 2 + T * (0.12 + R3[i] * 0.06);
       const band = (R2[i] - 0.5) * 2;
@@ -263,7 +351,7 @@ function chartRocket(out) {
   const ca = Math.cos(ang), sa = Math.sin(ang);
   const tail = [cx - up[0] * hRock * 0.42, cy - up[1] * hRock * 0.42];
   let rk = 0;
-  for (let i = 0, j = 0; i < N; i++, j += 4) {
+  for (let i = 0, j = 0; i < NA; i++, j += 4) {
     const role = ROLE[i];
     if (role < 0.75) {
       // on the line
@@ -345,9 +433,18 @@ const SP_EMBER = sprite(255, 90, 31), SP_HOT = sprite(255, 150, 80);
 const waves = []; // shockwaves {x,y,t0}
 function shock(x, y, power = 1) { waves.push({ x, y, t0: performance.now(), power }); }
 
-let last = performance.now();
+let last = performance.now(), perfF = 0, perfT = 0;
 function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now; T += reduce ? dt * 0.25 : dt;
+  // adapt the particle count to what this device can carry (checked every 45 frames)
+  if (loaded && !reduce && !document.hidden) {
+    perfF++; perfT += dt;
+    if (perfF >= 45) {
+      const avg = perfT / perfF; perfF = 0; perfT = 0;
+      if (avg > 0.021 && NA > NMIN) NA = Math.max(NMIN, (NA * 0.8) | 0);
+      else if (avg < 0.0145 && NA < N) NA = Math.min(N, (NA * 1.08) | 0);
+    }
+  }
   const lv = lenis ? lenis.velocity : 0; vel = lerp(vel, lv, 0.1);
   energy *= 0.94;
 
@@ -364,7 +461,7 @@ function frame(now) {
   const nowW = performance.now();
   for (let i = waves.length - 1; i >= 0; i--) if (nowW - waves[i].t0 > 1600) waves.splice(i, 1);
 
-  for (let i = 0, j = 0; i < N; i++, j += 4) {
+  for (let i = 0, j = 0; i < NA; i++, j += 4) {
     let tx, ty, ta, ts;
     if (STATIONS.length && STATIONS[0].st) {
       if (same) { tx = bufA[j]; ty = bufA[j + 1]; ta = bufA[j + 2]; ts = bufA[j + 3]; }
@@ -433,6 +530,10 @@ const heroChars = split($(".hero-title"));
 const splitMap = new Map();
 $$(".split").forEach(el => { if (!el.classList.contains("hero-title")) splitMap.set(el, split(el)); });
 
+const live = id => { const el = document.getElementById(id); return !el || el.classList.contains("is-live"); };
+const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("is-live", e.isIntersecting)), { rootMargin: "200px 0px" });
+$$("main > section").forEach(s => io.observe(s));
+
 function setupScroll() {
   // generic: split headings, reveals, typed labels
   splitMap.forEach((chars, el) => {
@@ -459,10 +560,10 @@ function setupScroll() {
   const S77 = pick(77), S70 = pick(70), S53 = pick(53);
   dots.forEach((d, i) => { d.style.setProperty("--gx", ((srnd() - 0.5) * 120).toFixed(0) + "px"); d.style.setProperty("--gy", (-60 - srnd() * 140).toFixed(0) + "px"); });
   const CROWD = [
-    { n: 100, tag: "100 hungry people nearby", cap: "Every dot is someone deciding where to eat tonight." },
-    { n: 77, tag: "Look you up first", cap: "77 of them check your website before they come." },
-    { n: 70, tag: "Turned away by a website", cap: "~70 have skipped a restaurant because of its site. Empty seats." },
-    { n: 53, tag: "Gone after 3 seconds", cap: "53 leave if your page takes more than 3 seconds to load. Never coming in." }
+    { n: 100, tag: tr("100 hungry people nearby", "100 hongerige mensen in de buurt"), cap: tr("Every dot is someone deciding where to eat tonight.", "Elke stip is iemand die kiest waar hij vanavond eet.") },
+    { n: 77, tag: tr("Look you up first", "Zoeken je eerst op"), cap: tr("77 of them check your website before they come.", "77 van hen bekijken je website voordat ze komen.") },
+    { n: 70, tag: tr("Turned away by a website", "Afgeschrikt door een website"), cap: tr("~70 have skipped a restaurant because of its site. Empty seats.", "~70 sloegen weleens een restaurant over door de website. Lege stoelen.") },
+    { n: 53, tag: tr("Gone after 3 seconds", "Weg na 3 seconden"), cap: tr("53 leave if your page takes more than 3 seconds to load. Never coming in.", "53 haken af als je pagina langer dan 3 seconden laadt. Die komen nooit binnen.") }
   ];
   let cState = -1; const cnt = { v: 100 };
   const setCrowd = k => {
@@ -528,9 +629,11 @@ function setupScroll() {
     $$(".step").forEach(st => ScrollTrigger.create({ trigger: st, start: "top 70%", end: "bottom 30%", toggleClass: "on" }));
   }
   // marquee driven by scroll velocity
-  const marq = $("#marq"); let mx = 0, skew = 0;
+  const marq = $("#marq"); let mx = 0, skew = 0, half = marq.scrollWidth / 2;
+  addEventListener("resize", () => { half = marq.scrollWidth / 2; });
+  document.fonts && document.fonts.ready.then(() => { half = marq.scrollWidth / 2; });
   gsap.ticker.add(() => {
-    const half = marq.scrollWidth / 2; mx -= 0.6 + Math.abs(vel) * 0.06; if (-mx > half) mx += half;
+    if (!live("how")) return; mx -= 0.6 + Math.abs(vel) * 0.06; if (-mx > half) mx += half;
     skew = lerp(skew, clamp(-14, 14, vel * 0.35), 0.1);
     marq.style.transform = `translateX(${mx}px) skewX(${-skew}deg)`;
   });
@@ -554,9 +657,10 @@ function setupScroll() {
     gsap.to(o, { b: 6.8, duration: 6.8, ease: "none", onUpdate: () => $("#race-old").textContent = o.b.toFixed(1) + "s" });
   } });
   const flipWords = ["Welkom.", "Welcome.", "Proost.", "Cheers.", "Eet smakelijk.", "Enjoy."]; let fw = 0;
-  setInterval(() => { const el = $("#flip"); gsap.to(el, { rotationX: 90, opacity: 0, duration: 0.25, ease: "power2.in", onComplete: () => { fw = (fw + 1) % flipWords.length; el.textContent = flipWords[fw]; gsap.fromTo(el, { rotationX: -90, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.4, ease: "back.out(2)" }); } }); }, 2000);
+  setInterval(() => { if (!live("inside")) return; const el = $("#flip"); gsap.to(el, { rotationX: 90, opacity: 0, duration: 0.25, ease: "power2.in", onComplete: () => { fw = (fw + 1) % flipWords.length; el.textContent = flipWords[fw]; gsap.fromTo(el, { rotationX: -90, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.4, ease: "back.out(2)" }); } }); }, 2000);
   const queries = ["dumplings de pijp", "pho near me", "momo amsterdam", "chinese albert cuyp"]; let qi = 0;
   (function typeLoop() {
+    if (!live("inside")) { setTimeout(typeLoop, 800); return; }
     const el = $("#typed"), q = queries[qi]; let k = 0;
     const tIn = setInterval(() => { el.textContent = q.slice(0, ++k); if (k >= q.length) { clearInterval(tIn); setTimeout(() => { const tOut = setInterval(() => { el.textContent = q.slice(0, --k); if (k <= 0) { clearInterval(tOut); qi = (qi + 1) % queries.length; setTimeout(typeLoop, 300); } }, 30); }, 1500); } }, 70);
   })();
@@ -582,8 +686,8 @@ function setupScroll() {
       const o = { v: 0 };
       gsap.to(o, { v: SCORE.value, duration: 2.2, ease: "expo.out", onUpdate: () => { scoreEl.textContent = Math.round(o.v); $("#ring").style.strokeDashoffset = 326.7 * (1 - o.v / 100); } });
     } });
-    $("#score-src").textContent = SCORE.label;
-  } else { scoreEl.textContent = "—"; $("#score-src").textContent = "Measured with Lighthouse at launch"; }
+    $("#score-src").textContent = tr(SCORE.label, "Lighthouse mobiel · labtest van onze 3 concepten · okt 2026");
+  } else { scoreEl.textContent = "—"; $("#score-src").textContent = tr("Measured with Lighthouse at launch", "Gemeten met Lighthouse bij lancering"); }
 
   /* ---- 08 faq: smooth open ---- */
   $$("#acc details").forEach(d => d.addEventListener("toggle", () => { if (d.open) gsap.fromTo(d.querySelector("p"), { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }); setTimeout(() => ScrollTrigger.refresh(), 60); }));
@@ -620,8 +724,8 @@ function setupScroll() {
   $$("#ask-form input").forEach(i => i.addEventListener("input", () => { const f = i.closest(".fld"); if (f) f.classList.remove("bad"); err.hidden = true; }));
   const restName = () => $("#f-rest").value.trim();
   const toStep2 = () => {
-    if (!restName()) return bad($("#f-rest"), "Tell us the restaurant’s name first.");
-    $("#askm-hint").innerHTML = "We’ll start sketching <b></b> right away.";
+    if (!restName()) return bad($("#f-rest"), tr("Tell us the restaurant’s name first.", "Vul eerst de naam van het restaurant in."));
+    $("#askm-hint").innerHTML = tr("We’ll start sketching <b></b> right away.", "We beginnen meteen met schetsen voor <b></b>.");
     $("#askm-hint b").textContent = restName();
     showStep(2);
   };
@@ -632,15 +736,15 @@ function setupScroll() {
   form.addEventListener("submit", e => {
     if (!steps[1].classList.contains("is-on")) { e.preventDefault(); toStep2(); return; }
     const name = $("#f-name").value.trim(), email = $("#f-email").value.trim(), phone = $("#f-phone").value.trim();
-    if (!name) { e.preventDefault(); return bad($("#f-name"), "What should we call you?"); }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { e.preventDefault(); return bad($("#f-email"), "That email doesn’t look right yet."); }
+    if (!name) { e.preventDefault(); return bad($("#f-name"), tr("What should we call you?", "Hoe mogen we je noemen?")); }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { e.preventDefault(); return bad($("#f-email"), tr("That email doesn’t look right yet.", "Dat e-mailadres klopt nog niet helemaal.")); }
     const area = $("#f-area").value.trim();
     $("#f-body").value = `Show me my site\nRestaurant: ${restName()}${area ? "\nNeighbourhood: " + area : ""}\nName: ${name}\nEmail: ${email}${phone ? "\nPhone/WhatsApp: " + phone : ""}`;
     try { sessionStorage.setItem("dol-rest", restName()); } catch (x) {}
-    if (shopifyMode) { $("#send").disabled = true; $("#send").textContent = "Sending…"; return; } // real submit to Shopify
+    if (shopifyMode) { $("#send").disabled = true; $("#send").textContent = tr("Sending…", "Versturen…"); return; } // real submit to Shopify
     e.preventDefault();
-    location.href = "mailto:dolcessi@hotmail.com?subject=" + encodeURIComponent("Show me my site: " + restName()) + "&body=" + encodeURIComponent($("#f-body").value);
-    $("#askm-done").textContent = "Your email app should open with everything filled in. Just hit send. No email app? Write to dolcessi@hotmail.com.";
+    location.href = "mailto:dolcessi@hotmail.com?subject=" + encodeURIComponent(tr("Show me my site: ", "Laat mijn site zien: ") + restName()) + "&body=" + encodeURIComponent($("#f-body").value);
+    $("#askm-done").textContent = tr("Your email app should open with everything filled in. Just hit send. No email app? Write to dolcessi@hotmail.com.", "Je mailapp opent met alles al ingevuld. Druk op versturen. Geen mailapp? Mail naar dolcessi@hotmail.com.");
     showStep(3); energy = 1; shock(innerWidth / 2, innerHeight / 2, 1.5);
   });
   // coming back from Shopify after sending
@@ -648,14 +752,15 @@ function setupScroll() {
   const sendErr = form.querySelector("[data-err]");
   window.__askReturn = () => {
     let r = ""; try { r = sessionStorage.getItem("dol-rest") || ""; } catch (x) {}
-    if (sent) { openAsk(3); if (r) { $("#askm-done").innerHTML = "We’ll get back to you soon with the concept for <b></b>. Keep an eye on your inbox."; $("#askm-done b").textContent = r; } shock(innerWidth / 2, innerHeight / 2, 1.8); }
-    else if (sendErr) { openAsk(2); err.textContent = sendErr.textContent.trim() || "Something went wrong. Please try again."; err.hidden = false; }
+    if (sent) { openAsk(3); if (r) { $("#askm-done").innerHTML = tr("We’ll get back to you soon with the concept for <b></b>. Keep an eye on your inbox.", "We komen snel bij je terug met het concept voor <b></b>. Houd je inbox in de gaten."); $("#askm-done b").textContent = r; } shock(innerWidth / 2, innerHeight / 2, 1.8); }
+    else if (sendErr) { openAsk(2); err.textContent = sendErr.textContent.trim() || tr("Something went wrong. Please try again.", "Er ging iets mis. Probeer het nog eens."); err.hidden = false; }
   };
 
   // the ghost card: a name waiting to be written
-  const ghostNames = ["Your restaurant", "Your eethuis", "Your café", "Your bistro", "Your dumpling bar", "Your noodle place"];
+  const ghostNames = NLg ? ["Jouw restaurant", "Jouw eethuis", "Jouw café", "Jouw bistro", "Jouw dumplingbar", "Jouw noedelzaak"] : ["Your restaurant", "Your eethuis", "Your café", "Your bistro", "Your dumpling bar", "Your noodle place"];
   let gi = 0;
   (function ghostLoop() {
+    if (!live("proof")) { setTimeout(ghostLoop, 800); return; }
     const els = $$(".ghost-name"), word = ghostNames[gi]; let k = word.length;
     const del = setInterval(() => { k--; els.forEach(el => el.textContent = word.slice(0, k)); if (k <= 0) { clearInterval(del); gi = (gi + 1) % ghostNames.length; const nw = ghostNames[gi]; let j = 0;
       const add = setInterval(() => { j++; els.forEach(el => el.textContent = nw.slice(0, j)); if (j >= nw.length) { clearInterval(add); setTimeout(ghostLoop, 1800); } }, 70); } }, 35);
@@ -706,8 +811,8 @@ function start() {
               gsap.to(".hero-sub,.hero-ctas,.hero .label", { y: -60, opacity: 0, ease: "none", scrollTrigger: { trigger: "#hero", start: "10% top", end: "bottom 35%", scrub: 0.8 } });
             } });
           gsap.to(".hero .reveal", { opacity: 1, y: 0, stagger: 0.12, duration: 1.2, ease: "expo.out", delay: 0.6 });
-          gsap.from(".nav", { y: -30, opacity: 0, duration: 1, ease: "expo.out", delay: 0.4 });
-          gsap.from(".hero-foot", { opacity: 0, duration: 1, delay: 1 });
+          gsap.fromTo(".nav", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "expo.out", delay: 0.4 });
+          gsap.fromTo(".hero-foot", { opacity: 0 }, { opacity: 1, duration: 1, delay: 1 });
           if (window.__askReturn) setTimeout(window.__askReturn, 900);
         });
     } });

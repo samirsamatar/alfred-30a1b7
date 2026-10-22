@@ -66,7 +66,7 @@ body.is-loading main,body.is-loading .nav{opacity:0}
 
 /* nav */
 .nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:28px;padding:18px var(--pad);
-  background:linear-gradient(rgba(7,7,7,.85),rgba(7,7,7,0));transition:opacity .6s}
+  background:linear-gradient(rgba(7,7,7,.85),rgba(7,7,7,0))}
 .word{font:600 17px var(--d);letter-spacing:-.01em}
 .links{display:flex;gap:22px;margin-left:auto;font:500 11px var(--m);letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
 .links a{position:relative;transition:color .25s}
@@ -459,3 +459,13 @@ section{position:relative;padding:0 var(--pad)}
 .shake{animation:shake .45s}
 @keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
 @media (max-width:600px){.askm{place-items:end center;padding:0}.askm-panel{border-radius:26px 26px 0 0;padding:28px 20px 24px;max-height:92vh}.askm-row .btn{flex:1;justify-content:center}}
+
+/* pause looping CSS work in sections that are off-screen */
+.js main > section:not(.is-live) *{animation-play-state:paused!important}
+
+/* language switch */
+.lang{background:transparent;border:1px solid var(--line2);border-radius:999px;padding:6px 11px;font-size:10.5px;letter-spacing:.14em;color:var(--ash);display:flex;gap:6px;align-items:center;cursor:pointer;transition:border-color .25s}
+.lang:hover{border-color:var(--coal)}
+.lang i{font-style:normal;color:#3d3a37}
+.lang .on{color:var(--ember)}
+.askm-fine a{color:var(--ash);text-decoration:underline;text-underline-offset:2px}

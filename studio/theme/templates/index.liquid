@@ -13,6 +13,10 @@
 <meta property="og:url" content="{{ canonical_url }}">
 <link rel="preload" href="{{ 'inter-tight-latin-600-normal.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{{ 'instrument-serif-latin-400-italic.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+<meta property="og:image" content="{{ 'og.jpg' | asset_url | prepend: 'https:' }}">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Dolcessi","description":"High-end websites for independent restaurants in Amsterdam.","url":"https://dolcessi.com","email":"dolcessi@hotmail.com","areaServed":{"@type":"City","name":"Amsterdam"},"address":{"@type":"PostalAddress","addressLocality":"Amstelveen","addressCountry":"NL"},"knowsLanguage":["nl","en"]}</script>
 <link rel="stylesheet" href="{{ 'style.css' | asset_url }}">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23070707%22/%3E%3Crect x=%229%22 y=%2221%22 width=%2214%22 height=%223%22 fill=%22%23FF5A1F%22/%3E%3C/svg%3E">
 </head>
@@ -34,6 +38,7 @@
   <nav class="links" aria-label="Sections">
     <a href="#work" data-cursor="GO">Work</a><a href="#how" data-cursor="GO">How</a><a href="#proof" data-cursor="GO">Proof</a><a href="#faq" data-cursor="GO">FAQ</a>
   </nav>
+  <button type="button" class="lang mono" id="lang" aria-label="Switch language"><span data-l="en">EN</span><i>/</i><span data-l="nl">NL</span></button>
   <div class="clock mono"><span class="live-dot"></span><span id="clock">AMS --:--</span><span class="kitchen" id="kitchen"></span></div>
   <a class="btn btn-s magnetic" href="#ask" data-open-ask data-cursor="HI">Show me my site</a>
 </header>
@@ -45,8 +50,8 @@
   <div class="hero-anchor" id="a-hero"></div>
   <div class="hero-copy">
     <p class="label type">High-end websites for Amsterdam restaurants</p>
-    <h1 class="split hero-title">Hungry people <em>Google</em> first.</h1>
-    <p class="hero-sub reveal">Before anyone walks in, they look you up. We build the kind of website that makes them come in, and we build yours <b>before you even ask.</b></p>
+    <h1 class="split hero-title" data-nl="Wie honger heeft, &lt;em&gt;googlet&lt;/em&gt; eerst.">Hungry people <em>Google</em> first.</h1>
+    <p class="hero-sub reveal" data-nl="Voordat iemand binnenloopt, zoeken ze je op. Wij bouwen de website die ze over de drempel haalt, en die van jou bouwen we &lt;b&gt;voordat je erom vraagt.&lt;/b&gt;">Before anyone walks in, they look you up. We build the kind of website that makes them come in, and we build yours <b>before you even ask.</b></p>
     <div class="hero-ctas reveal">
       <a class="btn magnetic" href="#ask" data-open-ask data-cursor="HI">Show me my site <span class="arr">→</span></a>
       <a class="btn btn-o magnetic" href="#work" data-cursor="LOOK">See the work ↓</a>
@@ -64,13 +69,13 @@
   <div class="problem-inner">
     <div class="problem-left">
       <p class="label type">02 · Why it matters</p>
-      <h2 class="scrub-words">Your food is doing the work. Your website is <em>undoing it.</em></h2>
+      <h2 class="scrub-words" data-nl="Je eten doet het werk. Je website &lt;em&gt;verpest het.&lt;/em&gt;">Your food is doing the work. Your website is <em>undoing it.</em></h2>
       <div class="stats">
         <div class="stat" data-step="0"><div class="num mono-num"><span data-to="77">0</span>%</div><p>of diners check a restaurant’s website before they come.</p></div>
         <div class="stat" data-step="1"><div class="num mono-num">~<span data-to="70">0</span>%</div><p>of them say a website has put them off a restaurant.</p></div>
         <div class="stat" data-step="2"><div class="num mono-num"><span data-to="53">0</span>%</div><p>of phone visitors leave if a page takes over 3 seconds.</p></div>
       </div>
-      <p class="kicker">Outdated. Unreadable on a phone. Menu as a blurry PDF. <span class="e">Every one of those costs you a table.</span></p>
+      <p class="kicker" data-nl="Verouderd. Onleesbaar op je telefoon. Menukaart als wazige PDF. &lt;span class=&quot;e&quot;&gt;Elk daarvan kost je een tafel.&lt;/span&gt;">Outdated. Unreadable on a phone. Menu as a blurry PDF. <span class="e">Every one of those costs you a table.</span></p>
       <p class="src mono">MGH survey of 1,101 US diners, 2019 · Google mobile speed research, 2016</p>
     </div>
     <div class="problem-right">
@@ -89,7 +94,7 @@
   <div class="takeoff-inner">
     <div class="takeoff-copy">
       <p class="label type">03 · What a good site does</p>
-      <h2 class="split">Good sites don’t sit there. <em>They take off.</em></h2>
+      <h2 class="split" data-nl="Goede sites staan niet stil. &lt;em&gt;Ze stijgen op.&lt;/em&gt;">Good sites don’t sit there. <em>They take off.</em></h2>
     </div>
     <div class="chart-box" id="chart-box">
       <div class="axis-y"></div><div class="axis-x"></div>
@@ -100,7 +105,7 @@
         <div class="ms" data-at="0.5"><b>Booked</b><span>“table for four, Friday?”</span></div>
       </div>
     </div>
-    <p class="liftoff split" id="liftoff">Your restaurant, finally as good online as it is <em>at the table.</em></p>
+    <p class="liftoff split" id="liftoff" data-nl="Je restaurant, eindelijk net zo goed online als &lt;em&gt;aan tafel.&lt;/em&gt;">Your restaurant, finally as good online as it is <em>at the table.</em></p>
   </div>
 </section>
 
@@ -109,7 +114,7 @@
   <div class="how-pin">
     <div class="how-head">
       <p class="label type">04 · How it works</p>
-      <h2 class="split">No pitch decks. <em>Just your site.</em></h2>
+      <h2 class="split" data-nl="Geen pitchdecks. &lt;em&gt;Gewoon je site.&lt;/em&gt;">No pitch decks. <em>Just your site.</em></h2>
     </div>
     <div class="how-track" id="how-track">
       <article class="step" data-n="01">
@@ -157,7 +162,7 @@
 <section class="work" id="work">
   <div class="work-head">
     <p class="label type">05 · Work</p>
-    <h2 class="split">Built <em>before</em> anyone asked.</h2>
+    <h2 class="split" data-nl="Gebouwd &lt;em&gt;voordat&lt;/em&gt; iemand erom vroeg.">Built <em>before</em> anyone asked.</h2>
     <p class="reveal sub">We pick restaurants we love and design the site they deserve. Tap one. It’s live.</p>
   </div>
   <div class="deck" id="deck">
@@ -181,7 +186,7 @@
 <section class="inside" id="inside">
   <div class="inside-head">
     <p class="label type">06 · What’s inside</p>
-    <h2 class="split">Everything a hungry person needs. <em>Nothing they don’t.</em></h2>
+    <h2 class="split" data-nl="Alles wat iemand met honger nodig heeft. &lt;em&gt;Niets wat niet hoeft.&lt;/em&gt;">Everything a hungry person needs. <em>Nothing they don’t.</em></h2>
   </div>
   <div class="bento" id="bento">
     <div class="tile t-menu"><span class="tag mono">Menu</span><h3>A menu you can read with one thumb.</h3><p>Not a PDF. Prices, allergens, photos.</p>
@@ -197,14 +202,14 @@
     <div class="tile t-lang"><span class="tag mono">NL / EN</span><h3><span class="flip" id="flip">Welkom.</span></h3><p>Dutch and English. Locals and tourists.</p></div>
     <div class="tile t-google"><span class="tag mono">Google</span><h3>Found when they search.</h3><div class="search mono"><span id="typed"></span><i class="caret"></i></div></div>
   </div>
-  <div class="chips mono reveal"><span>Your own domain</span><span>Changes by WhatsApp</span><span>Your photos, your story</span><span>Made for phones first</span></div>
+  <div class="chips mono reveal"><span>Your own domain</span><span>Changes by WhatsApp</span><span>Your photos, your story</span><span>Made for phones first</span><span>Google profile set up</span><span>Allergens clearly marked</span></div>
 </section>
 
 <!-- 07 PROOF -->
 <section class="proof" id="proof">
   <div class="proof-head">
     <p class="label type">07 · Proof</p>
-    <h2 class="split">Don’t take our word for it. <em>Look.</em></h2>
+    <h2 class="split" data-nl="Geloof ons niet op ons woord. &lt;em&gt;Kijk zelf.&lt;/em&gt;">Don’t take our word for it. <em>Look.</em></h2>
   </div>
   <div class="proof-grid">
     <div class="ba" id="ba" data-cursor="DRAG">
@@ -221,7 +226,7 @@
     </div>
   </div>
   <div class="founders">
-    <div class="f-left"><p class="label">Founding clients</p><p class="f-title">We’re taking on our first three restaurants. <em>Front row, full attention.</em></p></div>
+    <div class="f-left"><p class="label">Founding clients</p><p class="f-title" data-nl="We nemen onze eerste drie restaurants aan. &lt;em&gt;Eerste rij, volle aandacht.&lt;/em&gt;">We’re taking on our first three restaurants. <em>Front row, full attention.</em></p></div>
     <div class="f-seats" aria-label="3 of 3 spots open"><span class="seat"><i></i><b class="mono">01</b></span><span class="seat"><i></i><b class="mono">02</b></span><span class="seat"><i></i><b class="mono">03</b></span><p class="mono f-count"><span class="live-dot"></span> 3 of 3 spots open</p></div>
     <a class="btn magnetic" href="#ask" data-open-ask data-cursor="HI">Claim a spot <span class="arr">→</span></a>
   </div>
@@ -229,7 +234,7 @@
 
 <!-- 08 FAQ -->
 <section class="faq" id="faq">
-  <div class="faq-head"><p class="label type">08 · Questions</p><h2 class="split">Short answers. <em>Honest ones.</em></h2></div>
+  <div class="faq-head"><p class="label type">08 · Questions</p><h2 class="split" data-nl="Korte antwoorden. &lt;em&gt;Eerlijke ook.&lt;/em&gt;">Short answers. <em>Honest ones.</em></h2></div>
   <div class="acc" id="acc">
     <details open><summary>Do I have to do anything?<i></i></summary><p>Send us your menu and a few photos. We do the rest.</p></details>
     <details><summary>Who owns it?<i></i></summary><p>You. Your domain, your content, always.</p></details>
@@ -244,7 +249,7 @@
 <section class="ask" id="ask">
   <div class="sun-anchor" id="a-sun"></div>
   <div class="ask-copy">
-    <h2 class="split ask-title">Let’s make the hungry people <em>come in.</em></h2>
+    <h2 class="split ask-title" data-nl="Laten we die hongerige mensen &lt;em&gt;binnenhalen.&lt;/em&gt;">Let’s make the hungry people <em>come in.</em></h2>
     <p class="reveal">Send us your restaurant’s name. We’ll send you its new site.</p>
     <div class="reveal ask-ctas">
       <a class="btn btn-xl magnetic" id="ask-btn" data-open-ask data-cursor="HI" href="#ask">Show me my site <span class="arr">→</span></a>
@@ -253,7 +258,7 @@
   <footer class="foot mono">
     <span>DOLCESSI<span class="e">_</span> · Amsterdam</span>
     <span><span class="live-dot"></span> <span id="foot-clock">AMS --:--</span> · <span id="foot-kitchen">most kitchens are open</span></span>
-    <span>© 2026</span>
+    <span>KvK 99514168 · © 2026</span>
   </footer>
 </section>
 
@@ -269,25 +274,25 @@
       <input type="hidden" name="contact[subject]" value="Show me my site">
       <div class="fstep is-on" data-step="1">
         <p class="label">Step 1 of 2</p>
-        <h3 id="askm-title">What’s your restaurant <em>called?</em></h3>
+        <h3 id="askm-title" data-nl="Hoe heet je &lt;em&gt;restaurant?&lt;/em&gt;">What’s your restaurant <em>called?</em></h3>
         <label class="fld"><span class="mono">Restaurant</span><input name="contact[restaurant]" id="f-rest" autocomplete="organization" placeholder="e.g. Momo Tibet" maxlength="80"></label>
         <label class="fld"><span class="mono">Neighbourhood <i>optional</i></span><input name="contact[neighbourhood]" id="f-area" placeholder="e.g. De Pijp" maxlength="60"></label>
         <div class="askm-row"><button type="button" class="btn" id="to2">Next <span class="arr">→</span></button></div>
       </div>
       <div class="fstep" data-step="2">
         <p class="label">Step 2 of 2</p>
-        <h3>Almost there. <em>Where do we send it?</em></h3>
+        <h3 data-nl="Bijna klaar. &lt;em&gt;Waar sturen we hem heen?&lt;/em&gt;">Almost there. <em>Where do we send it?</em></h3>
         <p class="askm-hint" id="askm-hint">We’ll start sketching right away.</p>
         <label class="fld"><span class="mono">Your name</span><input name="contact[name]" id="f-name" autocomplete="name" placeholder="First name is fine" maxlength="60"></label>
         <label class="fld"><span class="mono">Email</span><input type="email" name="contact[email]" id="f-email" autocomplete="email" placeholder="you@restaurant.nl" maxlength="120"></label>
         <label class="fld"><span class="mono">WhatsApp / phone <i>optional</i></span><input type="tel" name="contact[phone]" id="f-phone" autocomplete="tel" placeholder="+31 6 …" maxlength="30"></label>
         <input type="hidden" name="contact[body]" id="f-body">
         <div class="askm-row"><button type="button" class="btn btn-o" id="back1">← Back</button><button type="submit" class="btn" id="send">Send it <span class="arr">→</span></button></div>
-        <p class="askm-fine mono">We only use this to send you your site. No spam, no newsletter.</p>
+        <p class="askm-fine mono">We only use this to send you your site. No spam, no newsletter. <a href="https://dolcessi.com/policies/privacy-policy" target="_blank" rel="noopener" data-nl-skip>Privacy</a></p>
       </div>
       <div class="fstep" data-step="3">
         <p class="label live-c"><span class="live-dot"></span> Received</p>
-        <h3>It’s on the stove. <em>We’re on it.</em></h3>
+        <h3 data-nl="Het staat op het vuur. &lt;em&gt;We gaan ervoor.&lt;/em&gt;">It’s on the stove. <em>We’re on it.</em></h3>
         <p class="askm-hint" id="askm-done">We’ll get back to you soon with your concept. Keep an eye on your inbox.</p>
         <div class="askm-row"><button type="button" class="btn" data-close>Back to the site</button></div>
       </div>
