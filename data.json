@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-22T13:57:17+02:00",
+ "updated": "2026-10-22T19:57:22+02:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-22T07:15:00+02:00",
    "end": "2026-10-22T07:45:00+02:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -27,22 +27,29 @@
    "title": "📘 Finance practice",
    "start": "2026-10-22T18:45:00+02:00",
    "end": "2026-10-22T20:30:00+02:00",
-   "location": "",
+   "location": null,
    "kind": "study"
   },
   {
    "title": "🏋️ Gym",
    "start": "2026-10-22T21:00:00+02:00",
    "end": "2026-10-22T22:00:00+02:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-23T07:15:00+02:00",
    "end": "2026-10-23T07:45:00+02:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
+  },
+  {
+   "title": "📗 SUF study: behavioural finance",
+   "start": "2026-10-23T09:30:00+02:00",
+   "end": "2026-10-23T11:30:00+02:00",
+   "location": null,
+   "kind": "study"
   },
   {
    "title": "Nespresso shift",
@@ -62,14 +69,14 @@
    "title": "🏋️ Gym (backup day)",
    "start": "2026-10-23T20:00:00+02:00",
    "end": "2026-10-23T21:00:00+02:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-24T07:15:00+02:00",
    "end": "2026-10-24T07:45:00+02:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -80,11 +87,25 @@
    "kind": "work"
   },
   {
+   "title": "📗 SUF study: sustainable finance core",
+   "start": "2026-10-24T16:45:00+02:00",
+   "end": "2026-10-24T18:15:00+02:00",
+   "location": null,
+   "kind": "study"
+  },
+  {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-25T07:15:00+01:00",
    "end": "2026-10-25T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
+  },
+  {
+   "title": "📗 SUF study: practice questions",
+   "start": "2026-10-25T08:30:00+01:00",
+   "end": "2026-10-25T10:00:00+01:00",
+   "location": null,
+   "kind": "study"
   },
   {
    "title": "Nespresso shift",
@@ -97,7 +118,7 @@
    "title": "🇯🇵 Japanese",
    "start": "2026-10-26T07:15:00+01:00",
    "end": "2026-10-26T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -106,6 +127,13 @@
    "end": "2026-10-26T11:00:00+01:00",
    "location": "HvA, CTH 3.030",
    "kind": "class"
+  },
+  {
+   "title": "📗 SUF study: weak spots + summary",
+   "start": "2026-10-26T11:15:00+01:00",
+   "end": "2026-10-26T12:35:00+01:00",
+   "location": null,
+   "kind": "study"
   },
   {
    "title": "Investment Analysis (3026INA_WC)",
@@ -118,21 +146,21 @@
    "title": "📘 Finance practice",
    "start": "2026-10-26T18:45:00+01:00",
    "end": "2026-10-26T20:30:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "study"
   },
   {
    "title": "🏋️ Gym",
    "start": "2026-10-26T21:00:00+01:00",
    "end": "2026-10-26T22:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-27T07:15:00+01:00",
    "end": "2026-10-27T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -146,14 +174,14 @@
    "title": "📘 Finance practice",
    "start": "2026-10-27T09:00:00+01:00",
    "end": "2026-10-27T11:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "study"
   },
   {
    "title": "📘 Midterm revision: Sustainable Finance",
    "start": "2026-10-27T14:45:00+01:00",
    "end": "2026-10-27T16:15:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "exam"
   },
   {
@@ -167,21 +195,21 @@
    "title": "🏋️ Gym",
    "start": "2026-10-27T21:00:00+01:00",
    "end": "2026-10-27T22:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-28T07:15:00+01:00",
    "end": "2026-10-28T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
    "title": "📘 Finance practice (deep block)",
    "start": "2026-10-28T09:30:00+01:00",
    "end": "2026-10-28T12:30:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "study"
   },
   {
@@ -202,14 +230,14 @@
    "title": "🏋️ Gym",
    "start": "2026-10-28T21:00:00+01:00",
    "end": "2026-10-28T22:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-29T07:15:00+01:00",
    "end": "2026-10-29T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -230,21 +258,21 @@
    "title": "📘 Finance practice",
    "start": "2026-10-29T18:45:00+01:00",
    "end": "2026-10-29T20:30:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "study"
   },
   {
    "title": "🏋️ Gym",
    "start": "2026-10-29T21:00:00+01:00",
    "end": "2026-10-29T22:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-30T07:15:00+01:00",
    "end": "2026-10-30T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -258,14 +286,14 @@
    "title": "🏋️ Gym (backup day)",
    "start": "2026-10-30T20:00:00+01:00",
    "end": "2026-10-30T21:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-31T07:15:00+01:00",
    "end": "2026-10-31T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -279,7 +307,7 @@
    "title": "🇯🇵 Japanese",
    "start": "2026-11-01T07:15:00+01:00",
    "end": "2026-11-01T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -293,7 +321,7 @@
    "title": "🇯🇵 Japanese",
    "start": "2026-11-02T07:15:00+01:00",
    "end": "2026-11-02T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -314,49 +342,49 @@
    "title": "📘 Finance practice",
    "start": "2026-11-02T18:45:00+01:00",
    "end": "2026-11-02T20:30:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "study"
   },
   {
    "title": "🏋️ Gym",
    "start": "2026-11-02T21:00:00+01:00",
    "end": "2026-11-02T22:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-11-03T07:15:00+01:00",
    "end": "2026-11-03T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
    "title": "📘 Finance practice",
    "start": "2026-11-03T09:00:00+01:00",
    "end": "2026-11-03T11:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "study"
   },
   {
    "title": "🏋️ Gym",
    "start": "2026-11-03T21:00:00+01:00",
    "end": "2026-11-03T22:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-11-04T07:15:00+01:00",
    "end": "2026-11-04T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
    "title": "📘 Finance practice (deep block)",
    "start": "2026-11-04T09:30:00+01:00",
    "end": "2026-11-04T12:30:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "study"
   },
   {
@@ -377,14 +405,14 @@
    "title": "🏋️ Gym",
    "start": "2026-11-04T21:00:00+01:00",
    "end": "2026-11-04T22:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-11-05T07:15:00+01:00",
    "end": "2026-11-05T07:45:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "japanese"
   },
   {
@@ -405,14 +433,14 @@
    "title": "📘 Finance practice",
    "start": "2026-11-05T18:45:00+01:00",
    "end": "2026-11-05T20:30:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "study"
   },
   {
    "title": "🏋️ Gym",
    "start": "2026-11-05T21:00:00+01:00",
    "end": "2026-11-05T22:00:00+01:00",
-   "location": "",
+   "location": null,
    "kind": "gym"
   }
  ],
@@ -422,30 +450,6 @@
    "area": "Uni",
    "priority": "High",
    "due": "2026-10-26"
-  },
-  {
-   "title": "Choose a Japanese study method and a fixed daily time slot",
-   "area": "Japanese",
-   "priority": "Medium",
-   "due": "2026-10-19"
-  },
-  {
-   "title": "Collect practice material and past exams for each course",
-   "area": "Uni",
-   "priority": "High",
-   "due": "2026-10-21"
-  },
-  {
-   "title": "Write a one-page plan to rebuild the brand",
-   "area": "Brand",
-   "priority": "Medium",
-   "due": "2026-10-25"
-  },
-  {
-   "title": "Catch up on missed classes: Management Control and Investment Analysis",
-   "area": "Uni",
-   "priority": null,
-   "due": "2026-10-19"
   }
  ],
  "countdowns": [
