@@ -23,5 +23,7 @@ open_tag = '<form class="ask-form" id="ask-form" data-mode="mailto" novalidate>'
 assert h.count(open_tag) == 1 and h.count('</form>') == 1
 h = h.replace(open_tag, "{% form 'contact', id: 'ask-form', class: 'ask-form', data-mode: 'shopify', novalidate: 'novalidate' %}{% if form.posted_successfully? %}<i hidden data-sent></i>{% endif %}{% if form.errors %}<i hidden data-err>{{ form.errors | default_errors | strip_html | escape }}</i>{% endif %}")
 h = h.replace('</form>', '{% endform %}')
+assert h.count('</head>') == 1
+h = h.replace('</head>', '{{ content_for_header }}\n</head>')
 open(O + '/templates/index.liquid', 'w').write('{% layout none %}' + h)
 print('ok', h.count('asset_url'))
