@@ -60,7 +60,7 @@ main,.foot{position:relative;z-index:1}
 /* pinned chapters */
 .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .sc-hero{height:300vh}
-.sc-flavours{height:560vh}
+.sc-flavours{height:470vh}
 .sc-whisk{height:280vh}
 
 .hero-tl{position:absolute;left:var(--pad);top:86px;color:var(--g1);display:flex;gap:.8em}

@@ -52,7 +52,7 @@ const NOISE = /* glsl */`
 vec3 mod289(vec3 x){return x-floor(x*(1./289.))*289.;}vec4 mod289(vec4 x){return x-floor(x*(1./289.))*289.;}
 vec4 permute(vec4 x){return mod289(((x*34.)+1.)*x);}vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-.85373472095314*r;}
 float snoise(vec3 v){const vec2 C=vec2(1./6.,1./3.);const vec4 D=vec4(0.,.5,1.,2.);vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);vec3 x1=x0-i1+C.xxx;vec3 x2=x0-i2+C.yyy;vec3 x3=x0-D.yyy;i=mod289(i);vec4 p=permute(permute(permute(i.z+vec4(0.,i1.z,i2.z,1.))+i.y+vec4(0.,i1.y,i2.y,1.))+i.x+vec4(0.,i1.x,i2.x,1.));float n_=.142857142857;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.*floor(p*ns.z*ns.z);vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.*x_);vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.-abs(x)-abs(y);vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);vec4 s0=floor(b0)*2.+1.;vec4 s1=floor(b1)*2.+1.;vec4 sh=-step(h,vec4(0.));vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;vec4 m=max(.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.);m=m*m;return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}
-float fbm(vec3 p){float f=0.,a=.5;for(int i=0;i<4;i++){f+=a*snoise(p);p*=2.03;a*=.5;}return f;}
+float fbm(vec3 p){float f=0.,a=.5;for(int i=0;i<3;i++){f+=a*snoise(p);p*=2.03;a*=.5;}return f;}
 `;
 
 /* liquid material: physically lit, colour comes from layered volume function */
@@ -65,7 +65,8 @@ function liquidMaterial(U) {
 varying vec3 vLocal;
 uniform vec3 cMilk; uniform vec3 cTea; uniform vec3 cBase; uniform float uFill; uniform float uMix; uniform float uBase; uniform float uTime; uniform float uTop;
 ${NOISE}
-vec3 drinkColor(vec3 p){
+vec3 drinkColor(vec3 p0){
+  vec3 p = uTop > .5 ? vec3(p0.x, uFill - .002, p0.y) : p0;   // the surface disk is flat: treat it as the very top
   float y = p.y / max(uFill, .001);                 // 0 bottom .. 1 surface
   float ang = atan(p.z, p.x);
   float n = fbm(vec3(p.x*1.6, p.y*2.2 - uTime*.08, p.z*1.6) + uTime*.03);
@@ -74,8 +75,9 @@ vec3 drinkColor(vec3 p){
   float m = clamp(uMix, 0., 1.);
   float front = 1.06 - m * .74 + (n * .34 + n2 * .16) * (.35 + .65 * m);
   float tea = smoothstep(front - .14, front + .2, y) * smoothstep(0., .06, m);
+  tea *= mix(1., smoothstep(uBase + .06, uBase + .2, y), step(.001, uBase));
   // wisps of tea sinking into the milk while pouring
-  float wisp = smoothstep(.35, .8, fbm(vec3(p.x*2.4, p.y*1.4 + uTime*.25, p.z*2.4))) * smoothstep(.0, .3, m) * (1. - smoothstep(.85, 1., m));
+  float wisp = (m <= 0. || m >= 1.) ? 0. : smoothstep(.35, .8, fbm(vec3(p.x*2.4, p.y*1.4 + uTime*.25, p.z*2.4))) * smoothstep(.0, .3, m) * (1. - smoothstep(.85, 1., m));
   tea = max(tea, wisp * .55 * smoothstep(front - .6, front, y));
   vec3 col = mix(cMilk, cTea, clamp(tea, 0., 1.));
   // cloudy marbling inside
@@ -84,8 +86,10 @@ vec3 drinkColor(vec3 p){
   float rr = length(p.xz) / 1.0;
   col *= mix(.82, 1.08, smoothstep(.3, .95, rr));
   // base layer (strawberry / red bean) at the bottom
-  float b = uBase - .05 * n2;
-  float baseMask = 1.0 - smoothstep(b - .03, b + .05, y);
+  float b = uBase - .012 * n2 - .008 * sin(ang * 3.0);
+  float baseMask = 1.0 - smoothstep(b - .012, b + .018, y);
+  // a thin blush where the purée meets the milk
+  col = mix(col, mix(cMilk, cBase, .35), (1.0 - smoothstep(b, b + .07, y)) * step(.001, uBase) * .6);
   col = mix(col, cBase * (.85 + .25 * n), baseMask * step(.001, uBase));
   return col;
 }`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "vec4 diffuseColor = vec4( drinkColor(vLocal), opacity );");
@@ -97,6 +101,7 @@ vec3 drinkColor(vec3 p){
 export async function createWorld(canvas, opts = {}) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, opts.maxDpr || 2));
+  if ('transmissionResolutionScale' in renderer) renderer.transmissionResolutionScale = .6;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -154,7 +159,7 @@ export async function createWorld(canvas, opts = {}) {
   for (let i = 0; i <= 12; i++) { const a = -Math.PI / 2 + Math.PI * i / 12; prof.push(new THREE.Vector2(R1 + .03 + Math.cos(a) * .035, H + .035 + Math.sin(a) * .035)); }
   for (let i = 40; i >= 1; i--) { const y = H * i / 40; prof.push(new THREE.Vector2(rAt(y) - WALL, y)); }
   prof.push(new THREE.Vector2(R0 - WALL - .03, WALL + .02)); prof.push(new THREE.Vector2(0.001, WALL + .02));
-  const cupGeo = new THREE.LatheGeometry(prof, 160);
+  const cupGeo = new THREE.LatheGeometry(prof, 112);
   const cond = condensationMaps(1024);
   cond.normal.repeat.set(3, 6.4); cond.rough.repeat.set(3, 6.4);
   const glass = new THREE.MeshPhysicalMaterial({
@@ -181,13 +186,13 @@ export async function createWorld(canvas, opts = {}) {
   const liqMat = liquidMaterial(U);
   const liqProf = [new THREE.Vector2(0.001, WALL + .03), new THREE.Vector2(R0 - WALL - .02, WALL + .03)];
   for (let i = 1; i <= 30; i++) { const y = WALL + .03 + (H - .1) * i / 30; liqProf.push(new THREE.Vector2(rAt(y) - WALL - .012, y)); }
-  const liqGeo = new THREE.LatheGeometry(liqProf, 120);
+  const liqGeo = new THREE.LatheGeometry(liqProf, 72);
   const liquid = new THREE.Mesh(liqGeo, liqMat); cup.add(liquid);
   // clip the liquid at the fill height with a local clipping plane
   const clip = new THREE.Plane(new THREE.Vector3(0, -1, 0), 2.55);
   liqMat.clippingPlanes = [clip]; renderer.localClippingEnabled = true;
   // surface disk
-  const surfMat = liquidMaterial(U);
+  const surfMat = liquidMaterial({ ...U, uTop: { value: 1 } });
   const surface = new THREE.Mesh(new THREE.CircleGeometry(1, 120), surfMat); surface.rotation.x = -Math.PI / 2; cup.add(surface);
 
   // ice: frosted cubes, some breaking the surface
@@ -326,8 +331,11 @@ export async function createWorld(canvas, opts = {}) {
   resize();
   const clock = new THREE.Clock();
   let running = true;
+  let lastKey = "", idle = 0;
   function frame() {
     if (!running) return;
+    const key = JSON.stringify(st);
+    if (key === lastKey) { idle++; if (idle > 45 && idle % 4) return; } else { idle = 0; lastKey = key; }
     apply(clock.getElapsedTime()); renderer.render(scene, camera);
   }
   return { st, renderer, scene, camera, resize, frame, setRunning(v) { running = v; }, renderOnce() { apply(clock.getElapsedTime()); renderer.render(scene, camera); } };

@@ -1,5 +1,5 @@
 /* Taigu 大愚 · concept site by Dolcessi */
-import { createWorld } from "./world.js?v=3";
+import { createWorld } from "./world.js?v=4";
 const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -71,7 +71,7 @@ const mixHex = (a, b, t) => { const A = hex(a), B = hex(b); return "#" + A.map((
 /* ---------- world ---------- */
 const canvas = $("#world");
 const MOB = () => innerWidth < 900;
-const world = await createWorld(canvas, { maxDpr: MOB() ? 1.5 : 2, logoUrl: "img/logo.svg", wordUrl: "img/word.svg" });
+const world = await createWorld(canvas, { maxDpr: MOB() ? 1.5 : 1.35, logoUrl: "img/logo.svg", wordUrl: "img/word.svg" });
 const st = world.st;
 addEventListener("resize", () => { world.resize(); ScrollTrigger.refresh(); });
 
@@ -94,11 +94,11 @@ function choreograph() {
   // --- 02 flavours: cup moves right (desktop) / down (phone), spins on each change
   const e = ss(0, .12, f);
   x = lerp(x, m ? 0 : 1.95, e); y = lerp(y, m ? -1.05 : -.42, e); s = lerp(s, m ? .86 : 1.16, e); tilt = lerp(tilt, 0, e);
-  const fi = clamp(f * 5.6 - .3, 0, 4.999), i = Math.floor(fi), t = fi - i, k = ss(.62, 1, t), j = Math.min(4, i + 1);
+  const fi = clamp(f * 4.9 - .3, 0, 4.999), i = Math.floor(fi), t = fi - i, k = ss(.62, 1, t), j = Math.min(4, i + 1);
   const A = FL[i], B = FL[j];
   st.tea = mixHex(A.tea, B.tea, k); st.milk = mixHex(A.milk, B.milk, k); st.baseCol = mixHex(A.baseCol, B.baseCol, k);
   st.base = lerp(A.base, B.base, k); st.mochi = lerp(A.mochi, B.mochi, k);
-  rotY = (i + k) * Math.PI * 2 + Math.sin(performance.now() / 2600) * .12 * e;
+  rotY = (i + k) * Math.PI * 2;
   const bgA = f > 0 ? mixHex(A.bg, B.bg, k) : "#070707";
   st.bg = mixHex("#070707", bgA, e); st.glow = mixHex("#2a2927", mixHex(A.glow, B.glow, k), e);
   const cur = f < .045 ? -1 : (t > .81 && i < 4 ? j : i);
