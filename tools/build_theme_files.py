@@ -9,7 +9,7 @@ shutil.copy(R + '/app.js', O + '/assets/app.js')
 h = open(R + '/index.html').read()
 au = lambda f: "{{ '" + f + "' | asset_url }}"
 h = re.sub(r'(href|src)="(?:fonts/|img/|vendor/)?([\w.\-]+\.(?:woff2|webp|js|css))"', lambda m: f'{m.group(1)}="{au(m.group(2))}"', h)
-h = h.replace('href="../demos/', 'href="https://samirsamatar.github.io/alfred-30a1b7/demos/')
+h = h.replace('href="../demos/', 'href="https://demo.dolcessi.com/')
 h = h.replace('https://samirsamatar.github.io/alfred-30a1b7/studio/img/og.jpg', "{{ 'og.jpg' | asset_url | prepend: 'https:' }}")
 shutil.copy(R + '/img/og.jpg', O + '/assets/og.jpg')
 for _f in ['favicon-192.png','favicon-48.png','apple-touch-icon.png']:
