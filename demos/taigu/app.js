@@ -1,5 +1,5 @@
 /* Taigu 大愚 · concept site by Dolcessi */
-import { createWorld } from "./world.js";
+import { createWorld } from "./world.js?v=3";
 const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, t) => a + (b - a) * t;
