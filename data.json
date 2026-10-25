@@ -1,28 +1,7 @@
 {
- "updated": "2026-10-24T19:57:07+02:00",
+ "updated": "2026-10-25T07:57:11+01:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-24T07:15:00+02:00",
-   "end": "2026-10-24T07:45:00+02:00",
-   "location": null,
-   "kind": "japanese"
-  },
-  {
-   "title": "Nespresso shift",
-   "start": "2026-10-24T09:30:00+02:00",
-   "end": "2026-10-24T16:00:00+02:00",
-   "location": "Nespresso Boutique Amstelveen",
-   "kind": "work"
-  },
-  {
-   "title": "📗 SUF study: sustainable finance core",
-   "start": "2026-10-24T16:45:00+02:00",
-   "end": "2026-10-24T18:15:00+02:00",
-   "location": null,
-   "kind": "study"
-  },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-25T07:15:00+01:00",
@@ -400,6 +379,13 @@
    "end": "2026-11-07T07:45:00+01:00",
    "location": null,
    "kind": "japanese"
+  },
+  {
+   "title": "🇯🇵 Japanese",
+   "start": "2026-11-08T07:15:00+01:00",
+   "end": "2026-11-08T07:45:00+01:00",
+   "location": null,
+   "kind": "japanese"
   }
  ],
  "tasks": [
@@ -437,11 +423,6 @@
  "sales": {
   "currency": "EUR",
   "days": [
-   {
-    "date": "2026-09-24",
-    "orders": 0,
-    "total": 0
-   },
    {
     "date": "2026-09-25",
     "orders": 0,
@@ -589,6 +570,11 @@
    },
    {
     "date": "2026-10-24",
+    "orders": 0,
+    "total": 0
+   },
+   {
+    "date": "2026-10-25",
     "orders": 0,
     "total": 0
    }
