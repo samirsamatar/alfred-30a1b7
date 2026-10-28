@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28T13:58:12+01:00",
+ "updated": "2026-10-28T19:57:26+01:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
   {
@@ -31,11 +31,25 @@
    "kind": "class"
   },
   {
+   "title": "📚 Finance homework",
+   "start": "2026-10-28T19:30:00+01:00",
+   "end": "2026-10-28T20:45:00+01:00",
+   "location": null,
+   "kind": "class"
+  },
+  {
    "title": "🏋️ Gym",
    "start": "2026-10-28T21:00:00+01:00",
    "end": "2026-10-28T22:00:00+01:00",
    "location": null,
    "kind": "gym"
+  },
+  {
+   "title": "🤖 Improve Alfred & Jarvis",
+   "start": "2026-10-28T22:15:00+01:00",
+   "end": "2026-10-28T23:30:00+01:00",
+   "location": null,
+   "kind": "other"
   },
   {
    "title": "🇯🇵 Japanese",
@@ -412,157 +426,157 @@
    {
     "date": "2026-09-28",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-09-29",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-09-30",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-01",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-02",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-03",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-04",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-05",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-06",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-07",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-08",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-09",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-10",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-11",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-12",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-13",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-14",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-15",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-16",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-17",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-18",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-19",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-20",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-21",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-22",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-23",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-24",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-25",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-26",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-27",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    },
    {
     "date": "2026-10-28",
     "orders": 0,
-    "total": 0
+    "total": 0.0
    }
   ]
  },
