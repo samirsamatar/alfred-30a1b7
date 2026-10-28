@@ -1,112 +1,7 @@
 {
- "updated": "2026-10-25T07:57:11+01:00",
+ "updated": "2026-10-28T13:58:12+01:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-25T07:15:00+01:00",
-   "end": "2026-10-25T07:45:00+01:00",
-   "location": null,
-   "kind": "japanese"
-  },
-  {
-   "title": "📗 SUF study: practice questions",
-   "start": "2026-10-25T08:30:00+01:00",
-   "end": "2026-10-25T10:00:00+01:00",
-   "location": null,
-   "kind": "study"
-  },
-  {
-   "title": "Nespresso shift",
-   "start": "2026-10-25T10:30:00+01:00",
-   "end": "2026-10-25T17:15:00+01:00",
-   "location": "Nespresso Boutique Amstelveen",
-   "kind": "work"
-  },
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-26T07:15:00+01:00",
-   "end": "2026-10-26T07:45:00+01:00",
-   "location": null,
-   "kind": "japanese"
-  },
-  {
-   "title": "Management Control (3026MAC_WC)",
-   "start": "2026-10-26T08:30:00+01:00",
-   "end": "2026-10-26T11:00:00+01:00",
-   "location": "HvA, CTH 3.030",
-   "kind": "class"
-  },
-  {
-   "title": "📗 SUF study: weak spots + summary",
-   "start": "2026-10-26T11:15:00+01:00",
-   "end": "2026-10-26T12:35:00+01:00",
-   "location": null,
-   "kind": "study"
-  },
-  {
-   "title": "Investment Analysis (3026INA_WC)",
-   "start": "2026-10-26T12:50:00+01:00",
-   "end": "2026-10-26T15:20:00+01:00",
-   "location": "HvA, CTH 3.105",
-   "kind": "class"
-  },
-  {
-   "title": "📘 Finance practice",
-   "start": "2026-10-26T18:45:00+01:00",
-   "end": "2026-10-26T20:30:00+01:00",
-   "location": null,
-   "kind": "study"
-  },
-  {
-   "title": "🏋️ Gym",
-   "start": "2026-10-26T21:00:00+01:00",
-   "end": "2026-10-26T22:00:00+01:00",
-   "location": null,
-   "kind": "gym"
-  },
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-27T07:15:00+01:00",
-   "end": "2026-10-27T07:45:00+01:00",
-   "location": null,
-   "kind": "japanese"
-  },
-  {
-   "title": "Nespresso shift",
-   "start": "2026-10-27T08:00:00+01:00",
-   "end": "2026-10-27T14:00:00+01:00",
-   "location": "Nespresso Boutique Amstelveen",
-   "kind": "work"
-  },
-  {
-   "title": "📘 Finance practice",
-   "start": "2026-10-27T09:00:00+01:00",
-   "end": "2026-10-27T11:00:00+01:00",
-   "location": null,
-   "kind": "study"
-  },
-  {
-   "title": "📘 Midterm revision: Sustainable Finance",
-   "start": "2026-10-27T14:45:00+01:00",
-   "end": "2026-10-27T16:15:00+01:00",
-   "location": null,
-   "kind": "exam"
-  },
-  {
-   "title": "📝 MIDTERM Sustainable Finance (time to confirm)",
-   "start": "2026-10-27T17:00:00+01:00",
-   "end": "2026-10-27T18:00:00+01:00",
-   "location": "HvA (room to confirm)",
-   "kind": "exam"
-  },
-  {
-   "title": "🏋️ Gym",
-   "start": "2026-10-27T21:00:00+01:00",
-   "end": "2026-10-27T22:00:00+01:00",
-   "location": null,
-   "kind": "gym"
-  },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-28T07:15:00+01:00",
@@ -386,6 +281,97 @@
    "end": "2026-11-08T07:45:00+01:00",
    "location": null,
    "kind": "japanese"
+  },
+  {
+   "title": "🇯🇵 Japanese",
+   "start": "2026-11-09T07:15:00+01:00",
+   "end": "2026-11-09T07:45:00+01:00",
+   "location": null,
+   "kind": "japanese"
+  },
+  {
+   "title": "Management Control (3026MAC_WC)",
+   "start": "2026-11-09T08:30:00+01:00",
+   "end": "2026-11-09T11:00:00+01:00",
+   "location": "HvA, CTH 3.030",
+   "kind": "class"
+  },
+  {
+   "title": "Investment Analysis (3026INA_WC)",
+   "start": "2026-11-09T12:50:00+01:00",
+   "end": "2026-11-09T15:20:00+01:00",
+   "location": "HvA, CTH 3.105",
+   "kind": "class"
+  },
+  {
+   "title": "📘 Finance practice",
+   "start": "2026-11-09T18:45:00+01:00",
+   "end": "2026-11-09T20:30:00+01:00",
+   "location": null,
+   "kind": "study"
+  },
+  {
+   "title": "🏋️ Gym",
+   "start": "2026-11-09T21:00:00+01:00",
+   "end": "2026-11-09T22:00:00+01:00",
+   "location": null,
+   "kind": "gym"
+  },
+  {
+   "title": "🇯🇵 Japanese",
+   "start": "2026-11-10T07:15:00+01:00",
+   "end": "2026-11-10T07:45:00+01:00",
+   "location": null,
+   "kind": "japanese"
+  },
+  {
+   "title": "📘 Finance practice",
+   "start": "2026-11-10T09:00:00+01:00",
+   "end": "2026-11-10T11:00:00+01:00",
+   "location": null,
+   "kind": "study"
+  },
+  {
+   "title": "🏋️ Gym",
+   "start": "2026-11-10T21:00:00+01:00",
+   "end": "2026-11-10T22:00:00+01:00",
+   "location": null,
+   "kind": "gym"
+  },
+  {
+   "title": "🇯🇵 Japanese",
+   "start": "2026-11-11T07:15:00+01:00",
+   "end": "2026-11-11T07:45:00+01:00",
+   "location": null,
+   "kind": "japanese"
+  },
+  {
+   "title": "📘 Finance practice (deep block)",
+   "start": "2026-11-11T09:30:00+01:00",
+   "end": "2026-11-11T12:30:00+01:00",
+   "location": null,
+   "kind": "study"
+  },
+  {
+   "title": "Accounting for Decision Making (3026ADM_WC)",
+   "start": "2026-11-11T13:40:00+01:00",
+   "end": "2026-11-11T16:10:00+01:00",
+   "location": "HvA, CTH 3.081",
+   "kind": "class"
+  },
+  {
+   "title": "Sustainable Finance (3026SUF_WC)",
+   "start": "2026-11-11T16:10:00+01:00",
+   "end": "2026-11-11T18:40:00+01:00",
+   "location": "HvA, CTH 3.029",
+   "kind": "class"
+  },
+  {
+   "title": "🏋️ Gym",
+   "start": "2026-11-11T21:00:00+01:00",
+   "end": "2026-11-11T22:00:00+01:00",
+   "location": null,
+   "kind": "gym"
   }
  ],
  "tasks": [
@@ -423,21 +409,6 @@
  "sales": {
   "currency": "EUR",
   "days": [
-   {
-    "date": "2026-09-25",
-    "orders": 0,
-    "total": 0
-   },
-   {
-    "date": "2026-09-26",
-    "orders": 0,
-    "total": 0
-   },
-   {
-    "date": "2026-09-27",
-    "orders": 0,
-    "total": 0
-   },
    {
     "date": "2026-09-28",
     "orders": 0,
@@ -575,6 +546,21 @@
    },
    {
     "date": "2026-10-25",
+    "orders": 0,
+    "total": 0
+   },
+   {
+    "date": "2026-10-26",
+    "orders": 0,
+    "total": 0
+   },
+   {
+    "date": "2026-10-27",
+    "orders": 0,
+    "total": 0
+   },
+   {
+    "date": "2026-10-28",
     "orders": 0,
     "total": 0
    }
