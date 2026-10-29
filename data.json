@@ -1,56 +1,7 @@
 {
- "updated": "2026-10-28T19:57:26+01:00",
+ "updated": "2026-10-29T07:58:08+01:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-28T07:15:00+01:00",
-   "end": "2026-10-28T07:45:00+01:00",
-   "location": null,
-   "kind": "japanese"
-  },
-  {
-   "title": "📘 Finance practice (deep block)",
-   "start": "2026-10-28T09:30:00+01:00",
-   "end": "2026-10-28T12:30:00+01:00",
-   "location": null,
-   "kind": "study"
-  },
-  {
-   "title": "Accounting for Decision Making (3026ADM_WC)",
-   "start": "2026-10-28T13:40:00+01:00",
-   "end": "2026-10-28T16:10:00+01:00",
-   "location": "HvA, CTH 3.081",
-   "kind": "class"
-  },
-  {
-   "title": "Sustainable Finance (3026SUF_WC)",
-   "start": "2026-10-28T16:10:00+01:00",
-   "end": "2026-10-28T18:40:00+01:00",
-   "location": "HvA, CTH 3.029",
-   "kind": "class"
-  },
-  {
-   "title": "📚 Finance homework",
-   "start": "2026-10-28T19:30:00+01:00",
-   "end": "2026-10-28T20:45:00+01:00",
-   "location": null,
-   "kind": "class"
-  },
-  {
-   "title": "🏋️ Gym",
-   "start": "2026-10-28T21:00:00+01:00",
-   "end": "2026-10-28T22:00:00+01:00",
-   "location": null,
-   "kind": "gym"
-  },
-  {
-   "title": "🤖 Improve Alfred & Jarvis",
-   "start": "2026-10-28T22:15:00+01:00",
-   "end": "2026-10-28T23:30:00+01:00",
-   "location": null,
-   "kind": "other"
-  },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-29T07:15:00+01:00",
@@ -424,11 +375,6 @@
   "currency": "EUR",
   "days": [
    {
-    "date": "2026-09-28",
-    "orders": 0,
-    "total": 0.0
-   },
-   {
     "date": "2026-09-29",
     "orders": 0,
     "total": 0.0
@@ -575,6 +521,11 @@
    },
    {
     "date": "2026-10-28",
+    "orders": 0,
+    "total": 0.0
+   },
+   {
+    "date": "2026-10-29",
     "orders": 0,
     "total": 0.0
    }
