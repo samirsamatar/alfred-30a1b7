@@ -1,42 +1,7 @@
 {
- "updated": "2026-10-29T19:56:42+01:00",
+ "updated": "2026-10-30T08:00:48+01:00",
  "agentId": "agent_7801m4zva478edy8mfhqj4q727sr",
  "events": [
-  {
-   "title": "🇯🇵 Japanese",
-   "start": "2026-10-29T07:15:00+01:00",
-   "end": "2026-10-29T07:45:00+01:00",
-   "location": null,
-   "kind": "japanese"
-  },
-  {
-   "title": "Intl. Financial & Sustainability Reporting (3026IFA_WC)",
-   "start": "2026-10-29T09:20:00+01:00",
-   "end": "2026-10-29T11:50:00+01:00",
-   "location": "HvA, CTH 3.046",
-   "kind": "class"
-  },
-  {
-   "title": "Financial Risk Management (3026FRM_WC)",
-   "start": "2026-10-29T13:40:00+01:00",
-   "end": "2026-10-29T16:10:00+01:00",
-   "location": "HvA, CTH 0.008",
-   "kind": "class"
-  },
-  {
-   "title": "📘 Finance practice",
-   "start": "2026-10-29T18:45:00+01:00",
-   "end": "2026-10-29T20:30:00+01:00",
-   "location": null,
-   "kind": "study"
-  },
-  {
-   "title": "🏋️ Gym",
-   "start": "2026-10-29T21:00:00+01:00",
-   "end": "2026-10-29T22:00:00+01:00",
-   "location": null,
-   "kind": "gym"
-  },
   {
    "title": "🇯🇵 Japanese",
    "start": "2026-10-30T07:15:00+01:00",
@@ -337,6 +302,55 @@
    "end": "2026-11-11T22:00:00+01:00",
    "location": null,
    "kind": "gym"
+  },
+  {
+   "title": "🇯🇵 Japanese",
+   "start": "2026-11-12T07:15:00+01:00",
+   "end": "2026-11-12T07:45:00+01:00",
+   "location": null,
+   "kind": "japanese"
+  },
+  {
+   "title": "Intl. Financial & Sustainability Reporting (3026IFA_WC)",
+   "start": "2026-11-12T09:20:00+01:00",
+   "end": "2026-11-12T11:50:00+01:00",
+   "location": "HvA, CTH 3.046",
+   "kind": "class"
+  },
+  {
+   "title": "Financial Risk Management (3026FRM_WC)",
+   "start": "2026-11-12T13:40:00+01:00",
+   "end": "2026-11-12T16:10:00+01:00",
+   "location": "HvA, CTH 0.008",
+   "kind": "class"
+  },
+  {
+   "title": "📘 Finance practice",
+   "start": "2026-11-12T18:45:00+01:00",
+   "end": "2026-11-12T20:30:00+01:00",
+   "location": null,
+   "kind": "study"
+  },
+  {
+   "title": "🏋️ Gym",
+   "start": "2026-11-12T21:00:00+01:00",
+   "end": "2026-11-12T22:00:00+01:00",
+   "location": null,
+   "kind": "gym"
+  },
+  {
+   "title": "🇯🇵 Japanese",
+   "start": "2026-11-13T07:15:00+01:00",
+   "end": "2026-11-13T07:45:00+01:00",
+   "location": null,
+   "kind": "japanese"
+  },
+  {
+   "title": "🏋️ Gym (backup day)",
+   "start": "2026-11-13T20:00:00+01:00",
+   "end": "2026-11-13T21:00:00+01:00",
+   "location": null,
+   "kind": "gym"
   }
  ],
  "tasks": [
@@ -374,11 +388,6 @@
  "sales": {
   "currency": "EUR",
   "days": [
-   {
-    "date": "2026-09-29",
-    "orders": 0,
-    "total": 0.0
-   },
    {
     "date": "2026-09-30",
     "orders": 0,
@@ -526,6 +535,11 @@
    },
    {
     "date": "2026-10-29",
+    "orders": 0,
+    "total": 0.0
+   },
+   {
+    "date": "2026-10-30",
     "orders": 0,
     "total": 0.0
    }
