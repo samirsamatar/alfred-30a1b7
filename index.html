@@ -769,24 +769,24 @@ async function start(){
   if(!window.ElevenLabsClient){showErr("The voice library didn't load. Check your connection and reload the page.");return;}
   talk.disabled=true; mode="connecting"; setStatus("Connecting",true);
   try{
-    await navigator.mediaDevices.getUserMedia({audio:true}).then(s=>s.getTracks().forEach(t=>t.stop()));
-  }catch(e){talk.disabled=false;mode="idle";setStatus("Idle");showErr("Microphone access was refused. Allow the microphone for this site in your browser settings, then try again.");return;}
-  try{
-    convo = await ElevenLabsClient.Conversation.startSession({
+    const opts={
       agentId: DATA.agentId || FALLBACK_AGENT,
-      connectionType: "websocket",
       dynamicVariables: { greeting: openingLine() },
       onConnect: ()=>{ try{convo && convo.sendContextualUpdate(contextText());}catch(e){} },
       onDisconnect: ()=>{ convo=null; mode="idle"; talk.dataset.on="false"; talk.textContent="Speak with Alfred"; talk.disabled=false; setStatus("Idle"); addMsg("sys","Line closed."); setComp(comp); },
       onError: (m)=>{ showErr(typeof m==="string"? m : "Something interrupted the line."); },
       onModeChange: ({mode:m})=>{ mode=m; setStatus(m==="speaking"?"Speaking":"Listening",true); },
       onMessage: (p)=>{ const who=(p.role||(p.source==="ai"?"agent":"user"))==="user"?"me":"ai"; if(p.message) addMsg(who,p.message,0); }
-    });
+    };
+    // WebRTC is built for live audio (lower latency, echo cancellation); fall back to the websocket line if it fails.
+    try{ convo = await ElevenLabsClient.Conversation.startSession({...opts, connectionType:"webrtc"}); }
+    catch(e1){ if(e1&&/permission|denied|NotAllowed/i.test(String(e1.name||e1.message||e1))) throw e1; convo = await ElevenLabsClient.Conversation.startSession({...opts, connectionType:"websocket"}); }
     talk.dataset.on="true"; talk.textContent="End conversation"; talk.disabled=false;
     if(mode==="connecting"){mode="listening";setStatus("Listening",true);}
     if(pending){ const m=pending; pending=null; setTimeout(()=>{try{convo&&convo.sendUserMessage(m);}catch(e){}},600); }
   }catch(e){
     convo=null; mode="idle"; talk.disabled=false; setStatus("Idle");
+    if(e&&/NotAllowed|permission|denied/i.test(String(e.name||e.message||e))){showErr("Microphone access was refused. Allow the microphone for this site in your browser settings, then try again.");return;}
     showErr("Couldn't reach Alfred. If this keeps happening, check the agent's allowed domains in ElevenLabs. ("+(e&&e.message?e.message:e)+")");
   }
 }
