@@ -491,7 +491,7 @@ function renderPf(){
 }
 window.addEventListener("resize",()=>{renderSales();renderPf();});
 function renderPipe(){
-  const p=DATA.pipeline; if(!p) return;
+  const p=DATA.pipeline; $("pipe-card").hidden=!p; if(!p) return;
   const ready=(p.ready||[]), price=p.price||700;
   $("pipe-ready").textContent=ready.length+" sites";
   $("pipe-val").textContent="≈ "+eur(ready.length*price)+" at "+eur(price);
@@ -507,7 +507,7 @@ function renderPipe(){
   const fu=(p.followups||[]); $("pipe-note").textContent= fu.length? fu.length+" follow-up"+(fu.length>1?"s":"")+" due: "+fu.map(f=>f.name).join(", ") : "No follow-ups due. Every site still needs a first message or a walk-in.";
 }
 function renderOpp(){
-  const o=DATA.opportunities; if(!o) return;
+  const o=DATA.opportunities; $("opp-card").hidden=!o; if(!o) return;
   $("opp-total").textContent=o.count+" · ≈ "+eur(o.total);
   const ul=$("opp-list"); ul.textContent="";
   for(const t of (o.top||[]).slice(0,5)){
