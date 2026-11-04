@@ -110,7 +110,8 @@ button{cursor:pointer}
 @keyframes pulse{50%{opacity:.35}}
 .knowbtn{position:absolute;top:18px;right:16px;background:transparent;border:1px solid var(--line-2);border-radius:6px;padding:6px 10px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .knowbtn[aria-pressed="true"]{color:var(--ember);border-color:var(--ember-dim)}
-#orb{width:100%;max-width:780px;aspect-ratio:1.45/1;display:block}
+#orb{width:100%;max-width:780px;aspect-ratio:1.45/1;display:block;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none}
+#orb:focus-visible{outline:1px dashed var(--line-2);outline-offset:-8px}
 .who{display:flex;align-items:center;gap:22px;margin-top:-8px}
 .who button{background:transparent;border:0;color:var(--mute);font-size:16px;padding:4px 8px}
 .who button:hover{color:var(--ember)}
@@ -119,7 +120,8 @@ button{cursor:pointer}
 .dots{display:flex;gap:6px;margin-top:10px}
 .dots i{width:5px;height:5px;border-radius:50%;background:var(--line-2)}
 .dots i.on{background:var(--ember)}
-.talk{margin-top:18px;background:var(--ember);color:#120700;border:0;border-radius:8px;padding:11px 22px;font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;box-shadow:0 0 24px rgba(255,90,31,.25)}
+.talk{margin-top:10px;background:none;color:var(--mute);border:0;padding:6px 10px;font-weight:500;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.talk[data-on="true"]{color:var(--ember)}
 .talk:hover{background:var(--ember-2)}
 .talk[data-on="true"]{background:transparent;color:var(--ember);border:1px solid var(--ember-dim);box-shadow:none}
 .talk:disabled{opacity:.5;cursor:wait}
@@ -244,14 +246,14 @@ footer{grid-column:2/-1;display:flex;justify-content:space-between;gap:12px;padd
   <main class="stage" id="stage">
     <div class="statepill" id="status"><i></i><span id="status-t">Idle</span></div>
     <button class="knowbtn" id="know-btn" aria-pressed="false">Money view</button>
-    <canvas id="orb" aria-hidden="true"></canvas>
+    <canvas id="orb" role="button" tabindex="0" aria-label="Talk to Alfred"></canvas>
     <div class="who">
       <button id="prev" aria-label="Previous companion">&lt;</button>
       <div><span class="name" id="who-name">ALFRED</span><span class="role" id="who-role">Voice · on duty</span></div>
       <button id="next" aria-label="Next companion">&gt;</button>
     </div>
     <div class="dots"><i class="on" id="dot-0"></i><i id="dot-1"></i></div>
-    <button class="talk" id="talk" data-on="false">Speak with Alfred</button>
+    <button class="talk" id="talk" data-on="false">Tap the sphere to talk</button>
     <div class="jnote" id="jnote" hidden>Jarvis works in the background: the request inbox runs hourly until 01:00 and the night shift at 03:40. Tell Alfred or Telegram what you need, and the results arrive in the morning briefing.</div>
     <div class="err" id="err" hidden></div>
 
@@ -573,7 +575,7 @@ function contextText(){
   const P=DATA.pipeline;
   if(P&&P.ready){
     const groups={}; for(const r of P.ready){const g=r.area_group||r.area||"Other";(groups[g]=groups[g]||[]).push(r.name+(r.best?" [walk in "+r.best+"]":""));}
-    lines.push("Dolcessi web studio (his main money focus, about EUR "+(P.price||700)+" per site): "+P.ready.length+" concept sites are live and ready to send or walk in with. By area: "+Object.entries(groups).map(([g,l])=>g+": "+l.join(", ")).join(" | ")+". Links are https://concept.dolcessi.com/<slug>/.");
+    lines.push("Dolcessi web studio (his main money focus, about EUR "+(P.price||700)+" per site): "+P.ready.length+" concept sites are live and ready to send or walk in with. By area: "+Object.entries(groups).sort((x,y)=>y[1].length-x[1].length).map(([g,l])=>g+" ("+l.length+"): "+l.slice(0,5).join(", ")+(l.length>5?", …":"")).join(" | ")+". Links are https://concept.dolcessi.com/<slug>/.");
     const c=P.counts||{}; lines.push("Pipeline counts: "+Object.entries(c).map(([k,v])=>k+" "+v).join(", ")+"."+((P.followups||[]).length?" Follow-ups due: "+P.followups.map(f=>f.name+(f.date?" ("+f.date+")":"")).join(", ")+".":""));
   }
   const O=DATA.opportunities;
@@ -738,7 +740,7 @@ function addMsg(who,text,tab=0){LOG[tab].push({who,text}); if(LOG[tab].length>60
 function renderLog(){
   const box=$("log"); box.textContent="";
   const items=LOG[chatTab];
-  if(!items.length){const d=document.createElement("div");d.className="msg sys";d.textContent="Press Speak with Alfred, or type below.";box.appendChild(d);}
+  if(!items.length){const d=document.createElement("div");d.className="msg sys";d.textContent="Tap the sphere to talk, or type below.";box.appendChild(d);}
   for(const m of items){
     const d=document.createElement("div"); d.className="msg "+m.who;
     if(m.who!=="sys"){const b=document.createElement("div");b.className="by";b.textContent=m.who==="ai"?(chatTab===1?"Jarvis queue":"Alfred"):"You";d.appendChild(b);}
@@ -767,34 +769,47 @@ async function start(){
   showErr("");
   if(!(DATA.agentId||FALLBACK_AGENT)){$("lock").hidden=false;showErr("Unlock the dashboard first, sir.");return;}
   if(!window.ElevenLabsClient){showErr("The voice library didn't load. Check your connection and reload the page.");return;}
-  talk.disabled=true; mode="connecting"; setStatus("Connecting",true);
+  mode="connecting"; setStatus("Connecting",true); talk.textContent="Connecting…";
   try{
     const opts={
       agentId: DATA.agentId || FALLBACK_AGENT,
       dynamicVariables: { greeting: openingLine() },
       onConnect: ()=>{ try{convo && convo.sendContextualUpdate(contextText());}catch(e){} },
-      onDisconnect: ()=>{ convo=null; mode="idle"; talk.dataset.on="false"; talk.textContent="Speak with Alfred"; talk.disabled=false; setStatus("Idle"); addMsg("sys","Line closed."); setComp(comp); },
-      onError: (m)=>{ showErr(typeof m==="string"? m : "Something interrupted the line."); },
+      onDisconnect: (d)=>{
+        const quick=Date.now()-connectedAt<8000, why=d&&(d.message||d.reason)||"";
+        convo=null; mode="idle"; setTalk(false); setStatus("Idle"); setComp(comp);
+        if(userEnded){ addMsg("sys","Line closed."); return; }
+        if(quick && !retried){ retried=true; addMsg("sys","The line dropped, reconnecting…"); setTimeout(start,700); return; }
+        addMsg("sys","Line closed"+(why&&why!=="user"?" ("+why+")":"")+".");
+        if(quick) showErr("Alfred hung up straight away"+(why?": "+why:"")+". Check the agent's allowlist and publish state in ElevenLabs.");
+      },
+      onError: (m,ctx)=>{ console.warn("Alfred error",m,ctx); showErr(typeof m==="string"? m : "Something interrupted the line."); },
       onModeChange: ({mode:m})=>{ mode=m; setStatus(m==="speaking"?"Speaking":"Listening",true); },
       onMessage: (p)=>{ const who=(p.role||(p.source==="ai"?"agent":"user"))==="user"?"me":"ai"; if(p.message) addMsg(who,p.message,0); }
     };
-    // WebRTC is built for live audio (lower latency, echo cancellation); fall back to the websocket line if it fails.
-    try{ convo = await ElevenLabsClient.Conversation.startSession({...opts, connectionType:"webrtc"}); }
-    catch(e1){ if(e1&&/permission|denied|NotAllowed/i.test(String(e1.name||e1.message||e1))) throw e1; convo = await ElevenLabsClient.Conversation.startSession({...opts, connectionType:"websocket"}); }
-    talk.dataset.on="true"; talk.textContent="End conversation"; talk.disabled=false;
+    // The websocket line is the one that works with the agent's allowlist; WebRTC dropped calls right after connecting.
+    connectedAt=Date.now(); userEnded=false;
+    convo = await ElevenLabsClient.Conversation.startSession({...opts, connectionType:"websocket"});
+    setTalk(true); retriedReset();
     if(mode==="connecting"){mode="listening";setStatus("Listening",true);}
     if(pending){ const m=pending; pending=null; setTimeout(()=>{try{convo&&convo.sendUserMessage(m);}catch(e){}},600); }
   }catch(e){
-    convo=null; mode="idle"; talk.disabled=false; setStatus("Idle");
+    convo=null; mode="idle"; setTalk(false); setStatus("Idle");
     if(e&&/NotAllowed|permission|denied/i.test(String(e.name||e.message||e))){showErr("Microphone access was refused. Allow the microphone for this site in your browser settings, then try again.");return;}
     showErr("Couldn't reach Alfred. If this keeps happening, check the agent's allowed domains in ElevenLabs. ("+(e&&e.message?e.message:e)+")");
   }
 }
-async function stop(){ talk.disabled=true; try{ await convo.endSession(); }catch(e){} }
-talk.addEventListener("click",()=>{ convo? stop() : start(); });
+let connectedAt=0, userEnded=false, retried=false, busy=false;
+function retriedReset(){ setTimeout(()=>{ if(convo) retried=false; },15000); }
+function setTalk(on){ busy=false; talk.dataset.on=String(on); talk.textContent= on? "Tap the sphere to end" : "Tap the sphere to talk"; cv.classList.toggle("live",on); cv.setAttribute("aria-label", on? "End the conversation with Alfred" : "Talk to Alfred"); }
+async function stop(){ userEnded=true; busy=true; try{ await convo.endSession(); }catch(e){ busy=false; } }
+function toggleTalk(){ if(busy||mode==="connecting") return; if(convo) stop(); else { busy=true; retried=false; start(); } }
+talk.addEventListener("click",toggleTalk);
 
 /* ---------- The blob: a dot sphere that turns to liquid when he speaks ---------- */
 const cv=$("orb"), ctx=cv.getContext("2d");
+cv.addEventListener("click",toggleTalk);
+cv.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggleTalk(); } });
 const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);cv.width=Math.max(1,r.width*dpr);cv.height=Math.max(1,r.height*dpr);}
 size(); window.addEventListener("resize",size);
