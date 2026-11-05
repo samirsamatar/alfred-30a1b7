@@ -143,6 +143,17 @@ button{cursor:pointer}
 .olist li{padding:6px 0;border-bottom:1px dashed var(--line);font-size:11px}
 .olist li .v{color:var(--ember);float:right;margin-left:8px}
 .olist li .ns{display:block;color:var(--mute);font-size:10.5px;margin-top:2px}
+.kits{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.kit{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.kit .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.kit .nm{font-size:12px;color:var(--text)}
+.kit .ch{font-size:10px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase}
+.kit .dm{font-size:11px;color:var(--mute);margin:6px 0 8px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.kit.open .dm{-webkit-line-clamp:unset}
+.kit .acts{display:flex;flex-wrap:wrap;gap:6px}
+.kit .acts a,.kit .acts button{font:inherit;font-size:10.5px;letter-spacing:.06em;color:var(--text);background:none;border:1px solid var(--line-2);border-radius:6px;padding:5px 9px;text-decoration:none;cursor:pointer}
+.kit .acts .pri{background:var(--ember);border-color:var(--ember);color:#120700}
+.kit.sent{opacity:.5}
 .lock{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(7,7,7,.96)}
 .lock form{display:flex;flex-direction:column;gap:10px;width:min(320px,90vw);font-family:var(--mono)}
 .lock p{color:var(--mute);font-size:11px;margin:0}
@@ -263,6 +274,11 @@ footer{grid-column:2/-1;display:flex;justify-content:space-between;gap:12px;padd
         <div class="fig-head"><div class="fig-big" id="pipe-ready">—</div><div class="fig-sub" id="pipe-sub"></div></div>
         <ul class="plist" id="pipe-areas"></ul>
         <div class="fig-note" id="pipe-note"></div>
+      </section>
+      <section class="card wide" id="kits-card" hidden>
+        <h2><span>Send kits · ready to go</span><b id="kits-count"></b></h2>
+        <ul class="kits" id="kits-list"></ul>
+        <div class="fig-note">Copy the DM, send it from your own Instagram, then tap “Mark sent”: Jarvis moves it to Shown and sets a follow-up in 3 days.</div>
       </section>
       <section class="card wide" id="opp-card">
         <h2><span>Money moves waiting</span><b id="opp-total"></b></h2>
@@ -508,6 +524,36 @@ function renderPipe(){
   }
   const fu=(p.followups||[]); $("pipe-note").textContent= fu.length? fu.length+" follow-up"+(fu.length>1?"s":"")+" due: "+fu.map(f=>f.name).join(", ") : "No follow-ups due. Every site still needs a first message or a walk-in.";
 }
+function renderKits(){
+  const k=(DATA.kits||[]).filter(x=>x&&x.name); $("kits-card").hidden=!k.length; if(!k.length) return;
+  let sentSet={}; try{sentSet=JSON.parse(localStorage.getItem("alfred_sent")||"{}");}catch(e){}
+  $("kits-count").textContent=k.length+" waiting";
+  const ul=$("kits-list"); ul.textContent="";
+  for(const x of k){
+    const li=document.createElement("li"); li.className="kit"+(sentSet[x.name]?" sent":"");
+    const top=document.createElement("div"); top.className="top";
+    const nm=document.createElement("span"); nm.className="nm"; nm.textContent=x.name+(x.area?" · "+x.area:"");
+    const ch=document.createElement("span"); ch.className="ch"; ch.textContent=(x.channel||"")+(x.language?" · "+x.language:"");
+    top.append(nm,ch); li.appendChild(top);
+    const msg=x.dm||x.email_body||x.walkin||"";
+    if(msg){ const dm=document.createElement("div"); dm.className="dm"; dm.textContent=msg; dm.title="Tap to show all"; dm.onclick=()=>li.classList.toggle("open"); li.appendChild(dm); }
+    if(x.best){ const b=document.createElement("div"); b.className="fig-note"; b.style.margin="0 0 8px"; b.textContent="Walk in: "+x.best; li.appendChild(b); }
+    const acts=document.createElement("div"); acts.className="acts";
+    const btn=(label,fn,pri)=>{const e=document.createElement("button");e.type="button";e.textContent=label;if(pri)e.className="pri";e.onclick=fn;acts.appendChild(e);return e;};
+    const link=(label,href)=>{const a=document.createElement("a");a.textContent=label;a.href=href;a.target="_blank";a.rel="noopener";acts.appendChild(a);};
+    if(x.dm){ const c=btn("Copy DM",async()=>{ try{await navigator.clipboard.writeText(x.dm);c.textContent="Copied";setTimeout(()=>c.textContent="Copy DM",1500);}catch(e){c.textContent="Copy failed";} },true); }
+    if(x.instagram) link("Instagram","https://instagram.com/"+x.instagram.replace(/^@/,""));
+    if(x.facebook) link("Facebook",/^https?:/.test(x.facebook)?x.facebook:"https://"+x.facebook);
+    if(x.email&&x.email_body) link("Email","mailto:"+x.email+"?subject="+encodeURIComponent(x.subject||("A website for "+x.name))+"&body="+encodeURIComponent(x.email_body));
+    if(x.demo) link("Site",x.demo);
+    btn(sentSet[x.name]?"Sent ✓":"Mark sent",()=>{
+      const via=x.channel||"Instagram";
+      queueForJarvis("Sent "+x.name+" via "+via+" today. Please set it to Shown with a follow-up in 3 days.");
+      sentSet[x.name]=Date.now(); try{localStorage.setItem("alfred_sent",JSON.stringify(sentSet));}catch(e){} li.classList.add("sent");
+    });
+    li.appendChild(acts); ul.appendChild(li);
+  }
+}
 function renderOpp(){
   const o=DATA.opportunities; $("opp-card").hidden=!o; if(!o) return;
   $("opp-total").textContent=o.count+" · ≈ "+eur(o.total);
@@ -520,7 +566,7 @@ function renderOpp(){
     li.append(v,n,ns); ul.appendChild(li);
   }
 }
-function renderAll(){try{renderAutos();}catch(e){}renderPipe();renderOpp();renderDay();renderTasks();renderStd();renderCd();renderSales();renderPf();renderStats();
+function renderAll(){try{renderAutos();}catch(e){}renderPipe();try{renderKits();}catch(e){}renderOpp();renderDay();renderTasks();renderStd();renderCd();renderSales();renderPf();renderStats();
   if(DATA.updated){$("updated").textContent="Schedule as of "+new Date(DATA.updated).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:TZ});}
 }
 
@@ -572,6 +618,11 @@ function contextText(){
     const evs=DATA.events.filter(e=>dayKey(new Date(e.start))===key).sort((a,b)=>new Date(a.start)-new Date(b.start));
     lines.push(label+": "+(evs.length? evs.map(e=>fmtTime(new Date(e.start))+"–"+fmtTime(new Date(e.end))+" "+e.title.replace(/^[^\w(]+\s*/u,"")+(e.location?" ("+e.location+")":"")).join("; ") : "nothing scheduled")+".");
   }
+  const wk=[]; for(let n=2;n<7;n++){ const d=addDays(now,n), key=dayKey(d); const evs=DATA.events.filter(e=>dayKey(new Date(e.start))===key).sort((a,b)=>new Date(a.start)-new Date(b.start));
+    if(evs.length) wk.push(d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",timeZone:TZ})+": "+evs.map(e=>fmtTime(new Date(e.start))+" "+e.title.replace(/^[^\w(]+\s*/u,"")).join(", ")); }
+  if(wk.length) lines.push("Later this week: "+wk.join(" | ")+".");
+  if(Array.isArray(DATA.brief)&&DATA.brief.length) lines.push("Memory highlights (from the Jarvis brain, so no need to call get_memory for these): "+DATA.brief.join(" "));
+  const K=(DATA.kits||[]); if(K.length) lines.push("Send kits ready on the dashboard ("+K.length+"): "+K.map(x=>x.name+" ("+(x.channel||"?")+")").join(", ")+". He copies the DM and taps Mark sent; if he says he sent one, use ask_jarvis with 'Sent <name> via <channel>'.");
   const P=DATA.pipeline;
   if(P&&P.ready){
     const groups={}; for(const r of P.ready){const g=r.area_group||r.area||"Other";(groups[g]=groups[g]||[]).push(r.name+(r.best?" [walk in "+r.best+"]":""));}
@@ -713,7 +764,7 @@ renderAutos(); setInterval(renderAutos,30000);
 
 /* ---------- Money view toggle ---------- */
 const knowBtn=$("know-btn"), money=$("money");
-function setKnow(on){knowBtn.setAttribute("aria-pressed",String(on)); money.hidden=!on; if(on){renderPipe();renderOpp();renderSales();renderPf();}}
+function setKnow(on){knowBtn.setAttribute("aria-pressed",String(on)); money.hidden=!on; if(on){renderPipe();try{renderKits();}catch(e){}renderOpp();renderSales();renderPf();}}
 knowBtn.onclick=()=>setKnow(money.hidden);
 $("rail-money").addEventListener("click",e=>{e.preventDefault();setKnow(true);$("stage").scrollIntoView({behavior:"smooth"});});
 if(window.matchMedia("(max-width:1020px)").matches){setKnow(true);knowBtn.hidden=true;}
@@ -805,6 +856,31 @@ function setTalk(on){ busy=false; talk.dataset.on=String(on); talk.textContent= 
 async function stop(){ userEnded=true; busy=true; try{ await convo.endSession(); }catch(e){ busy=false; } }
 function toggleTalk(){ if(busy||mode==="connecting") return; if(convo) stop(); else { busy=true; retried=false; start(); } }
 talk.addEventListener("click",toggleTalk);
+
+/* ---------- Quiet line: file a job with Alfred by text, no microphone ---------- */
+async function queueForJarvis(text){
+  const msg="Please pass this to Jarvis as a request: "+text;
+  addMsg("me",text,1); setChatTab(1);
+  if(convo){ try{convo.sendUserMessage(msg); return;}catch(e){} }
+  if(!window.ElevenLabsClient||!(DATA.agentId||FALLBACK_AGENT)){ showErr("Unlock the dashboard first, sir."); return; }
+  let s=null, done=false;
+  const finish=()=>{ if(done) return; done=true; try{s&&s.endSession();}catch(e){} };
+  try{
+    s=await ElevenLabsClient.Conversation.startSession({
+      agentId: DATA.agentId||FALLBACK_AGENT, connectionType:"websocket", textOnly:true,
+      overrides:{conversation:{textOnly:true}},
+      onConnect:()=>{ try{ s&&s.sendContextualUpdate(contextText()); }catch(e){} },
+      onMessage:(p)=>{ const who=(p.role||(p.source==="ai"?"agent":"user"))==="user"?"me":"ai"; if(who==="ai"&&p.message){ addMsg("ai",p.message,1); if(/jarvis|passed|filed|on it|noted|done/i.test(p.message)) setTimeout(finish,1500); } },
+      onDisconnect:()=>{ done=true; },
+      onError:(m)=>{ console.warn("quiet line",m); }
+    });
+    setTimeout(()=>{ try{ s.sendUserMessage(msg); }catch(e){} },400);
+    setTimeout(finish,25000);
+  }catch(e){
+    // Text-only not available: fall back to the normal line.
+    addMsg("sys","Opening the line to Alfred…",1); pending=msg; start();
+  }
+}
 
 /* ---------- The blob: a dot sphere that turns to liquid when he speaks ---------- */
 const cv=$("orb"), ctx=cv.getContext("2d");
