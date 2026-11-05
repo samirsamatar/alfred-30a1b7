@@ -525,10 +525,31 @@ function renderPipe(){
   const fu=(p.followups||[]); $("pipe-note").textContent= fu.length? fu.length+" follow-up"+(fu.length>1?"s":"")+" due: "+fu.map(f=>f.name).join(", ") : "No follow-ups due. Every site still needs a first message or a walk-in.";
 }
 function renderKits(){
-  const k=(DATA.kits||[]).filter(x=>x&&x.name); $("kits-card").hidden=!k.length; if(!k.length) return;
+  const k=(DATA.kits||[]).filter(x=>x&&x.name), fu=((DATA.pipeline||{}).followups||[]).filter(x=>x&&x.name);
+  $("kits-card").hidden=!k.length&&!fu.length; if(!k.length&&!fu.length) return;
   let sentSet={}; try{sentSet=JSON.parse(localStorage.getItem("alfred_sent")||"{}");}catch(e){}
-  $("kits-count").textContent=k.length+" waiting";
+  $("kits-count").textContent=k.length+" waiting"+(fu.length?" · "+fu.length+" follow-up"+(fu.length>1?"s":""):"");
   const ul=$("kits-list"); ul.textContent="";
+  for(const f of fu){
+    const li=document.createElement("li"); li.className="kit"; li.style.borderColor="var(--ember)";
+    const top=document.createElement("div"); top.className="top";
+    const nm=document.createElement("span"); nm.className="nm"; nm.textContent="Follow up: "+f.name;
+    const ch=document.createElement("span"); ch.className="ch"; ch.textContent=f.date?"due "+shortDate(f.date):"due";
+    top.append(nm,ch); li.appendChild(top);
+    const txt=(f.language==="NL")
+      ? "Hoi! Even een berichtje of jullie de website hebben kunnen bekijken die ik voor jullie maakte: "+(f.demo||"")+" Ik kom graag 10 minuutjes langs om hem te laten zien. Wanneer komt het jullie uit?"
+      : "Hi! Just checking whether you had a chance to look at the website I made for you: "+(f.demo||"")+" Happy to drop by for 10 minutes to walk you through it. When suits you?";
+    const dm=document.createElement("div"); dm.className="dm"; dm.textContent=txt; li.appendChild(dm);
+    const acts=document.createElement("div"); acts.className="acts";
+    const c=document.createElement("button"); c.type="button"; c.className="pri"; c.textContent="Copy follow-up";
+    c.onclick=async()=>{ try{await navigator.clipboard.writeText(txt);c.textContent="Copied";setTimeout(()=>c.textContent="Copy follow-up",1500);}catch(e){c.textContent="Copy failed";} };
+    acts.appendChild(c);
+    const d=document.createElement("button"); d.type="button"; d.textContent="Followed up";
+    d.onclick=()=>{ queueForJarvis("Followed up with "+f.name+" today. Please set it to Follow-up with the next follow-up date in 4 days."); li.classList.add("sent"); };
+    acts.appendChild(d);
+    if(f.demo){const a=document.createElement("a");a.textContent="Site";a.href=f.demo;a.target="_blank";a.rel="noopener";acts.appendChild(a);}
+    li.appendChild(acts); ul.appendChild(li);
+  }
   for(const x of k){
     const li=document.createElement("li"); li.className="kit"+(sentSet[x.name]?" sent":"");
     const top=document.createElement("div"); top.className="top";
@@ -712,7 +733,7 @@ const AUTOS=[
   {name:"Request inbox",    when:"Hourly :05 · 08–01", ic:"inbox", runs:[0,1,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23].map(h=>({h,m:5}))},
   {name:"Dashboard refresh",when:"07:50 · 13:50 · 19:50", ic:"sync", runs:[{h:7,m:50},{h:13,m:50},{h:19,m:50}]},
   {name:"Evening money check",when:"Daily 20:20", ic:"coin", runs:[{h:20,m:20}]},
-  {name:"Lead machine",     when:"Daily 01:17", ic:"chart", runs:[{h:1,m:17}]},
+  {name:"Send kits",        when:"Daily 01:17", ic:"chart", runs:[{h:1,m:17}]},
   {name:"Night shift",      when:"Daily 03:40", ic:"moon", runs:[{h:3,m:40}]},
   {name:"Weekly money plan",when:"Sunday 09:57", ic:"chart", runs:[{h:9,m:57,dow:0}]}
 ];
